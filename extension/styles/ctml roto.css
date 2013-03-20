@@ -1,0 +1,205 @@
+.ctmlclearbar {
+	clear: both;
+}
+
+#ctmlnavcontrols {
+	left: -8px;
+	position: relative;
+	width: 275px;
+}
+
+#ctmlscoreboard {
+	padding: 0 22px;
+}
+
+#ctmlscoreboard h4 {
+	border-bottom: 1px dotted #AAA;
+	color: black !important;
+	display: block;
+	left: -6px;
+	font: Arial bold !important;
+	padding: 5px 0;
+	position: relative;
+	text-align: center;
+	width: 255px;
+}
+
+#ctmlscoreboard ul {
+	left: -6px;
+	margin: 0;
+	padding-bottom: 8px;
+	position: relative;
+	width: 255px;
+}
+
+#ctmlscoreboard li {
+	padding: 0 0;
+	position: relative;
+}
+
+.ctmlnavitem {
+	background-color: #2B2B2B;
+	border: 1px solid #2B2B2B;
+	color: white !important;
+	clear: right;
+	cursor: pointer;
+	float: left;
+	font-size: 75%;
+	font-weight: bold;
+	margin: 2px;
+	padding: 3px;
+	overflow: hidden;
+	text-align: center;
+	width: 31px;
+}
+
+.ctmlnavitem.selected, .ctmlnavitem.selected:hover {
+	background-color: white;
+	color: black !important;
+	cursor: default;
+}
+
+.ctmlnavitem:hover {
+	background-color: #666666;
+	border: 1px solid #666666;
+}
+
+.detailscontrol {
+	cursor: pointer;
+	float: right;
+	height: 15px;
+	margin-left: 3px;
+	width: 15px;
+}
+
+.kpibad { color: red; }
+.kpigood { color: green; }
+
+.myteam .teamsummary {
+    background-color: #F1F2ED;
+    font-weight: bold;
+}
+
+.myteam .teamdetails {
+    background-color: white;
+}
+
+.teamdetails {
+	clear: both;
+	font: 77% Verdana;
+	margin: 0 20px 10px 0;
+	display: none;
+	width: 255px !important;
+}
+
+.teamdetails th{
+	background-color: #D5D6C6;
+	border-bottom: 1px solid #ABAB9E;
+	padding: 5px;
+}
+
+.teamdetails tr:nth-child(odd) {
+	background-color: #F1F2ED;
+}
+
+.teamdetails .detailitemlabel {
+}
+
+.teamdetails .detailitemvalue {
+	text-align: right;
+	white-space: nowrap;
+	width: 1%;
+}
+
+.teamdetailswrapper {
+    background-color: white;
+}
+
+.teamname {
+	float: left;
+	height: 17px; /* Height set to match height of expand/collapse images to prevent row heights from shifting. */
+	width: 200px;
+	overflow: hidden;
+}
+
+.teamscore {
+	float: right;
+}
+
+.teamsummary {
+    padding: 5px 0;
+}
+
+#weeknav {
+	display: inline-block !important;
+	left: 0 !important;
+	padding-bottom: 5px !important;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 235px !important;
+}
+
+#weeknavcontainer {
+	border-bottom: 1px dotted #AAA;
+	height: 21px;
+	left: -6px;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 255px;
+}
+
+#weeknav li {
+	background: none;
+	border-right: 1px solid black;
+	font: 85% Arial;
+	color: #0069AA;
+	cursor: pointer;
+	display: inline-block;
+	float: none;
+	left: 0;
+	padding: 0 12px;
+	position: relative;
+	width: auto;
+	z-index: 1;
+}
+
+#weeknav li:hover {
+	text-decoration: underline;
+}
+
+#weeknav li.selected, #weeknav li.selected:hover {
+	color: black;
+	cursor: default;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#weeknav li.first {
+	padding-left: 9px;
+}
+
+#weeknav li.last {
+	border-right: 0;
+}
+
+#weeknavnext, #weeknavprev {
+	border: none;
+	cursor: pointer;
+	display: inline-block;
+	height: 15px;
+	position: relative;
+	top: -5px;
+	width: 5px;
+	z-index: 2px;
+}
+
+#weeknavnext.disabled, #weeknavprev.disabled {
+	cursor: default;
+	opacity: .15;
+}
+
+#weeknavnext {
+	margin-left: 10px;
+}
