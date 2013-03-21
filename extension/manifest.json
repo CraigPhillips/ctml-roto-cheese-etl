@@ -1,6 +1,6 @@
 {
 	"content_scripts": [{
-		"matches": ["http://baseball.fantasysports.yahoo.com/b1/117714*", "http://baseball.fantasysports.yahoo.com/league/chickentendermelt*"],
+		"matches": ["http://baseball.fantasysports.yahoo.com/b1/74133*", "http://baseball.fantasysports.yahoo.com/league/chickentendermelt*"],
 		"css": [
 			"styles/ctml roto.css"
 		],
@@ -23,7 +23,7 @@
 	"permissions": [
 		"http://*.frozenexports.net/"
 	],
-	"version": "2.0.0.1002",
+	"version": "2.0.1.1000",
 	"web_accessible_resources": [
 		"images/expand.gif",
 		"images/collapse.gif",
