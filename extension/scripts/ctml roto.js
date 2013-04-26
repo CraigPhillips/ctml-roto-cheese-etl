@@ -80,28 +80,28 @@ var selectorDetailHighlights = selectorDetailRank + ", " + selectorDetailScore;
 var selectorHead = "head";
 var selectorInningsPitchedContainer = ".sum > ul > li.non-scoring";
 var selectorListItems = "li";
-var selectorMatchUpLinks = "#scoreboard table td.last a";
+var selectorMatchUpLinks = "#scoreboard-fantasy .yfa-permalinks a";
 var selectorMatchUpTitle = "#matchup-h1 > h1";
 var selectorMyTeamSection = "." + classMyTeam;
 var selectorMyTeamLink = "#standingstable .selected a";
 var selectorStatNameHolders = "#matchup-summary-table thead tr.headerRow1 th.desc > div";
 var selectorTeamDetails = "." + classTeamDetails;
 var selectorVisibleTeamDetails = "." + classTeamDetails + ":visible";
-var selectorTeamRosterLinks = "#fantasytab > ul > li > table > tbody > tr > td > div > a";
+var selectorTeamRosterLinks = "#scoreboard-fantasy a.yfa-team";
 var selectorTeamLink = "td.team a";
 var selectorTeamRows = "#matchup-summary-table tbody tr";
 var selectorTeamRowNameHolder = ".team a";
 var selectorTeamRowStatHolders = ".stat";
 var selectorTeamScore = "." + classTeamScore;
 var selectorTeamSummary = "." + classTeamSummary;
-var selectorScoreBoardContentArea = "#scoreboard .bd";
+var selectorScoreBoardContentArea = "#scoreboard .yfa-submods";
 var selectorScoreTabsList = "#scoreboardtabs ul";
 var selectorWeekNav = "#" + idWeekNav;
 var selectorWeekNavContainer = "#" + idWeekNavContainer;
 var selectorWeekNavNext = "#" + idWeekNavNext;
 var selectorWeekNavPrev = "#" + idWeekNavPrevious;
 var selectorWeeksList = "#" + idWeeksList;
-var selectorWeekSelectLinks = "#scoreboarddatenav a";
+var selectorWeekSelectLinks = "#scoreboard-fantasy .yfa-subnav a";
 
 var standings;
 var standingsCurrent;
@@ -343,6 +343,7 @@ function insertCtmlWeeklyTab() {
 	var scoreBoardContent = $(selectorScoreBoardContentArea);
 	if(scoreBoardContent.length > 0) {
 		// Re-inserts tab if the other tabs are clicked
+		console.log($(selectorWeekSelectLinks).length);
 		$(selectorDefaultScoreTabs).click(function() { guardAgainstTabRemoval() });
 		$(selectorWeekSelectLinks).click(function() { guardAgainstTabRemoval() });
 	
@@ -350,7 +351,6 @@ function insertCtmlWeeklyTab() {
 		// the weekly CTML totals.
 		var ctmlWeeklyBoard = scoreBoardContent.clone();
 		ctmlWeeklyBoard.html(templateCtmlScoreBoard).attr(attrId, idCtmlScoreBoard).hide();
-		scoreBoardContent.after(ctmlWeeklyBoard);
 		
 		// Loads links to individual team pages
 		$(selectorTeamRosterLinks).each(function() {
@@ -615,7 +615,7 @@ function loadCtmlWeeklyBoardContent(ctmlWeeklyBoard) {
 	    matchUpLinks.each(function () {
 	        if ($(this).attr(attrHref) && $(this).attr(attrHref).length > 0) {
 	            $.get($(this).attr(attrHref), function (data) {
-	                if (data) {
+	                if (data) {	                
 						// Loads the week number
 						if(weekNumber == defaultWeekNumber) {
 							var weekTitleHolder = $(data).find(selectorMatchUpTitle);
