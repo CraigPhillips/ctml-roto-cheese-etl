@@ -94,7 +94,7 @@ var selectorTeamRowNameHolder = ".team a";
 var selectorTeamRowStatHolders = ".stat";
 var selectorTeamScore = "." + classTeamScore;
 var selectorTeamSummary = "." + classTeamSummary;
-var selectorScoreBoardContentArea = "#scoreboard .yfa-submods";
+var selectorScoreBoardContentArea = "#scoreboard .yfa-submods #scoreboard-fantasy";
 var selectorScoreTabsList = "#scoreboardtabs ul";
 var selectorWeekNav = "#" + idWeekNav;
 var selectorWeekNavContainer = "#" + idWeekNavContainer;
@@ -343,7 +343,6 @@ function insertCtmlWeeklyTab() {
 	var scoreBoardContent = $(selectorScoreBoardContentArea);
 	if(scoreBoardContent.length > 0) {
 		// Re-inserts tab if the other tabs are clicked
-		console.log($(selectorWeekSelectLinks).length);
 		$(selectorDefaultScoreTabs).click(function() { guardAgainstTabRemoval() });
 		$(selectorWeekSelectLinks).click(function() { guardAgainstTabRemoval() });
 	
@@ -351,6 +350,7 @@ function insertCtmlWeeklyTab() {
 		// the weekly CTML totals.
 		var ctmlWeeklyBoard = scoreBoardContent.clone();
 		ctmlWeeklyBoard.html(templateCtmlScoreBoard).attr(attrId, idCtmlScoreBoard).hide();
+		scoreBoardContent.parent().append(ctmlWeeklyBoard);
 		
 		// Loads links to individual team pages
 		$(selectorTeamRosterLinks).each(function() {
