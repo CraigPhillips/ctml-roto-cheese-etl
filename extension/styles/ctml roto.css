@@ -1,35 +1,40 @@
+.bd.yfa-submods { position: relative; }
+
 .ctmlclearbar {
 	clear: both;
 }
 
 #ctmlnavcontrols {
-	left: -8px;
 	position: relative;
-	width: 275px;
+	text-align: center;
+	width: 258px;
 }
 
 #ctmlscoreboard {
-	padding: 0 22px;
+	padding: 10px 0;
+	width: 100%;
+}
+
+#ctmlscoreboard > * {
+	left: 2px;
+	margin: 0 auto;
+	position: relative;
+	width: 95%;
 }
 
 #ctmlscoreboard h4 {
 	border-bottom: 1px dotted #AAA;
 	color: black !important;
 	display: block;
-	left: -6px;
 	font: Arial bold !important;
 	padding: 5px 0;
 	position: relative;
 	text-align: center;
-	width: 255px;
 }
 
 #ctmlscoreboard ul {
-	left: -6px;
-	margin: 0;
 	padding-bottom: 8px;
 	position: relative;
-	width: 255px;
 }
 
 #ctmlscoreboard li {
@@ -76,7 +81,7 @@
 .kpigood { color: green; }
 
 .myteam .teamsummary {
-    background-color: #F1F2ED;
+	background-color: #F1F2ED;
     font-weight: bold;
 }
 
@@ -89,7 +94,7 @@
 	font: 77% Verdana;
 	margin: 0 20px 10px 0;
 	display: none;
-	width: 255px !important;
+	width: 100%;
 }
 
 .teamdetails th{
@@ -98,7 +103,11 @@
 	padding: 5px;
 }
 
-.teamdetails tr:nth-child(odd) {
+.teamdetails td {
+	padding: 3px;
+}
+
+.teamdetails tr:nth-child(even) {
 	background-color: #F1F2ED;
 }
 
@@ -137,17 +146,20 @@
 	position: relative;
 	overflow: hidden;
 	white-space: nowrap;
-	width: 235px !important;
+	width: 92%;
 }
 
 #weeknavcontainer {
 	border-bottom: 1px dotted #AAA;
 	height: 21px;
-	left: -6px;
 	position: relative;
 	overflow: hidden;
 	white-space: nowrap;
-	width: 255px;
+}
+
+#weeknavcontainer > * {
+	position: relative;
+	left: 4px;
 }
 
 #weeknav li {
@@ -189,10 +201,11 @@
 	cursor: pointer;
 	display: inline-block;
 	height: 15px;
+	left: 2px;
 	position: relative;
-	top: -5px;
+	top: 4px;
 	width: 5px;
-	z-index: 2px;
+	z-index: 2;
 }
 
 #weeknavnext.disabled, #weeknavprev.disabled {

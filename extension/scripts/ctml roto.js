@@ -95,6 +95,7 @@ var selectorTeamRowStatHolders = ".stat";
 var selectorTeamScore = "." + classTeamScore;
 var selectorTeamSummary = "." + classTeamSummary;
 var selectorScoreBoardContentArea = "#scoreboard .yfa-submods #scoreboard-fantasy";
+var selectorRealScoresContentArea = "#scoreboard .yfa-submods #scoreboard-real";
 var selectorScoreTabsList = "#scoreboardtabs ul";
 var selectorWeekNav = "#" + idWeekNav;
 var selectorWeekNavContainer = "#" + idWeekNavContainer;
@@ -120,15 +121,13 @@ var templateCtmlClearBar = "<div class='ctmlclearbar'></div>";
 var templateCtmlNavItem = "<div id='{0}' class='" + classCtmlNavItem + "' title='{1}'>{2}</div>";
 var templateCtmlWeeklyTab = "<li id='" + idCtmlWeeklyTab + "'><a href='#'>CTML (Weekly)</a></li>";
 var templateCtmlScoreBoard = 
-	"<div id='" + idCtmlScoreBoard + "' class='scoreboard'>" +
-		"<div id='" + idWeekNavContainer + "'>" +
-			"<div id='" + idWeekNavPrevious + "'></div>" +
-			"<ul id='" + idWeekNav + "'></ul><div id='" + idWeekNavNext + "'></div>" +
-		"</div>" +
-		"<h4>Standings (<span id='" + idCtmlDisplayDescription + "'></span>)</h4>" +
-		"<ul id='" + idCtmlScoreList + "'></ul>" +
-		"<div id='" + idCtmlNavControls + "'></div>";
-	"</div>";
+	"<div id='" + idWeekNavContainer + "'>" +
+		"<div id='" + idWeekNavPrevious + "'></div>" +
+		"<ul id='" + idWeekNav + "'></ul><div id='" + idWeekNavNext + "'></div>" +
+	"</div>" +
+	"<h4>Standings (<span id='" + idCtmlDisplayDescription + "'></span>)</h4>" +
+	"<ul id='" + idCtmlScoreList + "'></ul>" +
+	"<div id='" + idCtmlNavControls + "'></div>";
 var templateCtmlScoreBoardItem =
 	"<li>" +
         "<div class='" + classTeamSummary + "'>" +
@@ -218,10 +217,24 @@ function allStandingsLoaded() {
 
     // Makes tab visible after scores have been loaded
     var scoreBoardContent = $(selectorScoreBoardContentArea);
+    var realScoreBoardContent = $(selectorRealScoresContentArea);
     var ctmlWeeklyBoard = $(selectorCtmlScoreBoard);
     var scoreTabsList = $(selectorScoreTabsList);
-    if (scoreBoardContent.length> 0 && ctmlWeeklyBoard.length > 0 && scoreTabsList.length > 0) {
+    if (scoreBoardContent.length> 0 && 
+    		ctmlWeeklyBoard.length > 0 && 
+    		scoreTabsList.length > 0 &&
+    		realScoreBoardContent.length > 0) {
         var scoreTabs = scoreTabsList.children(selectorListItems);
+        
+        // Adds events to reshow other tabs on click.
+        scoreTabs.each(function() { 
+        	$(this).click(function() {
+        		ctmlWeeklyBoard.hide();
+        		
+        		if($(this).hasClass(classFirst)) scoreBoardContent.show();
+        		if($(this).hasClass(classLast)) realScoreBoardContent.show();
+        	});
+        });
 		
         if (scoreTabs.length > 0) {		
             // Inserts extra tab after first tab and hooks up appropriate events.
@@ -234,6 +247,7 @@ function allStandingsLoaded() {
                     ctmlWeeklyTab.addClass(classScoreTabSelected);
 
                     scoreBoardContent.hide();
+                    realScoreBoardContent.hide();
                     ctmlWeeklyBoard.show();
 					
 					// The site will occasionally refresh portions of the page which can make the CTML tab disappear
@@ -716,8 +730,8 @@ function moveWeekNav(moveWeekNumbers, shouldAnimate) {
 	if(weekNavItems.length > 0) {
 		/* 	Set by hand since dynamic sizing doesn't appear to work consistently. 
 			Used previously: weekNavItems.first().outerWidth(); */
-		var weekNavItemWidth = 65.25;
-		var maxItemsDisplayed = Math.ceil($(selectorWeekNav).width() / weekNavItemWidth);
+		var weekNavItemWidth = 60.25
+		var maxItemsDisplayed = 269;
 		var currentOffset = parseInt(weekNavItems.first().css(attrLeft));
 		var currentFirstItem = (currentOffset * -1) / weekNavItemWidth + 1;
 		var currentLastItem = currentFirstItem + maxItemsDisplayed - 1;
