@@ -731,7 +731,7 @@ function moveWeekNav(moveWeekNumbers, shouldAnimate) {
 		/* 	Set by hand since dynamic sizing doesn't appear to work consistently. 
 			Used previously: weekNavItems.first().outerWidth(); */
 		var weekNavItemWidth = 60.25
-		var maxItemsDisplayed = 269;
+		var maxItemsDisplayed = 5;
 		var currentOffset = parseInt(weekNavItems.first().css(attrLeft));
 		var currentFirstItem = (currentOffset * -1) / weekNavItemWidth + 1;
 		var currentLastItem = currentFirstItem + maxItemsDisplayed - 1;

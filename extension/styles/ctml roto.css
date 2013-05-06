@@ -171,7 +171,7 @@
 	display: inline-block;
 	float: none;
 	left: 0;
-	padding: 0 12px;
+	padding: 0 10px;
 	position: relative;
 	width: auto;
 	z-index: 1;
@@ -197,6 +197,7 @@
 }
 
 #weeknavnext, #weeknavprev {
+	background-color: white;
 	border: none;
 	cursor: pointer;
 	display: inline-block;
@@ -204,7 +205,7 @@
 	left: 2px;
 	position: relative;
 	top: 4px;
-	width: 5px;
+	width: 7px;
 	z-index: 2;
 }
 
@@ -215,4 +216,5 @@
 
 #weeknavnext {
 	margin-left: 10px;
+	left: 0;
 }
