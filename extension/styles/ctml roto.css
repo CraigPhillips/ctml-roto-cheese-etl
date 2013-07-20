@@ -16,10 +16,9 @@
 }
 
 #ctmlscoreboard > * {
-	left: 2px;
 	margin: 0 auto;
 	position: relative;
-	width: 95%;
+	width: 100%;
 }
 
 #ctmlscoreboard h4 {
@@ -30,6 +29,10 @@
 	padding: 5px 0;
 	position: relative;
 	text-align: center;
+}
+
+#ctmlweekly > a { 
+	white-space: nowrap; 
 }
 
 #ctmlscoreboard ul {
