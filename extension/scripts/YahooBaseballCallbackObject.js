@@ -2,8 +2,8 @@
 	Base class for all CTML Basebal cheese classes needing to before long-running operations to load data.
 */
 var YahooBaseballCallbackObject = klass(function() {
-	this.dataLoadedCallbacks = new Array();
-	this.errorCallbacks = new Array();
+	this.dataLoadedCallbacks = [];
+	this.errorCallbacks = [];
 	this.errorMessage = null;
 	this.isLoaded = false;
 })

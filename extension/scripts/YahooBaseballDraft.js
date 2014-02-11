@@ -12,7 +12,7 @@ var YahooBaseballDraft = YahooBaseballCallbackObject.extend(function(
 		loadedNotificationCallback,
 		errorNotificationCallback) {
 	this.customLeaguePath = customLeaguePath;
-	this.draftResults = new Array();
+	this.draftResults = [];
 	this.year = year;
 	
 	if(!customLeaguePath) { this.reportError("Base path for league not provided for draft data lookup."); return; }
