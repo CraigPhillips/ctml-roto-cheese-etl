@@ -9,7 +9,10 @@
 		],
 		"js": [
 			"scripts/jquery-1.11.0.min.js",
+			"scripts/klass.min.js",
 			"scripts/cheese.lookup.draft.js",
+			"scripts/YahooBaseballCallbackObject.js",
+			"scripts/YahooBaseballleagueInfo.js",
 			"scripts/YahooBaseballDraft.js"
 		]
 	}],
