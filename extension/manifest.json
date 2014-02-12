@@ -12,7 +12,8 @@
 			"scripts/klass.min.js",
 			"scripts/cheese.lookup.draft.js",
 			"scripts/YahooBaseballCallbackObject.js",
-			"scripts/YahooBaseballleagueInfo.js",
+			"scripts/YahooBaseballLeagueInfo.js",
+			"scripts/YahooBaseballTeamDetails.js",
 			"scripts/YahooBaseballDraft.js"
 		]
 	}],

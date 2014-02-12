@@ -12,7 +12,7 @@ var YahooBaseballDraft = YahooBaseballCallbackObject.extend(function(
 		loadedNotificationCallback,
 		errorNotificationCallback) {
 	this.customLeaguePath = customLeaguePath;
-	this.draftResults = [];
+	this.draftResults = {};
 	this.year = year;
 	
 	if(!customLeaguePath) { this.reportError("Base path for league not provided for draft data lookup."); return; }
@@ -39,16 +39,14 @@ var YahooBaseballDraft = YahooBaseballCallbackObject.extend(function(
 					}
 					
 					// Pulls requested data out of HTML.
+					var nextPlayerDraftPosition = 1;
 					pickedPlayerLinks.each(function() {
-						var playerName = $(this).text();
-						var playerLink = $(this).attr("href");
+						var playerData = thisDraft.extractPlayerDataFromLink($(this));
 						
-						if(playerName && playerLink && playerLink.indexOf("/") > -1 
-								&& playerLink.lastIndexOf("/") < playerLink.length - 1) {
-							var playerId = parseInt(
-								playerLink.substring(playerLink.lastIndexOf("/") + 1));
-							
-							if(playerId) thisDraft.draftResults.push({ name: playerName, yahooPlayerId: playerId });
+						if(playerData && playerData.name && playerData.yahooBaseballPlayerId) {
+							playerData.draftPosition = nextPlayerDraftPosition++;
+							thisDraft.draftResults[playerData.yahooBaseballPlayerId] =
+								playerData;
 						}
 					});
 					

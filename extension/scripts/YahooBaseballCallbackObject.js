@@ -13,16 +13,14 @@ var YahooBaseballCallbackObject = klass(function() {
 	onError: function(callback) {
 		if(callback) {
 			// If an error has already occured, simply calls back immediately.
-			if(this.errorMessage) callback(errorMessage);
+			if(this.errorMessage) callback(this.errorMessage);
 			else this.errorCallbacks.push(callback);
 		}
 		
 		return this;
 	},
 	// Reports the fact that an error has occured.
-	reportError: function(error) {
-		var thisObject = this;
-		
+	reportError: function(error) {		
 		this.errorMessage = error;
 		$(this.errorCallbacks).each(function() { this(error); });
 	},
@@ -44,5 +42,29 @@ var YahooBaseballCallbackObject = klass(function() {
 		}
 
 		return this;
+	},
+	// Extracts player name and ID from a player link.
+	extractPlayerDataFromLink: function(playerLink) {
+		var playerObject = { name: "", yahooBaseballPlayerId: 0 };
+		
+		if(playerLink && playerLink.length > 0) {
+			var playerName = playerLink.text();
+			var playerLink = playerLink.attr("href");
+			
+			// Verifies that the link is in the format that we want - namely that it ends with a player ID after a slash.
+			if(playerName && playerLink && playerLink.indexOf("/") > -1 
+					&& playerLink.lastIndexOf("/") < playerLink.length - 1) {
+				var playerId = parseInt(
+					playerLink.substring(playerLink.lastIndexOf("/") + 1));
+				
+				if(playerId) {
+					playerObject.name = playerName;
+					playerObject.playerDetailsPath = playerLink;
+					playerObject.yahooBaseballPlayerId = playerId;
+				}
+			}
+		}
+		
+		return playerObject;
 	}
 });

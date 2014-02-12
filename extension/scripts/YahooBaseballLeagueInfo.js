@@ -3,6 +3,8 @@
 */
 var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 	this.teams = {};
+	this.teamsLoaded = false;
+	this.settingsLoaded = false;
 		
 	var thisLeagueInfo = this;
 	
@@ -45,9 +47,34 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 					};
 			});
 			
-			thisLeagueInfo.reportSuccess();
+			thisLeagueInfo.teamsLoaded = true;
+			thisLeagueInfo.checkForCompletion();
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
 			thisLeagueInfo.reportError("Error attempting to retrieve managers list page while loading league information. Error was " + errorThrown);
 		});
+		
+	var settingsPageUrl = $("ul#sitenavsub li a:contains('Scoring & Settings')").attr("href");
+	if(!settingsPageUrl) { this.reportError("Settings page link not found while loading league information."); return; }
+	
+	$.get(settingsPageUrl)
+		.success(function(data, textStatus, jqXHR) {
+			var draftDateTitleCell = $(data).find("td:contains('Draft Time')");
+			var draftDateText = $(draftDateTitleCell).siblings().first().find("b").text();
+			var draftDateParts = draftDateText.split(" ");
+			var draftDate = new Date(draftDateParts[0] + ", " + draftDateParts[1] + " " + draftDateParts[2] + " " + (new Date()).getFullYear());
+			
+			if(draftDate) thisLeagueInfo.draftDate = draftDate;
+			thisLeagueInfo.settingsLoaded = true;
+			thisLeagueInfo.checkForCompletion();
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			thisLeagueInfo.reportError("Error retrieving settings page while loading league information. Error was " + errorThrown);
+			return;
+		});
+})
+.methods({
+	checkForCompletion: function() {
+		if(this.teamsLoaded && this.settingsLoaded) this.reportSuccess();
+	}
 });

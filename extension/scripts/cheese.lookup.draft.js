@@ -6,7 +6,14 @@ $(document).ready(function() {
 		
 	var leagueInfo = new YahooBaseballLeagueInfo();
 	leagueInfo
-		.whenReady(function() { console.log(leagueInfo); })
+		.whenReady(function() { 
+			console.log(leagueInfo);
+			/*var firstTeam = new YahooBaseballTeamDetails(leagueInfo.teams[1].teamPageUrl);
+			
+			firstTeam
+				.whenReady(function() { console.log(firstTeam); })
+				.onError(function(error) { console.error(error); });*/
+		})
 		.onError(function(error) { console.error(error); });
 });
 
