@@ -9,6 +9,7 @@
 		],
 		"js": [
 			"scripts/jquery-1.11.0.min.js",
+			"scripts/dust-full-0.3.0.min.js",
 			"scripts/klass.min.js",
 			"scripts/cheese.lookup.draft.js",
 			"scripts/YahooBaseballCallbackObject.js",
