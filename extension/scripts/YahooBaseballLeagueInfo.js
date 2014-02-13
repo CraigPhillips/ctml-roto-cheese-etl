@@ -8,14 +8,16 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 		
 	var thisLeagueInfo = this;
 	
-	var managersListPageUrl = $("ul#sitenavsub li a:contains('Managers')").attr("href");
-	if(!managersListPageUrl) { this.reportError("Managers list link not found when attempting to load league information."); return; }
+	var siteRootUrl = $("ul#sitenav > li > a:contains('League')").attr("href");
+	if(!siteRootUrl) { this.reportError("Could not locate site root URL while looking up league information."); }
+	var managersListPageUrl = siteRootUrl + "/teams";
+	
 	
 	// Retrieves list of teams and their managers.
 	$.get(managersListPageUrl)
 		.success(function(data, textStatus, jqXHR) {
 			var teamRows = $(data).find("table.teamtable tbody tr");
-			if(teamRows.length == 0) { this.reportError("No teams found on managers list page while loading league information."); return; }
+			if(teamRows.length == 0) { thisLeagueInfo.reportError("No teams found on managers list page while loading league information."); return; }
 			
 			$(teamRows).each(function() {
 					var teamPageLink = $(this).find("td.first a");
@@ -55,8 +57,7 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 			thisLeagueInfo.reportError("Error attempting to retrieve managers list page while loading league information. Error was " + errorThrown);
 		});
 		
-	var settingsPageUrl = $("ul#sitenavsub li a:contains('Scoring & Settings')").attr("href");
-	if(!settingsPageUrl) { this.reportError("Settings page link not found while loading league information."); return; }
+	var settingsPageUrl = siteRootUrl + "/settings";
 	
 	// Retrieves information about league settings.
 	$.get(settingsPageUrl)

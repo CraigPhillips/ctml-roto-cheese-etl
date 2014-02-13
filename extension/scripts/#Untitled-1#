@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html id="Stencil" xmlns:fb="http://www.facebook.com/2008/fbml">
+	<head>
+		<title>Yahoo Sports Fantasy Baseball - The document you requested was not found</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta name="apple-mobile-web-app-title" content="Y! Fantasy" />
+<link rel="apple-touch-icon" href="https://s.yimg.com/dh/ap/us/sp/fn/default/app_icon_57x57.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="https://s.yimg.com/dh/ap/us/sp/fn/default/app_icon_72x72.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="https://s.yimg.com/dh/ap/us/sp/fn/default/app_icon_114x114.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="https://s.yimg.com/dh/ap/us/sp/fn/default/app_icon_144x144.png" />
+<link href="http://l.yimg.com/ua/assets/eJxtUu1uhDAMe6MdlIMW7WGqXAlHtUJRE07j7dev24S0n3UÉvqHplGuw_8H7lWnDgcYCMwqX9w-XeSze-hXI9-OIzrMQZdcuVtf3qGt-gPKhLfFw,,.css?z&m" type="text/css" rel="stylesheet" /><style type="text/css" id="css-all">
+
+</style><!--[if lte IE 8]>
+<script type="text/javascript" src="http://l.yimg.com/zz/combo?&yui:3.10.3/build/yui-base/yui-base-min.js&yui:3É&yui:3.10.3/build/yui-log/yui-log-min.js&yui:3.10.3/build/dump/dump-min.js"></script>
+<![endif]-->
+<!--[if gt IE 8]><!-->
+<script type="text/javascript" src="http://l.yimg.com/zz/combo?&yui:3.10.3/build/yui-base/yui-base-min.js&yui:3Énhost/base-pluginhost-min.js&yui:3.10.3/build/json-parse/json-parse-min.js"></script>
+<!--<![endif]-->
+<script charset="utf-8" type="text/javascript" language="javascript"><!--
+// just to make sure YAHOO.namespace works, which allows us some flexibility.
+if(typeof YAHOO=="undefined"||!YAHOO){var YAHOO={};}
+YAHOO.namespace=function(){var b=arguments,g=null,e,c,f;for(e=0;e<b.length;e=e+1){f=(""+b[e]).split(".");g=YAHOO;for(c=(f[0]=="YAHOO")?1:0;c<f.length;c=c+1){g[f[c]]=g[f[c]]||{};g=g[f[c]];}}return g;};
+(function() {
+YAHOO.namespace("YAHOO.Sports");
+
+YAHOO.Sports.PlayerNoteConfig = {
+    cfg: {
+        player_notes_tabs_comscore: true,
+        player_notes_tabs_ads: true,
+        player_notes_xfbml: true    },
+    is_enabled: function(feature) {
+
+        if (this.cfg[feature] !== 'undefined') {
+            return this.cfg[feature];
+        }
+        return false;
+
+    }
+}
+
+}());
+
+YUI.namespace('Fantasy');
+
+YUI().use('*', function(Y) {
+Y.log("Like poking around in code? Like fantasy sports? Yahoo! Fantasy Sports is currently hiring both front and back end engineers. If you'd like to get paid to do what you love, drop us a resume at sportsjobs@yahoo-inc.com, and let us know where you found the e-mail address!");
+
+var ENV = function(config) {
+    ENV.superclass.constructor.apply(this, arguments);
+};
+ENV.NAME = "ysf-ENV";
+ENV.ATTRS = {
+    'notifyEnabled' : {
+        value : false    },
+    'notifyPopupsEnabled' : {
+        value : '0'
+    },
+    'userIdCode' : {
+        value : ''
+    },
+    'type' : {
+        value : 'prod',
+        readOnly : true
+    },
+    'debug' : {
+        value : false,
+        readOnly : true
+    },
+    'asset_paths' : {
+        value : {
+            'YUI2' : 'http://l.yimg.com/d/lib/yui/2.9.0/build/'
+        },
+        readOnly : true
+    },
+    'game_uri' : {
+        value : '/b1',
+        readOnly : true
+    },
+    'YUI_config' : {
+        valueFn : function() {
+
+            var YUI2_asset_path = this.get('asset_paths').YUI2;
+
+            return {
+                
+                'combine' : true,
+                'base' : 'http://l.yimg.com/',
+                'comboBase' : 'http://l.yimg.com/zz/combo?',
+                'root' : 'yui:3.10.3/build/',
+                'gallery': 'yui:gallery-2011.04.20-13-04',
+                'groups' : {
+
+                    'ysf-yui2' : {
+                        'combine' : true,
+                        'base' : YUI2_asset_path,
+                        'comboBase' : 'http://l.yimg.com/zz/combo?',
+                        'root' : '/d/lib/yui/2.9.0/build/',
+                        'modules' :  {
+                            'ysf-yui2-charts': {
+                                path: "charts/charts.js",
+                                requires: ['ysf-yui2-yde', 'ysf-yui2-element', 'ysf-yui2-datasource', 'ysf-yui2-json', 'ysf-yui2-swf']
+                            },
+                            'ysf-yui2-container_core' : {
+                                path: "container/container_core.js"
+                            },
+                            'ysf-yui2-datasource' : {
+                                path: "datasource/datasource.js"
+                            },
+                            'ysf-yui2-carousel': {
+                                path: "carousel/carousel.js",
+                                requires: ['ysf-yui2-yde', 'ysf-yui2-element']
+                            },
+                            'ysf-yui2-animation': {
+                                path: "animation/animation.js",
+                                requires: ['ysf-yui2-yde']
+                            },
+                            'ysf-yui2-element': {
+                                path: "element/element.js"
+                            },
+                            'ysf-yui2-json': {
+                                path: "json/json.js"
+                            },
+                            'ysf-yui2-menu': {
+                                path: "menu/menu.js",
+                                requires: ['ysf-yui2-yde', 'ysf-yui2-container_core']
+                            },
+                            'ysf-yui2-swf': {
+                                path: "swf/swf.js"
+                            },
+                            'ysf-yui2-yde': {
+                                path: "yahoo-dom-event/yahoo-dom-event.js"
+                            }
+                        }
+                    },
+                    'ysf' : {
+                        'combine' : true,
+                        'base' : 'http://l.yimg.com/ua/assets/',
+                        'comboBase' : 'http://l.yimg.com/ua/assets/',
+                        'root' : '',
+                        'comboSep': ';',
+                        'filter': {
+                            'searchExp':"\\.js[\\?\\&a-zA-Z0-9]*;",
+                            'replaceStr': ";"
+                        },
+                        'modules': {"ysf-xhr":{"path":"js\/ysf-xhr.r260964.js?m","requires":["io","base","node","json-parse"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-xhr.r260964.js?m"},"yfa-module":{"path":"js\/yfa-module.r283229.js?m","requires":["ysf-xhr","node-event-delegate","base","ysf-flyout-select"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/yfa-module.r283229.js?m"},"ysf-formenhancer":{"path":"js\/ysf-formenhancer.r258276.js?m","requires":["event","event-custom","node"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-formenhancer.r258276.js?m"},"ysf-initlinks":{"path":"js\/ysf-initlinks.r259336.js?m","requires":["node","event","ysf-watchlist"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-initlinks.r259336.js?m"},"ysf-watchlist":{"path":"js\/ysf-watchlist.r281120.js?m","requires":["ysf-xhr"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-watchlist.r281120.js?m"},"ysf-activeform":{"path":"js\/ysf-activeform.r283223.js?m","requires":["node","event","base"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-activeform.r283223.js?m"},"ysf-bracket-manager":{"path":"js\/ysf-bracket-manager.r280812.js?m","requires":["dd-drag","dd-drop","dd-delegate","dd-proxy","base"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-bracket-manager.r280812.js?m"},"ysf-overlay":{"path":"js\/ysf-overlay.r282194.js?m","requires":["event-custom","node","event","overlay","widget-anim","gallery-overlay-extras","gallery-outside-events"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-overlay.r282194.js?m"},"ysf-tooltip":{"path":"js\/ysf-tooltip.r283174.js?m","requires":["node","overlay","event-outside","widget-anim"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-tooltip.r283174.js?m"},"ysf-html":{"path":"js\/ysf-html.r276756.js?m","requires":["node","event"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-html.r276756.js?m"},"media-playernote-views-history":{"path":"js\/media-playernote-views-history.r243039.js?m","requires":"media-playernote-view","directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/media-playernote-views-history.r243039.js?m"},"ysf-reg-validation":{"path":"js\/ysf-reg-validation.r263859.js?m","requires":["node","event"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-reg-validation.r263859.js?m"},"ysf-reg-scoring":{"path":"js\/ysf-reg-scoring.r250009.js?m","requires":["node","css3-selector"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-reg-scoring.r250009.js?m"},"ysf-reg-createleague":{"path":"js\/ysf-reg-createleague.r256138.js?m","requires":["node","event","ysf-activeform","ysf-draft-datetime-picker","ysf-tooltip","ysf-reg-validation"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-reg-createleague.r256138.js?m"},"ysf-draft-datetime-picker":{"path":"js\/ysf-draft-datetime-picker.r261255.js?m","requires":["calendar","overlay","event-outside","datatype-date","ysf-alerts"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-draft-datetime-picker.r261255.js?m"},"ysf-alerts":{"path":"js\/ysf-alerts.r259542.js?m","requires":["base-build","node-event-delegate","anim-base","anim-easing"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-alerts.r259542.js?m"},"css-animation-events":{"path":"js\/css-animation-events.r256083.js?m","requires":["node-base"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/css-animation-events.r256083.js?m"},"ysf-rosterslot":{"path":"js\/ysf-rosterslot.r264064.js?m","requires":["node","base","css-animation-events"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-rosterslot.r264064.js?m"},"ysf-rosterswapper":{"path":"js\/ysf-rosterswapper.r273978.js?m","requires":["base","node","event","ysf-rosterslot","css-animation-events","event-outside","event-focus"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-rosterswapper.r273978.js?m"},"ysf-rosterswap-manager":{"path":"js\/ysf-rosterswap-manager.r267024.js?m","requires":["ysf-rosterswapper","ysf-xhr"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-rosterswap-manager.r267024.js?m"},"ysf-tout":{"path":"js\/ysf-tout.r273978.js?m","requires":["node","base","css-animation-events"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-tout.r273978.js?m"},"hover-intent":{"path":"js\/hover-intent.r259197.js?m","requires":["node","base","event"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/hover-intent.r259197.js?m"},"ysf-flyout-select":{"path":"js\/ysf-flyoutselect.r270881.js?m","requires":["node","hover-intent","event","event-hover","base","event-outside"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-flyoutselect.r270881.js?m"},"ysf-ffl-dynamic":{"path":"js\/ysf-ffl-dynamic.r272831.js?m","requires":["oop","io-base","json","ysf-smartpanel"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-ffl-dynamic.r272831.js?m"},"ysf-headshot":{"path":"js\/ysf-headshot.r276510.js?m","requires":["node"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/ysf-headshot.r276510.js?m"},"media-overlay-surround":{"path":"js\/playernote-overlay-surround.r274395.js?m","requires":["plugin","base-build","node-screen","event-resize"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernote-overlay-surround.r274395.js?m"},"media-overlay-close":{"path":"js\/playernote-overlay-close.r271618.js?m","requires":["plugin","base-build","node-event-delegate","event-key"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernote-overlay-close.r271618.js?m"},"media-playernote-view":{"path":"js\/playernote-view.r271618.js?m","requires":["plugin","base-build"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernote-view.r271618.js?m"},"media-playernote":{"path":"js\/playernote.r276478.js?m","requires":["overlay","io-base","json-parse","media-overlay-surround","media-overlay-close","dd-plugin","media-playernote-css","substitute","media-playernote-view","media-playernote-tabs","transition","media-playernote-views-notes","media-playernote-views-twitter","media-playernote-views-availability","media-playernote-views-history","media-playernote-views-video"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernote.r276478.js?m"},"media-playernotes":{"path":"js\/playernotes.r274565.js?m","requires":["node-event-delegate","base-build","selector-css3","media-playernote"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernotes.r274565.js?m"},"media-playernote-views-notes":{"path":"js\/playernote-views-notes.r274395.js?m","requires":["media-playernote-view","media-playernote-views-notes-css","node-event-delegate","base-build","tabview"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernote-views-notes.r274395.js?m"},"media-playernote-tabs":{"path":"js\/playernote-tabs.r271618.js?m","requires":["plugin","base-build","node-event-delegate","transition","media-playernote-tabs-css"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernote-tabs.r271618.js?m"},"media-playernote-views-twitter":{"path":"js\/playernote-views-twitter.r271618.js?m","requires":["media-playernote-view","media-playernote-views-twitter-css","node-event-delegate","node-style","selector-css3"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernote-views-twitter.r271618.js?m"},"media-playernote-views-video":{"path":"js\/playernote-views-video.r271618.js?m","requires":["media-playernote-view","media-playernote-views-video-css"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernote-views-video.r271618.js?m"},"media-playernote-views-availability":{"path":"js\/playernote-views-player-availability.r271618.js?m","requires":["media-playernote-view"],"directpath":"http:\/\/l.yimg.com\/ua\/assets\/js\/playernote-views-player-availability.r271618.js?m"}}                    },
+                    'ysf-css' : {
+                        'combine' : true,
+                        'base' : 'http://l.yimg.com/ua/assets/',
+                        'comboBase' : 'http://l.yimg.com/ua/assets/',
+                        'root' : '',
+                        'comboSep': ';',
+                        'filter': {
+                            'searchExp':"\\.css[\\?\\&a-zA-Z0-9]*;",
+                            'replaceStr': ";"
+                        },
+                        'modules': {"media-playernote-views-notes-css":{"path":"css\/nonsass\/playernote-views-notes.r275278.css?m","type":"css","directpath":"http:\/\/l.yimg.com\/ua\/assets\/css\/nonsass\/playernote-views-notes.r275278.css?m"},"media-playernote-tabs-css":{"path":"css\/nonsass\/playernote-tabs.r275278.css?m","type":"css","directpath":"http:\/\/l.yimg.com\/ua\/assets\/css\/nonsass\/playernote-tabs.r275278.css?m"},"media-playernote-css":{"path":"css\/nonsass\/playernote.r281964.css?m","type":"css","directpath":"http:\/\/l.yimg.com\/ua\/assets\/css\/nonsass\/playernote.r281964.css?m"},"media-playernote-views-twitter-css":{"path":"css\/nonsass\/playernote-views-twitter.r271618.css?m","type":"css","directpath":"http:\/\/l.yimg.com\/ua\/assets\/css\/nonsass\/playernote-views-twitter.r271618.css?m"},"media-playernote-views-video-css":{"path":"css\/nonsass\/playernote-views-video.r271618.css?m","type":"css","directpath":"http:\/\/l.yimg.com\/ua\/assets\/css\/nonsass\/playernote-views-video.r271618.css?m"}}                    }
+                    ,
+                    'yui2' : {
+                        'combine' : true,
+                        'base' : 'http://l.yimg.com/d/lib/yui/2in3.4/2.9.0/build/',
+                        'comboBase' : 'http://l.yimg.com/zz/combo?',
+                        'root' : '/d/lib/yui/2in3.4/2.9.0/build/',
+                        'patterns' :  {
+                            'yui2-': {
+                                configFn: function(me) {
+                                    if(/-skin|reset|fonts|grids|base/.test(me.name)) {
+                                        me.type = 'css';
+                                        me.path = me.path.replace(/\.js/, '.css');
+                                        // this makes skins in builds earlier than 2.6.0 work as long as combine is false
+                                        me.path = me.path.replace(/\/yui2-skin/, '/assets/skins/sam/yui2-skin');
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'yui2_8_paths': {
+                        'base' : 'http://l.yimg.com/d/lib/yui/2in3.4/2.8.2/build/',
+                        'comboBase' : 'http://l.yimg.com/zz/combo?',
+                        'root' :  '/d/lib/yui/2in3.4/2.8.2/build/'
+                    },
+                    'yui2_9_paths': {
+                        'base' : 'http://l.yimg.com/d/lib/yui/2in3.4/2.9.0/build/',
+                        'comboBase' : 'http://l.yimg.com/zz/combo?',
+                        'root' : '/d/lib/yui/2in3.4/2.9.0/build/'
+                    }                },
+
+                'modules' : {
+                    "swfplayer" : {
+                        fullpath: 'http://us.js2.yimg.com/us.js.yimg.com/lib/flash/swfobject/1.0/swfobject.js'
+                    },
+                    // "ywa" : {
+                    //     fullpath: 'http://d.yimg.com/mi/ywa.js'
+                    // },
+                    "ywa-rapid" : {
+                        fullpath: 'https://s.yimg.com/ss/rapid-3.11.js'
+                    },
+                    "mobilizer" : {
+                        fullpath: 'http://l.yimg.com/lh/mbz/loader-min.js'
+                    },
+                    "yos-widget-loader" : {
+                        fullpath: 'http://l.yimg.com/ly/widgetloader/1.0.1/js/widgetLoader.js'
+                    },
+                    "fb_all" : {
+                         fullpath : "http://l.yimg.com/os/mit/media/m/socialchrome/fb-all-min-454551.js",
+                         requires : [ "fb_all_css" ]
+                    },
+                    "fb_all_css" : {
+                         fullpath : "http://l.yimg.com/a/lib/sp/fn/gallery-fb-connect.css",
+                         type : "css"
+                    }
+                    /* "fb_all": {
+                        fullpath: "http://connect.facebook.net/en_US/all.js"
+                    }*/,
+                    "uh2-js" : {
+                        fullpath: "http://l.yimg.com/zz/combo?kx/yucs/uh3/uh/js/771/uh-min.js&kx/yucs/uh3/uh/jÉews/js/11/breaking_news-min.js&kx/yucs/uh3/location/js/7/uh_locdrop-min.js"
+                    }
+
+                }
+
+            };
+
+        },
+        readOnly : true
+
+    },
+    'FB_config' : {
+        value : {
+            'FB' : {
+                'init' : {
+                        'appId' : 12868076857,
+                        logging : true,
+                        status  : true,
+                        cookie  : false,
+                        oauth   : true,
+                        'xfbml' : true,
+                        'channelUrl' : location.protocol + '//' + location.host + '/b1/channelUrl'
+                },
+                'YuiIo' : {
+                    'transportCfg' : {
+                        'src' : '/io.swf'
+                    }
+                },
+                'uid' : '',
+                'url' : '',
+                'curl': '',
+                'au'  : '1',
+                'eid' : ''
+            }
+        }
+    }
+};
+
+Y.extend(ENV, Y.Base);
+
+YUI.namespace('Fantasy.ENV');
+
+YUI.Fantasy.ENV = new ENV();
+
+var League = function(config) {
+    League.superclass.constructor.apply(this, arguments);
+};
+League.NAME = "ysf-League";
+League.ATTRS = {
+
+    'id' : {
+        value : null,
+        readOnly : true
+    },
+    'uri' : {
+        valueFn : function() {
+
+            var uri = YUI.Fantasy.ENV.get('game_uri'),
+                id = this.get('id');
+
+            if (uri !== '' && id) {
+                uri += '/' + id;
+            }
+
+            return uri;
+
+        },
+        readOnly: true
+    },
+    'url' : {
+        valueFn : function() {
+
+            var url = '',
+                uri = this.get('uri');
+
+            if (uri !== '') {
+                url = location.protocol + '//' + location.host + uri;
+            }
+            return url;
+
+        },
+        readOnly: true
+    }
+
+};
+
+Y.extend(League, Y.Base);
+
+YUI.namespace('Fantasy.League');
+
+YUI.Fantasy.League = new League();
+
+YSF = YUI(YUI.Fantasy.ENV.get('YUI_config'));
+YFB = YUI(YUI.Fantasy.ENV.get('YUI_config'), YUI.Fantasy.ENV.get('FB_config'));
+
+/*
+YSFGlobalPublisher
+Use YSFGlobalPublisher to publish global custom events on the
+Y.Global object.
+*/
+var YSFGlobalPublisher = new Y.EventTarget();
+YSFGlobalPublisher.name = 'YSFGlobalPublisher';
+YSFGlobalPublisher.publish('ysf:beforeunload', {
+    broadcast : 2
+});
+
+window.onbeforeunload = function(e) {
+
+    var beforeUnloadEvent = YUI.Env.globalEvents.getEvent('ysf:beforeunload'),
+        beforeUnloadSubscribers = (beforeUnloadEvent) ? beforeUnloadEvent.subscribers : {} ,
+        reason = null,
+        s=null;
+
+    for (s in beforeUnloadSubscribers) {
+        if (beforeUnloadSubscribers.hasOwnProperty(s)) {
+            reason = beforeUnloadSubscribers[s].fn();
+            if (Y.Lang.isString(reason)) {
+                break;
+            }
+            reason = null;
+        }
+    }
+
+    if (reason) {
+        if (e) {
+            e.preventDefault();
+            e.returnValue = reason;
+        }
+        return reason;
+    }
+
+};
+
+});
+
+YUI.namespace("Fantasy.SpaceIds");
+YUI.Fantasy.SpaceIds.pathmap = {
+    'playernote': {
+        'site/sports/fantasy_new/mlb/full/free':     782203655,
+        'site/sports/fantasy_new/mlb/full/plus':     782203656,
+        'site/sports/fantasy_new/nfl/full/free':     782203657,
+        'site/sports/fantasy_new/nfl/full/plus':     782203658,
+        'site/sports/fantasy_new/nhl/full/free':     782204201,
+        'site/sports/fantasy_new/nba/full/free':     782204199
+    },
+    'playernote_dynamic_notes': {
+        'site/sports/fantasy_new/mlb/full/free':     782204439,
+        'site/sports/fantasy_new/mlb/full/plus':     782204441,
+        'site/sports/fantasy_new/nfl/full/free':     782204433,
+        'site/sports/fantasy_new/nfl/full/plus':     782204435,
+        'site/sports/fantasy_new/nhl/full/free':     782204431,
+        'site/sports/fantasy_new/nba/full/free':     782204437
+    },
+    'playernote_dynamic_video': {
+        'site/sports/fantasy_new/mlb/full/free':     782204438,
+        'site/sports/fantasy_new/mlb/full/plus':     782204440,
+        'site/sports/fantasy_new/nfl/full/free':     782204432,
+        'site/sports/fantasy_new/nfl/full/plus':     782204434,
+        'site/sports/fantasy_new/nhl/full/free':     782204430,
+        'site/sports/fantasy_new/nba/full/free':     782204436
+    },
+    'playernote_dynamic_twitter': {
+        'site/sports/fantasy_new/mlb/full/free':     782204837,
+        'site/sports/fantasy_new/nfl/full/free':     782204838,
+        'site/sports/fantasy_new/nhl/full/free':     782204839,
+        'site/sports/fantasy_new/nba/full/free':     782204840
+    },
+    'players': {
+        'site/sports/fantasy_new/mlb/full/free':     782201687,
+        'site/sports/fantasy_new/mlb/full/plus':     782201980,
+        'site/sports/fantasy_new/nfl/full/free':     782200994,
+        'site/sports/fantasy_new/nfl/full/plus':     782201116,
+        'site/sports/fantasy_new/nhl/full/free':     782202612,
+        'site/sports/fantasy_new/nba/full/free':     782202472
+    },
+    'playersearch': {
+        'site/sports/fantasy_new/mlb/full/free':     782201686,
+        'site/sports/fantasy_new/mlb/full/plus':     782201939,
+        'site/sports/fantasy_new/nfl/full/free':     782200935,
+        'site/sports/fantasy_new/nfl/full/plus':     782201255,
+        'site/sports/fantasy_new/nhl/full/free':     782202613,
+        'site/sports/fantasy_new/nba/full/free':     782202473
+    },
+    'fb_like_league' : {
+        'site/sports/fantasy_new/mlb/full/free':     782204622,
+        'site/sports/fantasy_new/mlb/full/plus':     782204624,
+        'site/sports/fantasy_new/nfl/full/free':     782204618,
+        'site/sports/fantasy_new/nfl/full/plus':     782204620,
+        'site/sports/fantasy_new/nhl/full/free':     782204626,
+        'site/sports/fantasy_new/nba/full/free':     782204628
+    },
+    'fb_like_team' : {
+        'site/sports/fantasy_new/mlb/full/free':     782204623,
+        'site/sports/fantasy_new/mlb/full/plus':     782204625,
+        'site/sports/fantasy_new/nfl/full/free':     782204619,
+        'site/sports/fantasy_new/nfl/full/plus':     782204621,
+        'site/sports/fantasy_new/nhl/full/free':     782204627,
+        'site/sports/fantasy_new/nba/full/free':     782204629
+    },
+    'fb_like_player' : {
+        'site/sports/fantasy_new/mlb/full/free':     782204632,
+        'site/sports/fantasy_new/mlb/full/plus':     782204633,
+        'site/sports/fantasy_new/nfl/full/free':     782204630,
+        'site/sports/fantasy_new/nfl/full/plus':     782204631,
+        'site/sports/fantasy_new/nhl/full/free':     782204634,
+        'site/sports/fantasy_new/nba/full/free':     782204635
+    },
+    'teamnews': {
+        'site/sports/fantasy_new/nascar/pickem':     782204349
+    },
+    'team': {
+        'site/sports/fantasy_new/nhl/full/free':     782202656,
+        'site/sports/fantasy_new/mlb/full/free':     782201796,
+        'site/sports/fantasy_new/nfl/full/free':     782200906,
+        'site/sports/fantasy_new/nba/full/free':     782202516,
+        'site/sports/fantasy_new/pga/pickem':        782201500,
+        'site/sports/fantasy_new/nascar/pickem':     782201582
+    },
+    'bracketwizard': {
+        'site/sports/fantasy_new/ncaab/pickem': 782204501,
+        'site/sports/fantasy_new/ncaab/secondchance': 782204502
+    }
+}
+
+YUI.Fantasy.SpaceIds.showAds = {
+        'site/sports/fantasy_new/mlb/full/free':     true,
+        'site/sports/fantasy_new/mlb/full/plus':     true,
+        'site/sports/fantasy_new/nfl/full/free':     true,
+        'site/sports/fantasy_new/nfl/full/plus':     true,
+        'site/sports/fantasy/nhl/full/free':         true,
+        'site/sports/fantasy_new/nhl/full/free':     true,
+        'site/sports/fantasy/nba/full/free':         true,
+        'site/sports/fantasy_new/nba/full/free':     true,
+        'site/sports/fantasy_new/nascar/pickem':     true,
+        'site/sports/fantasy_new/ncaab/pickem':      true,
+        'site/sports/fantasy_new/ncaab/secondchance/': true
+}
+
+YUI.Fantasy.SpaceIds.spaceidpath = 'site/sports/fantasy_new/mlb/full/free';
+YUI.Fantasy.SpaceIds.spaceid     = '782203247';
+
+YUI.Fantasy.SpaceIds.getSpaceId = function(subpath) {
+    if(YUI.Fantasy.SpaceIds.pathmap[subpath]) {
+        return YUI.Fantasy.SpaceIds.pathmap[subpath][this.spaceidpath];
+    }
+    return YUI.Fantasy.SpaceIds.spaceid;
+}
+
+YSF.use('event', function (Y) {
+    Y.on('contentready', function () {
+        Y.use("uh2-js");
+    }, "#yUnivHead");
+});
+
+
+
+YSF.use('event', function (Y) {
+    Y.on('domready', function (e) {
+        YSF.use('ywa-rapid', function (Y) {
+
+            try {
+                var conf = {
+                    use_rapid: false,
+                    tracked_mods: [  ],
+                    spaceid: 782203247,
+                    nofollow_class: ["yfa-link-tab", "ysf-cta-imgur", "yfa-rapid-nofollow"],
+                    client_only: 1,
+                    test_id : "",
+                    ywa: {
+                        project_id: 10001078001479,
+                        document_group: "Fantasy Baseball",
+                        document_name: "notfound-The document you requested was not found",
+                        host: 'y.analytics.yahoo.com'
+                    }
+                },
+                ins = new YAHOO.i13n.Rapid(conf),
+                body;
+
+                /**
+                 * Sends a beacon-click: Use this to track clicks that can't be tracked with regular rapid tracking due to the rapid link hijacking.
+                 * How to use: Add this classname to your element: 'yfa-rapid-beacon' and then add your module name: 'yfa-rapid-module-your-module-name-here'
+                 * For example, 'yfa-rapid-module-yfa-reg-createleague'.  You can add this to parent elements, such as anchor tags with your custom 'span'-tag type styling inside these,
+                 * up to a nesting level five levels deep (the limti is five to ensure speed/responsiveness).
+                 * @param event {Event} A dom click event.
+                 */
+                function handleBeaconClick(event) {
+                    var DEFAULT_POS = 0,
+                        MAX_LEN = 30,
+                        tg, tgD, tagName, moduleName, match, position, linkName;
+
+                    function getActionable(target) {
+                        var MAX_LOOKUPS = 5,
+                            el = target,
+                            i = 0;
+
+                        while(++i < MAX_LOOKUPS) {
+                            if (el.hasClass('yfa-rapid-beacon')) {
+                                return el;
+                            }
+                            if (el.ancestor()) {
+                                el = el.ancestor();
+                            } else {
+                                return null;
+                            }
+                        }
+                    }
+
+                    tg = getActionable(event.target);
+                    if (!tg) {
+                        return;
+                    }
+                    tgD = tg.getDOMNode();
+                    tagName = tgD.tagName.toLowerCase();
+                    match = tg.getAttribute('class').match(/yfa-rapid-module-([^\s]+)/);
+                    moduleName = (match && match.length > 1) ? match[1] : '';
+                    match = tg.getAttribute('class').match(/yfa-rapid-link-pos-(\d+)/);
+                    position = (match && match.length > 1) ? match[1] : 0;
+                    if ((/a|button/).test(tagName)) {
+                        if (tgD.innerText) {
+                            linkName = tgD.innerText;
+                        } else {
+                            linkName = tg.getHTML().replace(/<[^>]+>/g, '');
+                        }
+                    } else if ((/input/).test(tagName)) {
+                        linkName = tg.getAttribute('value');
+                    }
+                    linkName = linkName.replace(/[^\w\s!]/g, ''); // Clean out characters that will not be easily enterable by keyboard into the analytics tool.
+                    ins.beaconClick(moduleName.substring(0, MAX_LEN), linkName.substring(0, MAX_LEN), position);
+                }
+                
+                ins.init();
+                if (Y.Fantasy && !Y.Fantasy.rapid) {
+                    Y.Fantasy.rapid = ins;
+                }
+                body = Y.one('body');
+                body.on('click', handleBeaconClick, 'button, input[type=button], a');
+                body.all('form input[type=submit]').on('click', handleBeaconClick); // Need separate listener since submit-button clicks don't bubble.
+
+                //console.log('document_name: ' + "notfound-The document you requested was not found");
+                //console.log('tracked mods: ' + [  ]);
+            } catch (error) {}
+        });
+    });
+});
+
+// Custom UH Help Link
+YSF.use('node', 'event', 'event-custom', function(Y) {
+
+    Y.Global.once(
+        'ucs:helpMenuShow',
+        function(e) {
+
+            // fire an event black with the help menu items.
+            var et = new Y.EventTarget();
+            et.publish(
+                'ucs:helpMenuItems',
+                {
+                    broadcast: 2,
+                    emitFacade: true
+                }
+            );
+
+            // additional menu items to be added.
+            var menuGroupOne = [
+                {
+                    menuText: "Help",
+                    actionType: "link",
+                    url: "http://help.yahoo.com/kb/index?locale=en_US&page=product&y=PROD_SPORTS_FAN_BASE",
+                    target: "_top"
+                }
+            ];
+
+            var menuGroupTwo = [
+                {
+                    menuText: "Suggestions",
+                    actionType: "link",
+                    url: "http://feedback.yahoo.com/forums/206146-us-fantasy-baseball",
+                    target: "_top"
+                }
+            ];
+
+            var menuGroups = [
+                menuGroupOne,
+                menuGroupTwo
+            ];
+
+            var eventData = {
+                menuGroups: menuGroups
+            };
+
+            et.fire(
+                'ucs:helpMenuItems',
+                eventData
+            );
+        }
+    );
+
+});
+
+//-->
+</script>
+	</head>
+
+	<body class="Js-yfa Desktop">
+
+    <div id="outer-wrapper" class="outer-wrapper">
+      <div id="yucs-sidebar" class="ct-ct-wrap yucs-sidebar Ta-start">
+        <div id="yspcontentuhsidenav" class="" ></div>      </div>
+
+      <div class="ct-box yui-sv">
+        <div class="ct-box-hd yui-sv-hd">
+          <div id="yspcontentuh" class="" ><link rel="stylesheet" type="text/css" href="http://l.yimg.com/zz/combo?kx/yucs/uh3/uh/css/928/uh_non_mail-min.css&kx/yuÉ3/blue_border-min.css&kx/yucs/uh3/breakingnews/css/1/breaking_news-min.css"><style>#yucs #yucs-search .yucs-button_theme{background:-moz-linear-gradient(top, #6b6461 0, #4f4b49 100%);background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #6b6461), color-stop(100%, #4f4b49));background:-webkit-linear-gradient(top, #6b6461 0, #4f4b49 100%);background:-o-linear-gradient(top, #6b6461 0, #4f4b49 100%);background:-ms-linear-gradient(top, #6b6461 0, #4f4b49 100%);background:linear-gradient(to bottom, #6b6461 0, #4f4b49 100%);-webkit-box-shadow:inset 0 1px 3px 0 #b0a5a0;box-shadow:inset 0 1px 3px 0 #b0a5a0;background-color:#6b6461;background-color:transparent\0/IE9;background-color:transparent\9;*background:none;border:1px solid #2c2a29}#yucs #yucs-search #yucs-prop_search_button_wrapper .yucs-gradient{filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6b6461', endColorstr='#4f4b49',GradientType=0 );-ms-filter:"progid:DXImageTransform.Microsoft.gradient( startColorstr='#6b6461', endColorstr='#4f4b49',GradientType=0 )";background-color:#6b6461\0/IE9}#yucs #yucs-search #yucs-prop_search_button_wrapper{*border:1px solid #2c2a29}#yucs #yucs-search_button{background-color:#3775dd}.yog-page #yog-hd.yog-grid #header,#yog-hd.yog-grid #header #yucs-top-bar,#yucs-top-bar{width:100% !important}.yog-page #yog-hd.yog-grid #yucs,#yucsHead,.yog-hd{background:black !important}.yog-page #yog-hd.yog-grid #yucsHead{background:none !important;background-image:none !important}#yog-hd .yom-nav{width:100% !important}#header,#hd .yfi_doc,#y-hd .yfi_doc,#yfi_hd .yfi_doc{width:100% !important}#yucs{margin:0 auto;width:970px;background-color:transparent}#yog-hd #yucs.yucs-mc{background-color:transparent}#yfi_nav_header,.y-nav-legobg,#y-nav #navigation{margin:0 auto;width:970px}#yfi_nav_header,#y-nav #navigation{width:972px}#yucs .yucs-avatar{height:22px;width:22px}#yucs #yucs-profile_text .yuhead-name-greeting{display:none}#yucs #yucs-profile_text .yuhead-name{top:0;max-width:50px}#yucs-profile_text{max-width:50px}#yucs{height:56px !important}#yucs-bnews{display:none}#ysports #ysp-hd,.ysp-gs #ysp-hd{background-color:#111;width:100%}.mast #ysp-hd{width:100%}.ysp-gs #hd .mast{width:100%}#ysports #yucs{background-color:transparent}#ysports #hd .mast{width:100% !important;z-index:10000;position:relative}@media screen and (min-width: 970px){#ysports #hd .mast #ysp-hd{height:75px !important;position:fixed;top:0}.yog-page{padding-top:3px !important}.mast #sports-nav{padding-top:1px}}#ysports #hd div.mast,.ysg-gs div.mast{background-image:none !important}#yucs.lt a#yucs-mail_link_id{background-position:5px -4417px}#yucs.lt #yucs-help a#yucs-help_button{background-position:0 -1723px}div.mast{background-image:none !important}div.mast #ysp-hd .yucs-mc{background-color:none}div.mast #ysp-league-sub-nav{width:100% !important}#yucs-top-bar{*position:absolute;*left:0;*top:0}#header{*position:static}#yucsHead{*padding-top:22px}#yucs #yucs-logo{width:150px !important;height:34px !important}#yucs #yucs-logo div{width:94px !important;margin:0 auto !important}.lt #yucs-logo div{background-position:-121px center !important}#yucs-logo a{margin-left:-13px !important}#yucs-search{margin-left:10px !important}</style><style>#yog-hd .yom-bar, #y-nav, #hd .ysp-full-bar,  #yfi_nav_header, #hd .mast {
+	float: none;
+	width: 970px;
+	margin: 0 auto;
+	}
+
+	#y-nav .yom-nav {
+	padding-top: 0px;
+	}
+
+	#ysp-search-assist .bd {
+	display:none;
+	}
+
+	#ysp-search-assist h4 {
+	padding-left: 8px;
+	}
+
+
+	    #yfi-portfolios-multi-quotes #y-nav, #yfi-portfolios-multi-quotes #navigation, #yfi-portfolios-multi-quotes .y-nav-legobg, 
+	    #yfi-portfolios-my-portfolios #y-nav, #yfi-portfolios-my-portfolios #navigation, #yfi-portfolios-my-portfolios .y-nav-legobg {
+	        width : 100%;
+	    }
+
+	#yucs-top-home .yucs-top-txt {
+	text-indent: 0px;
+	margin-left: 20px;
+	}</style> <div id="yucsHead" class="yucs-sports yucs-en-us  yucs-standard"><div id="yucs-top-bar" class='yucs-ps'>    <div id='yucs-top-inner'>        <ul id='yucs-top-list'>            <li id='yucs-top-home'><a href="http://us.lrd.yahoo.com/_ylt=AtvaIdrBhtLcFz5i4CxulPpveZ8u/SIG=119ifi3o0/EXP=1393544190/**http%3A//www.yahoo.com/"><span class="sp yucs-top-ico"></span>Home</a></li>            <li id='yucs-top-mail'><a href="http://us.lrd.yahoo.com/_ylt=AtmHa9tZkLCNHCVnCID.4yBveZ8u/SIG=11akefl66/EXP=1393544190/**http%3A//mail.yahoo.com/">Mail</a></li>            <li id='yucs-top-news'><a href="http://news.yahoo.com/;_ylt=AnQo1lIlQmfI5XbzfEluYSxveZ8u">News</a></li>            <li id='yucs-top-sports'><a href="http://sports.yahoo.com/;_ylt=AiUW7s35ICs3CIiiF7pfR4xveZ8u">Sports</a></li>            <li id='yucs-top-finance'><a href="http://finance.yahoo.com/;_ylt=AluLvyZLj3MaTUzGpum7QhVveZ8u">Finance</a></li>            <li id='yucs-top-weather'><a href="http://us.lrd.yahoo.com/_ylt=AsViIRf0rqj5qCkYTzW7tEBveZ8u/SIG=11d21qvq3/EXP=1393544190/**http%3A//weather.yahoo.com/">Weather</a></li>            <li id='yucs-top-games'><a href="http://games.yahoo.com/;_ylt=AhjntwjsAOCzcDIiWxwxgXNveZ8u">Games</a></li>            <li id='yucs-top-groups'><a href="http://us.lrd.yahoo.com/_ylt=AqwfX_KBKAs8JdYVyzQ1ThRveZ8u/SIG=11cp266ue/EXP=1393544190/**http%3A//groups.yahoo.com/">Groups</a></li>            <li id='yucs-top-answers'><a href="http://answers.yahoo.com/;_ylt=AoVcbruNQZvpndM5X0Hu_KFveZ8u">Answers</a></li>            <li id='yucs-top-screen'><a href="http://us.lrd.yahoo.com/_ylt=Asg_0Gyb3HXFzzZz2PcZydtveZ8u/SIG=11com9n74/EXP=1393544190/**http%3A//screen.yahoo.com/">Screen</a></li>            <li id='yucs-top-flickr'><a href="http://us.lrd.yahoo.com/_ylt=AqIEZWfO9_VXRPYDpclnGnBveZ8u/SIG=11ar6rmdi/EXP=1393544190/**http%3A//www.flickr.com/">Flickr</a></li>            <li id='yucs-top-mobile'><a href="http://mobile.yahoo.com/;_ylt=Ar52gcBn.4r4i5c2xlZSVh1veZ8u">Mobile</a></li>            <li id='yucs-more' class='yucs-menu yucs-more-activate' data-ylt="/;_ylt=Agj3Ub_O9.bOkvBRBQXvHbZveZ8u"><a href="#" id='yucs-more-link' class='yucs-leavable'>More<span class="sp yucs-top-ico"></span></a>                <div id='yucs-top-menu'>                    <div class='yui3-menu-content'>                        <ul class='yucs-hide yucs-leavable'>                            <li id='yucs-top-omg'><a href="http://us.lrd.yahoo.com/_ylt=AgdLhcwT5_wSOe6J28xmAhVveZ8u/SIG=11f8gthb8/EXP=1393544190/**http%3A//celebrity.yahoo.com/">Celebrity</a></li>                            <li id='yucs-top-shine'><a href="http://shine.yahoo.com/;_ylt=AqyoR6KHqLNneGNWHS4WWWRveZ8u">Shine</a></li>                            <li id='yucs-top-movies'><a href="http://us.lrd.yahoo.com/_ylt=AkLmdiFKVSJvcYmPyPcm.S9veZ8u/SIG=11cl42ll0/EXP=1393544190/**http%3A//movies.yahoo.com/">Movies</a></li>                            <li id='yucs-top-music'><a href="http://us.lrd.yahoo.com/_ylt=AoNAjaGQfBhpOqkRneKW7StveZ8u/SIG=11b5qb017/EXP=1393544190/**http%3A//music.yahoo.com/">Music</a></li>                            <li id='yucs-top-tv'><a href="http://us.lrd.yahoo.com/_ylt=Ah_3CbhOzaI5sphYd090Kj1veZ8u/SIG=118pl86k8/EXP=1393544190/**http%3A//tv.yahoo.com/">TV</a></li>                            <li id='yucs-top-health'><a href="http://us.lrd.yahoo.com/_ylt=Aj3rC99DqlNU2MGF4i77VW1veZ8u/SIG=11cgbi6q4/EXP=1393544190/**http%3A//health.yahoo.com/">Health</a></li>                            <li id='yucs-top-shopping'><a href="http://shopping.yahoo.com/;_ylt=AhiuwNUikdcP0cawD6tgloNveZ8u">Shopping</a></li>                            <li id='yucs-top-travel'><a href="http://travel.yahoo.com/;_ylt=AiQB1ioL4CnSYeRyvGEsRLhveZ8u">Travel</a></li>                            <li id='yucs-top-autos'><a href="http://autos.yahoo.com/;_ylt=AjHUoaUNmpVBxOl5wUWeKKVveZ8u">Autos</a></li>                            <li id='yucs-top-homes'><a href="http://us.lrd.yahoo.com/_ylt=Aswrpq4OJlDCm4p31.cLXadveZ8u/SIG=11bcsfr49/EXP=1393544190/**http%3A//homes.yahoo.com/">Homes</a></li>                                               </ul>                    </div>                </div>            </li>        </ul>    </div></div><div id="yucs" class="yucs-mc lt yucs-b2 yog-grid" data-lang="en-us" data-property="sports" data-flight="1392334590" data-linktarget="_top" data-uhvc="/;_ylt=AlN6dtFd3CHw6dl4rdR0VPFveZ8u">        <div class="yucs-fl-left yog-cp">         <div id="yucs-logo">    <style>        #yucs #yucs-logo-ani {          width:119px ;          height:34px;          background-image:url(https://s1.yimg.com/rz/l/yahoo_fantasy_en-US_f_pw_119x34.png) ;          _background-image:url(https://s1.yimg.com/rz/l/yahoo_fantasy_en-US_f_pw_119x34.gif) ;          *left: 0px;          display:block ;          visibility:hidden;          clip: rect(22px,154px,42px,0px);         *clip: rect(22px 154px 42px 0px);         position: absolute;        }                .lt #yucs-logo-ani {        background-position: 100% 0px !important;        }                .lt #yucs[data-property='mail'] #yucs-logo-ani {        background-position: -350px 0px !important;        }                #yucs-logo {        margin-top:0px!important;        padding-top: 11px;        width: 120px;        }                #yucs[data-property='homes'] #yucs-logo {            width: 102px;        }                .advisor #yucs-link-ani {            left: 21px !important;        }        .advisor #yucs-search {            padding-left: 34px;        }        #yucs #yucs-logo a {margin-left: 0!important;}#yucs #yucs-link-ani {width: 100% !important;}        @media        only screen and (-webkit-min-device-pixel-ratio: 2),        only screen and ( min--moz-device-pixel-ratio: 2),        only screen and ( -o-min-device-pixel-ratio: 2/1),        only screen and ( min-device-pixel-ratio: 2),        only screen and ( min-resolution: 192dpi),        only screen and ( min-resolution: 2dppx) {         #yucs #yucs-logo-ani  {                background-image: url(https://s1.yimg.com/rz/l/yahoo_fantasy_en-US_f_pw_119x34_2x.png) !important;                background-size: 243px 34px;            }            }        }    </style>        <div>        <a id="yucs-logo-ani" href="http://sports.yahoo.com/fantasy/;_ylt=Ao78FpGYVgp738GtuMqydldveZ8u"           target="_top" data-alg="">          Yahoo Fantasy        </a>    </div>     <img id="imageCheck" src="http://l.yimg.com/os/mit/media/m/base/images/transparent-1093278.png" alt=""/>    </div><noscript><style>#yucs #yucs-logo-ani {visibility: visible;position: relative;clip: auto;}</style></noscript><script charset='utf-8' type='text/javascript' src='http://l.yimg.com/zz/combo?kx/yucs/uh3/uh/js/49/ai.min.js'></script><script>function isIE() {var myNav = navigator.userAgent.toLowerCase();return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;}function loadAnimAfterOnLoad() { if (typeof Aniden != 'undefined'&& Aniden.play&& (document.getElementById('yucs').getAttribute('data-property') !== 'mail' || document.getElementById('yucs-logo-ani').getAttribute('data-alg'))) {Aniden.play();}}if (isIE()) {var _animPltTimer = setTimeout(function() {this.loadAnimAfterOnLoad();}, 6000);} else if((navigator.userAgent.toLowerCase().indexOf('firefox') > -1)) {      var _animFireFoxTimer = setTimeout(function() {            this.loadAnimAfterOnLoad();        }, 2000);}else {document.addEventListener("Aniden.animReadyEvent", function() {loadAnimAfterOnLoad();},true);}</script>    <div id="yucs-search"  style="width: 570px; display: block;" class=' yucs-search-activate'>    <form role="search" class="yucs-search yucs-activate" target="_top"        data-webaction="http://search.yahoo.com/search;_ylt=Aq_fqJ5UixZSP1E8sR5kpzxveZ8u"        action="http://us.lrd.yahoo.com/_ylt=AsG7OUn8NidHIKhC8_AKIrpveZ8u/SIG=11ptvdnlh/EXP=1393544190/*-http%3A//sports.search.yahoo.com/search"        method="get">        <table role="presentation">            <tbody role="presentation">                <tr role="presentation">                    <td class="yucs-form-input" role="presentation">                    <div id="yucs-input_wrap">                        <input autocomplete="off" class="yucs-search-input" name="p" type="search"                            aria-describedby="mnp-search_box"                            data-yltvsearch="http://us.lrd.yahoo.com/_ylt=AiHL6AjScfo88iRZ.Jo7yPtveZ8u/SIG=11pv9g13v/EXP=1393544190/**http%3A//sports.search.yahoo.com/search"                            data-yltvsearchsugg="/;_ylt=AmQZHBxWK.U37ZmC3k44fIxveZ8u"                            data-satype="mini"                            data-gosurl="http://gossip-ss.us.search.yahoo.com/gossip-us_ss/"                            data-pubid="102"                            data-maxresults="10"                            data-resize=" "                            id="mnp-search_box" />                                                </div>                    </td><td NOWRAP class="yucs-form-btn" role="presentation"><div id="yucs-prop_search_button_wrapper" class="yucs-search-buttons"><div class="yucs-shadow"><div class="yucs-gradient"></div></div><button id="yucs-sprop_button" class="yucs-action_btn yucs-button_theme yucs-vsearch-button" type="submit"                            data-vfr="uh3_sports_vert_gs"                            data-vsearch="http://sports.search.yahoo.com/search">Search Sports</button></div><div id="yucs-web_search_button_wrapper" class="yucs-search-buttons"><div class="yucs-shadow"><div class="yucs-gradient"></div></div><button id="yucs-search_button"                            class="yucs-action_btn yucs-wsearch-button"                            type="submit">Search Web</button></div></td></tr>            </tbody>    </table>    <input type="hidden" name="type" value="2button" />    <input type="hidden" id="fr" name="fr" value="uh3_sports_web_gs" />            </form>    <div id="yucs-satray" class="sa-tray sa-hidden"        data-wstext="Search Web for: "        data-wsearch="http://search.yahoo.com/search;_ylt=AklWINqrYlRsMdofHHB_iGlveZ8u"        data-vfr="uh3_sports_vert_gs"        data-vsearch="http://us.lrd.yahoo.com/_ylt=ArH3oCatqESW6.0iFTxhM.dveZ8u/SIG=11pv9g13v/EXP=1393544190/**http%3A//sports.search.yahoo.com/search"        data-vstext= "Search News for: "        >    </div></div></div><div class="yucs-fl-right">  <div id="yucs-profile" class="yucs-activate yucs-profile yucs-menu_nav">    <a id="yucs-menu_link_profile" class="yucs-submenu-toggle yucs-um-activate" href="http://us.lrd.yahoo.com/_ylt=Aqzi.lAsR2H_RqDPVizi1h5veZ8u/SIG=11d87i92q/EXP=1393544190/**http%3A//profile.yahoo.com/" target="_top" rel="nofollow" aria-label="Profile">        <span class="yucs-avatar yucs-av-activate yucs-menu_anchor"     data-user="Craig"     data-prof="Avatar"     data-crumb="geUX1hsg/CA"     data-guid="NXP6FHZ2QPWF3QQULVHMKWJCQY"></span><span id="yucs-profile_text"><span class="yuhead-name-greeting yucs-fc">Hi,&nbsp;</span><span class="yuhead-name yucs-fc">Craig</span></span>    </a>    <noscript class="yucs-noscript"><span class="yucs-no_menu"><a class="yucs-signout" href="http://us.lrd.yahoo.com/_ylt=AsNGZt4rn3oDol370GvM.r5veZ8u/SIG=14ttqj5mj/EXPÉone=http%3A//www.yahoo.com%26amp;.src=spt%26amp;.intl=us%26amp;.lang=en-US" target="_top" rel="nofollow">                            Sign Out</a></span></noscript>    <div id="yucs-profile_inner" class="yucs-hide yucs-menu"        data-ylt-profile="/;_ylt=AnSXWMB8KeQyXdLwVGVqwAJveZ8u"        data-yltmenushown="/;_ylt=Ap6eO776itVCqIOL1Ee7.bVveZ8u">        <span class="sp yucs-dock"></span>        <ul class="yucs-profile-items-panel" role="menu">            <li><div class="yucs-signed_in_as">Signed in as:<br /><span class="yuhead-yid ellipses">roaringslug@gmail...</span></div></li>            <span class="yucs-separator" role="presentation"></span><li>  <div class="yucs-my-saves">      <a href="http://us.lrd.yahoo.com/_ylt=AgYocG0YgZadt04ZB895009veZ8u/SIG=11gc2pl5t/EXP=1393544190/**http%3A//www.yahoo.com/mysaves" target="_top">        My Saves    </a>  </div></li>            <span class="yucs-separator" role="presentation"></span>            <li><a href="http://us.lrd.yahoo.com/_ylt=Alt2j5zwTvM1UkWwKKEkPddveZ8u/SIG=11d87i92q/EXP=1393544190/**http%3A//profile.yahoo.com/" target="_top">Profile</a></li>                        <span class="yucs-separator" role="presentation"></span>            <li><a class="yucs-signout" href="http://us.lrd.yahoo.com/_ylt=Au9veDDepc4IRc.pszlXm2lveZ8u/SIG=14ttqj5mj/EXPÉone=http%3A//www.yahoo.com%26amp;.src=spt%26amp;.intl=us%26amp;.lang=en-US" target="_top" rel="nofollow">                            Sign Out</a></li>        </ul>    </div></div>         <div class="yucs-mail_link yucs-mailpreview-ancestor"><a id="yucs-mail_link_id" class="sp yltasis yucs-fc" href="http://us.lrd.yahoo.com/_ylt=AtIp77bWUMILQ_OfYnNRnY9veZ8u/SIG=123nphpov/EXP=1393544190/**http%3A//mail.yahoo.com/%3F.intl=us%26.lang=en-US" rel="nofollow" target="_top">    Mail    <span class="yucs-activate yucs-mail-count yucs-hide yucs-alert-count-con"     data-uri-scheme="https"     data-uri-path="mg.mail.yahoo.com/mailservices/v1/newmailcount"     data-authstate="signedin"    data-crumb="geUX1hsg/CA"    data-mc-crumb="9sZA.ezbpry"><span class="yucs-alert-count"></span></span></a><div class="yucs-mail-preview-panel yucs-menu yucs-hide" data-mail-txt="Mail"    data-uri-scheme="http"     data-uri-path="ucs.query.yahoo.com/v1/console/yql"     data-mail-view="Go to Mail"    data-mail-help-txt="Help"    data-mail-help-url="http://help.yahoo.com/l/us/yahoo/mail/ymail/"    data-mail-loading-txt="Loading..."    data-languagetag="en-us"    data-mrd-crumb="TxHMpmTAKnf"    data-authstate="signedin"    data-middleauth-signin-text="Click here to view your mail"    data-popup-login-url="https://login.yahoo.com/config/login_verify2?.pd=c%3DOIVaOGq62e5hAP8Tv..nr5E3&.src=sc"    data-middleauthtext="You have {count} new messages."    data-yltmessage-link="http://us.lrd.yahoo.com/_ylt=At4A.ZedDNTp67ZlzCrp8dxveZ8u/SIG=132d5kgu5/EXPÉA//mrd.mail.yahoo.com/msg%3Fmid=%7BmsgID%7D%26fid=Inbox%26src=uh%26.crumb="    data-yltviewall-link="http://us.lrd.yahoo.com/_ylt=AntBdarUdBl.KbeuUTdMTRJveZ8u/SIG=11akefl66/EXP=1393544190/**http%3A//mail.yahoo.com/"    data-yltpanelshown="/;_ylt=Ap6oklfSqCg6xT4mLU.LvY1veZ8u"    data-ylterror="/;_ylt=Aj0N38DC8bxjb8r21_DJ9uVveZ8u"    data-ylttimeout="/;_ylt=Ah.9xsE22LZkUC7dY.MkdK5veZ8u"    data-generic-error="We're unable to preview your mail.<br>Go to Mail."    data-nosubject="[No Subject]"    data-timestamp='short'></div></div>    <div id="yucs-help" class="yucs-activate yucs-help yucs-menu_nav">    <a id="yucs-help_button" class="sp yltasis"         href="javascript:void(0);"        aria-label="Help" rel="nofollow">        <em class="yucs-hide yucs-menu_anchor">Help</em>    </a>    <div id="yucs-help_inner" class="yucs-hide yucs-menu yucs-hm-activate"          data-yltmenushown="/;_ylt=AtH7LtwFXfTMSvmpvAzxnjxveZ8u">        <span class="sp yucs-dock"></span>        <div class="yucs-yql_loading">            <ul id="yuhead-help-panel">                <li><a class="yucs-acct-link" href="https://us.lrd.yahoo.com/_ylt=Ap9_AoAN0kKWnvhMzxKvPtBveZ8u/SIG=16ckrdevh/EXÉoo.com/b1/proleagues/teams%26amp;.src=spt%26amp;.intl=us%26amp;.lang=en-US" target="_top">Account Info</a></li>                            </ul>        </div>    </div></div>    <div id="yucs-network_link"><a id="yucs-home_link" href="http://us.lrd.yahoo.com/_ylt=AkFh381t_1jfOcl.Br38J6JveZ8u/SIG=119ifi3o0/EXP=1393544190/**http%3A//www.yahoo.com/" rel="nofollow" target="_top">Yahoo</a></div>        <div     id="yucs-bnews"     class="yucs-activate slide yucs-hide"     data-linktarget="_top"    data-authstate="signedin"     data-deflink="http://news.yahoo.com"    data-deflinktext="Visit Yahoo News for the latest."    data-title="Breaking News"    data-close="Close this window"    data-lang="en-us"     data-property="sports"></div>         </div>               </div> <!-- contextual_shortcuts --><!-- /contextual_shortcuts --><!-- property: sports | languagetag: en-us | status: active | spaceid: 782203247 | cobrand: standard | markup: empty --><div     id="yucs-location-js"    class="yucs-hide yucs-offscreen yucs-location-activate"    data-appid="yahoo.locdrop.ucs.desktop"    data-crumb="nDUJAg6M0p3"><!-- empty for ie --></div> <div id="yUnivHead" class="yucs-hide"><!-- empty --></div></div></div>        </div>
+        <div class="ct-box-bd yui-sv-bd">
+          <div style="overflow-x:hidden;"></div>
+          <div class="yui-sv-content Ta-c">
+            <div class="Page-wrap">
+              <div class="Page Phone-fill-x Tablet-fill-x">
+                <script src="http://l.yimg.com/ua/assets/js/html5shiv.r248834.js?m" type="text/javascript" ></script><div id="yspcontentbg" class="Thm-frosted-glass Page-wrap-sm" ></div><header id="yspcontentheader" class="Page-hd Thm-frosted-glass Tablet-no-mtop Phone-no-mtop Page-wrap-sm" >
+
+      <section class="Thm-inherit No-bg">
+                  
+            <div class="Hidden">
+               <hr/>
+               <strong>Note:</strong> You are reading this message either because you do not have a standards-compliant browser, or because you can not see our css files.
+               <hr/>
+               <strong>Welcome to Yahoo Fantasy Sports:</strong>
+               <a href="#maincontent">Skip to Content</a>
+                <a href="#subnav">Skip to Section Navigation</a>
+               <hr/>
+            </div>
+
+<div class="Masthead Relative"><h2 class="Fill-y"><a class="Blocklink" href="/b1" title="Yahoo Sports Fantasy Baseball">Yahoo Sports Fantasy Baseball</a></h2></div><div id="yspmh"></div>    <!-- league_nav_main -->
+    <nav class="Nav-main-wrap">
+        <div class="Page-wrap-sm">            <ul id="sitenav" class="Nav-h Nav-main">
+                <li class="Selected Navitem Navitem-main">
+                    <a class="Navtarget Pstart-xl" href="/b1">baseball '14</a>
+                        <ul class="Nav-v Dropdown Nowrap Hidden Nav-main Fz-xxs">
+                                        <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1">Overview</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/register/tos?done=createjoin">Sign Up Now</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="http://sports.yahoo.com/fantasy/message-boards/baseball/">Message Boards</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/leaderboard">Leaders</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/features">What's New</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="http://profiles.sports.yahoo.com">Fantasy Profile</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/proleagues">Pro Leagues</a></li>
+                        </ul>
+                </li>
+                <li class="Navitem Navitem-main">
+                    <a class="Navtarget" href="/b1/playerchangesoverview">MLB Updates <span class="F-icon Fz-xxs">&#xe002;</span></a>
+                        <ul class="Nav-v Dropdown Nowrap Hidden Nav-main Fz-xxs">
+                                        <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/playerchangesoverview">Overview</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/playernotes">Player Notes</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/injuries">Injury Reports</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/playerchanges">MLB Roster Changes</a></li>
+                        </ul>
+                </li>
+                <li class="Navitem Navitem-main">
+                    <a class="Navtarget" href="/b1/research">Research <span class="F-icon Fz-xxs">&#xe002;</span></a>
+                        <ul class="Nav-v Dropdown Nowrap Hidden Nav-main Fz-xxs">
+                                        <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/research">Overview</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/buzzindex">Transaction Trends</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/whoshot">Who's Hot</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/keystosuccess">MVPs</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/playermatchups">Matchup Ratings</a></li>
+                        </ul>
+                </li>
+                <li class="Navitem Navitem-main">
+                    <a class="Navtarget" href="/b1/draft">Draft Central <span class="F-icon Fz-xxs">&#xe002;</span></a>
+                        <ul class="Nav-v Dropdown Nowrap Hidden Nav-main Fz-xxs">
+                                        <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/draft">Overview</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/draftanalysis">Draft Analysis</a></li>            <li class="Navitem Navitem-main"><a class="I Navtarget" href="/b1/mock_lobby">Mock Drafts</a></li>
+                        </ul>
+                </li>
+                <li class="Navitem Navitem-main Absolute Topend Navitem-fantasy">
+                    <a class="Navtarget" href="http://sports.yahoo.com/fantasy">Fantasy <span></span> <span class="F-icon Fz-xxs">&#xe002;</span></a>
+            
+
+<div class="Dropdown Dropdown-med Nav-fantasy Hidden End P-lg">
+    <h3 class="Mbot-lg Fz-med">My Teams and Leagues</h3><div class="P-lg Mbot-lg Fz-xxs No-ptop Content">        <h5 class="Fz-xs Pbot-sm Ptop-lg"><a href="http://football.fantasysports.yahoo.com/f1">Football</a></h5>
+        <dl>                    <dt><a class="Fw-b" href="http://football.fantasysports.yahoo.com/f1/194051/5">Potted Meats</a></dt><dd><a href="http://football.fantasysports.yahoo.com/f1/194051">Fail Mary Football League FMFL</a></dd></dl>        <h5 class="Fz-xs Pbot-sm Ptop-lg"><a href="http://football.fantasysports.yahoo.com/pickem">Pro Football Pick'em</a></h5>
+        <dl>                    <dt><a class="Fw-b" href="http://football.fantasysports.yahoo.com/pickem/2904/8">Picky Pick Picker. Pick.</a></dt><dd><a href="http://football.fantasysports.yahoo.com/pickem/2904">Proud Supporters of CFL</a></dd></dl>        <h5 class="Fz-xs Pbot-sm Ptop-lg"><a href="http://baseball.fantasysports.yahoo.com/b1">Baseball</a></h5>
+        <dl>                    <dt><a class="Fw-b" href="http://baseball.fantasysports.yahoo.com/b1/35225/3">Liars or Crybabies</a></dt><dd><a href="http://baseball.fantasysports.yahoo.com/b1/35225">Chicken Tender Melt League</a></dd></dl></div>
+    <div class="Bdr-radius">
+        <h3 class="Fz-med Px-lg">Fantasy Games</h3>
+        <ul class="Grid-h-mid Grid-2col Px-lg Py-sm"><li class="Grid-u Ptop-sm"><a href="http://baseball.fantasysports.yahoo.com">Baseball</a></li><li class="Grid-u Ptop-sm"><a href="http://football.fantasysports.yahoo.com">Football</a></li><li class="Grid-u Ptop-sm"><a href="http://basketball.fantasysports.yahoo.com">Basketball</a></li><li class="Grid-u Ptop-sm"><a href="http://hockey.fantasysports.yahoo.com">Hockey</a></li><li class="Grid-u Ptop-sm"><a href="http://golf.fantasysports.yahoo.com">Golf</a></li><li class="Grid-u Ptop-sm"><a href="http://racing.fantasysports.yahoo.com">Auto Racing</a></li><li class="Grid-u Ptop-sm"><a href="http://tournament.fantasysports.yahoo.com/">Tourney Pick'em</a></li><li class="Grid-u Ptop-sm"><a href="http://fantasysports.yahoo.com/moregames">More Games &raquo;</a></li></ul>
+    </div>
+</div>
+                </li>            </ul>
+        </div>
+    </nav><div class="Subnav-main-wrap">
+<ul id="sitenavsub" class="Nav-h Page-wrap-sm Thm-inverse Subnav-main Fz-xxs">
+	<li class="Navitem first "><a class="Navtarget " href="/b1">Overview</a></li>
+	<li class="Navitem"><a class="Navtarget " href="/b1/register/tos?done=createjoin">Sign Up Now</a></li>
+	<li class="Navitem"><a class="Navtarget " href="http://sports.yahoo.com/fantasy/message-boards/baseball/">Message Boards</a></li>
+	<li class="Navitem"><a class="Navtarget " href="/b1/leaderboard">Leaders</a></li>
+	<li class="Navitem"><a class="Navtarget " href="/b1/features">What's New</a></li>
+	<li class="Navitem"><a class="Navtarget " href="http://profiles.sports.yahoo.com">Fantasy Profile</a></li>
+	<li class="Navitem last "><a class="Navtarget " href="/b1/proleagues">Pro Leagues</a></li>
+</ul>
+</div>                
+</section>
+</header><div class="Page-bd Page-wrap-sm" ><section class="Rail"><div class="RailFull" ><div id="yspcontenthero" class="Thm-frosted-glass Thmlayer-bleed-mods-x" ></div></div></section><div id="fantasy" class="RailWrap" ><section class="Rail"><div class="RailFull" ><div id="yspmain" class="Mtop-xl" ><div id="ysppageheader" class="Thm-frosted-glass" ><section id="page-header" class="Mod Mod-plain Thm-inherit No-bdr Mstart-xl "> 
+               <header class="Hd No-p">
+                        <h2 class="F-page-header">The document you requested was not found</h2>    </header>
+           </section><div id="Alerts" class="Thm-inherit">
+
+<div id="Alert-critical-block" class="Alert Alert-critical Hidden">
+<!-- TEMPLATE 
+<div class="Grid-bind-start Pend-xxl"><div class="Grid-u Py-med Px-lg"><span class="F-icon Fz-xs">&#xe046;</span></div><div class="Grid-u Message Py-med Pstart-lg Bdrstart"><p></p></div><div><a id="Alert-critical-close" class="Hidden Close F-icon Fz-xs Absolute Topend Ptop-med Pend-lg" href="#">&#xe009;</a></div></div>
+TEMPLATE -->
+</div>
+<div id="Alert-confirmation-block" class="Alert Alert-confirmation Hidden">
+<!-- TEMPLATE 
+<div class="Grid-bind-start Pend-xxl"><div class="Grid-u Py-med Px-lg"><span class="F-icon Fz-xs">&#xe032;</span></div><div class="Grid-u Message Py-med Pstart-lg Bdrstart"><p></p></div><div><a id="Alert-success-close" class="Hidden Close F-icon Fz-xs Absolute Topend Ptop-med Pend-lg" href="#">&#xe009;</a></div></div>
+TEMPLATE -->
+</div>
+<div id="Alert-info-block" class="Alert Alert-info Hidden">
+<!-- TEMPLATE 
+<div class="Grid-bind-start Pend-xxl"><div class="Grid-u Py-med Px-lg"><span class="F-icon Fz-xs">&#xe013;</span></div><div class="Grid-u Message Py-med Pstart-lg Bdrstart"><p></p></div><div><a id="Alert-info-close" class="Hidden Close F-icon Fz-xs Absolute Topend Ptop-med Pend-lg" href="#">&#xe009;</a></div></div>
+TEMPLATE -->
+</div>
+<div id="Alert-warning-block" class="Alert Alert-warning Hidden">
+<!-- TEMPLATE 
+<div class="Grid-bind-start Pend-xxl"><div class="Grid-u Py-med Px-lg"><span class="F-icon Fz-xs">&#xe046;</span></div><div class="Grid-u Message Py-med Pstart-lg Bdrstart"><p></p></div><div><a id="Alert-warning-close" class="Hidden Close F-icon Fz-xs Absolute Topend Ptop-med Pend-lg" href="#">&#xe009;</a></div></div>
+TEMPLATE -->
+</div></div>
+</div><div id="yspcontentmainhero" class="Thm-frosted-glass" ></div><div id="yspmaincontent" class="Thm-frosted-glass" ><section class="Mod Thm-inherit">
+    <div class="Bd">
+        <p>You may be able to find what you want through our <a href="http://fantasysports.yahoo.com/moregames">site index</a>.</p>
+        <p>If you are still having problems, please check out our <a href="http://help.yahoo.com/help/sports">Help Section</a>.</p>
+    </div>
+</section>
+</div></div></div></section><div id="yspsub" class="Thm-frosted-glass Thmlayer-bleed-mods-x" ></div></div><div id="yspfootercontent" class="" ></div></div><footer id="yspcontentfooter" class="Page-ft Thm-frosted-glass Page-wrap-sm" ><div id="yspfooter">
+	<div id="yspcopyright" class="Thm-inherit P-xxl Fz-xxs">
+		<!-- APT Vendor: Yahoo, Format: Standard Graphical -->
+<p>Yahoo! Inc. - NBC Sports Network.  <a href="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bDdwNWY0YShnaWQkWjk4ÉNTE1NTEsYXAkRk9PVEMpKQ/2/*http://info.yahoo.com/legal/us/yahoo/utos/terms/">Terms</a> - <a href="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bDg5cjAyayhnaWQkWjk4ÉI3NTE1NTEsYXAkRk9PVEMpKQ/2/*http://baseball.fantasysports.yahoo.com/b1/tos">Additional Terms</a> - <a href="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bGo1cnRvdChnaWQkWjk4Ék9PVEMpKQ/2/*https://yahoo.uservoice.com/forums/206146-us-fantasy-baseball">Feedback</a> - <a href="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bDZkbW5tbihnaWQkWjk4ÉS&pir=d8_wlJBibUlR8th8sSfWf64m9k_A0xFTuSOpJmoypvYfPmNaujdOwxbu7zf0Nb1UTL3y">Help</a> - <a href="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bGRrOGM0cihnaWQkWjk4ÉAkRk9PVEMpKQ/2/*http://info.yahoo.com/privacy/us/yahoo/sports/details.html">Privacy</a> - <a href="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bHY0dXVrMShnaWQkWjk4ÉsYXAkRk9PVEMpKQ/2/*http://info.yahoo.com/privacy/us/yahoo/relevantads.html">About Our Ads</a></p><p>Certain data by <a href="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bG8xYXAzdChnaWQkWjk4ÉNWVlb3AseW9vJDEsYWdwJDI0NjI3NTE1NTEsYXAkRk9PVEMpKQ/2/*http://www.stats.com">STATS LLC</a> and  <a href="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bDN0OXJ2MihnaWQkWjk4ÉtcTQseW9vJDEsYWdwJDI0NjI3NTE1NTEsYXAkRk9PVEMpKQ/2/*http://www.rotowire.com">RotoWire</p><!--QYZ 1696643551,3830101051,98.139.159.115;;FOOTC;782203247;1;--><script language=javascript>
+if(window.xzq_d==null)window.xzq_d=new Object();
+window.xzq_d['tsk7Q2KL4N8-']='(as$12rfvim2q,aid$tsk7Q2KL4N8-,bi$1696643551,cr$3830101051,ct$25,at$H,eob$gd1_match_id=-1:ypos=PP.FOOT-FOOTC)';
+</script><noscript><img width=1 height=1 alt="" src="http://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(1359q6qfk(gid$Z98c4jk4LjHBj.t5É1696643551,cr$3830101051,ct$25,at$H,eob$gd1_match_id=-1:ypos=PP.FOOT-FOOTC)"></noscript><!-- SpaceID=782203247 loc=FSRVY noad --><!-- fac-gd2-noad --><!-- gd2-status-2 --><!--QYZ CMS_NONE_SELECTED,,98.139.159.115;;FSRVY;782203247;2;--><script language=javascript>
+if(window.xzq_d==null)window.xzq_d=new Object();
+window.xzq_d['bAY8Q2KL4N8-']='(as$125f7jtbg,aid$bAY8Q2KL4N8-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=FSRVY)';
+</script><noscript><img width=1 height=1 alt="" src="http://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(1359q6qfk(gid$Z98c4jk4LjHBj.t5É125f7jtbg,aid$bAY8Q2KL4N8-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=FSRVY)"></noscript><!-- SpaceID=782203247 loc=SIP noad --><!-- fac-gd2-noad --><!-- gd2-status-2 --><!--QYZ CMS_NONE_AVAIL,,98.139.159.115;;SIP;782203247;2;--><script language=javascript>
+if(window.xzq_d==null)window.xzq_d=new Object();
+window.xzq_d['IkM8Q2KL4N8-']='(as$1254rer9b,aid$IkM8Q2KL4N8-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=SIP)';
+</script><noscript><img width=1 height=1 alt="" src="http://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(1359q6qfk(gid$Z98c4jk4LjHBj.t5És$1254rer9b,aid$IkM8Q2KL4N8-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=SIP)"></noscript><!-- SpaceID=782203247 loc=FOOT2 noad --><!-- fac-gd2-noad --><!-- gd2-status-2 --><!--QYZ CMS_NONE_AVAIL,,98.139.159.115;;FOOT2;782203247;2;--><script language=javascript>
+if(window.xzq_d==null)window.xzq_d=new Object();
+window.xzq_d['2H88Q2KL4N8-']='(as$125np6lkf,aid$2H88Q2KL4N8-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=FOOT2)';
+</script><noscript><img width=1 height=1 alt="" src="http://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(1359q6qfk(gid$Z98c4jk4LjHBj.t5É125np6lkf,aid$2H88Q2KL4N8-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=FOOT2)"></noscript>	</div>
+</div>
+<script charset="utf-8" type="text/javascript">
+YUI(YUI.Fantasy.ENV.get('YUI_config')).add('ysf-ads', function(Y) {
+
+if (!Y.Lang.isUndefined(YUI.Sports) && !Y.Lang.isUndefined(YUI.Sports.Ads)) {
+    return;
+}
+
+Y.namespace('Sports.Ads');
+
+Y.Sports.Ads = {
+    path: "http://l.yimg.com/d/combo?darla/fc_0.2.7.js&darla/util_0.2.6.js&darla/renderers/complex_renderer_0.2.7.js",
+    status: 'uninitiated',
+    getAttempt: null,
+    getAttemptCount: 0,
+    load: function() {
+        if (this.status != 'dead') {
+            Y.Sports.Ads.createCallFrame();
+            if(Y.Get && !this.getAttempt && this.status != 'ready') {
+                this.getAttempt = Y.Get.script(this.path, {onSuccess: this.loadSuccess, onFailure: this.loadFailure, onTimeout: this.loadTimeout, data: this, timeout: 10000, varName: ["YAHOO.ads.darla"]});
+                this.status = 'loading';
+            }
+            return;
+        }
+    },
+    loadSuccess: function() {
+        Y.Sports.Ads.getAttempt = null;
+        Y.Sports.Ads.status = 'ready';
+        
+    },
+    loadFailure: function() {
+        Y.Sports.Ads.getAttemptCount++;
+        Y.Sports.Ads.status = (Y.Sports.Ads.getAttemptCount > 4) ? 'failed' : 'dead';
+    },
+    loadTimeout: function() {
+        Y.Sports.Ads.status = 'dead';
+    },
+    createCallFrame: function() {
+        var cfID = Y.Sports.Ads.config.callFrame;
+        if (!document.getElementById(cfID)) {
+            var callframe = document.createElement('iframe');
+            callframe.id = cfID;
+            callframe.style.display = 'none';
+            document.body.appendChild(callframe);
+        }
+    },
+    registerAd: function(position, elementID) {
+        if (typeof Y.Sports.Ads.config.destinationMap[position] == "undefined") {
+            Y.Sports.Ads.config.destinationMap[position] = [];
+        }
+        if (typeof Y.Sports.Ads.config.destinationMap[position][elementID] == "undefined") {
+            Y.Sports.Ads.config.destinationMap[position].push(elementID);
+        }
+    },
+    unregisterAd: function(position, elementID) {
+        if (Y.Sports.Ads.config.destinationMap[position][elementID] != 'undefined') {
+            var oldMap = Y.Sports.Ads.config.destinationMap[position];
+            var newMap = [];
+            for (i=0;i<oldMap.length;i++) {
+                if (oldMap[i] != elementID) newMap.push(oldMap[i]);
+            }
+            Y.Sports.Ads.config.destinationMap[position] = newMap;
+        }
+    },
+    registerEvent: function(eventName, o) {
+        if (typeof Y.Sports.Ads.config.events[eventName] == "undefined") {
+            return Y.Sports.Ads.config.events[eventName] = o;
+        }
+        else return Y.Sports.Ads.config.events[eventName];
+    },
+    subscribe: function(element, action, adObject) {
+    
+    
+        if (this.status == 'dead') return;
+        
+        if (this.status != 'ready') {
+            this.load();
+            setTimeout(function() { Y.Sports.Ads.subscribe(element, action, adObject); }, 1000);
+            return;
+        }
+
+        for (idx in adObject) {
+            adObject[idx] = this.validateSiteAttributes(adObject[idx]);
+        }
+        
+        var oIdx, oAdParam;
+        if (typeof adObject == "object") {
+            for (idx in adObject) {
+                oIdx = idx;
+            };
+            oAdParam = this.registerEvent(oIdx, adObject[oIdx]);
+        }
+        else {
+            oIdx = adObject;
+            oAdParam = this.registerEvent(adObject);
+        };
+        var oAdConf = {action: oIdx, lv: oAdParam.lv};
+        switch (action) {
+        case "now":
+            if (this.temp == null) {
+                this.temp = {};
+                this.temp.oAdConfArr = [];
+                this.temp.oAdConfArr.push(oAdConf);
+                setTimeout(this.fireInitialEvent, 0);
+            }
+            else {
+                this.temp.oAdConfArr.push(oAdConf);
+            };
+            break;
+        case "pageload":
+            if (this.temp == null) {
+                this.temp = {};
+                this.temp.oAdConfArr = [];
+                this.temp.oAdConfArr.push(oAdConf);
+                Y.on('load', Y.Sports.Ads.fireInitialEvent);		
+            }
+            else {
+                this.temp.oAdConfArr.push(oAdConf);
+            }; 	
+            break;
+        default:
+            YAHOO.util.Event.on(element, action, this.fireEvent, oAdConf);
+            break;
+        }
+    },
+    validateSiteAttributes :  function(e) {
+        var siteAttrs = '',
+            newVal = '',
+            emStr = '';
+    
+        e = (!e) ? {} : e ;
+        e.em = e.em || {} ;
+        
+        var siteAttrs = e.em['site-attribute'] || 'game=mlb' ;
+        
+        if (siteAttrs.indexOf('game=') < 0) {
+            if (e.em['site-attribute'] != '') {
+                siteAttrs = siteAttrs + 'game=mlb;';
+            } else {
+                siteAttrs = 'game=mlb;';
+            }
+        }
+        
+        e.em['site-attribute'] = siteAttrs;
+        
+        for (idx in e.em) {
+            if (emStr != '') {
+                emStr += ',';
+            }
+            newVal = (Y.Lang.isString(e.em[idx])) ? "'" + e.em[idx] + "'" : e.em[idx];
+            emStr += (idx + ':' + newVal);
+        }
+        emStr = '{' + emStr + '}';
+        
+        e.em = encodeURIComponent(emStr);
+        
+        return e;
+        
+    },
+    fireEvent: function(e, obj) {
+	    YAHOO.ads.darla.event(obj.action, {lv:obj.lv});
+    },
+    fireInitialEvent: function() {
+        if (window.YAHOO.ads.darla) YAHOO.ads.darla.setConfig(Y.Sports.Ads.config);
+        for (idx in Y.Sports.Ads.temp.oAdConfArr) {
+            Y.Sports.Ads.fireEvent(null, Y.Sports.Ads.temp.oAdConfArr[idx]);
+        }
+        Y.Sports.Ads.temp.oAdConf = null;
+        Y.Sports.Ads.temp = null;
+        Y.later(2000, Y.Sports.Ads, Y.Sports.Ads.setRotation); 
+    },
+    setRotation: function() {
+	    Y.Sports.Ads.config.rotation = Y.Sports.Ads.config.rotation = Y.Sports.Ads.config.finalRotation;
+    },
+    temp: null
+};
+
+Y.Sports.Ads.config = {
+    callFrame: "fccall",
+    callScript: "fc",
+    rotation: 0,
+    finalRotation: 3000,
+    autoRotation: false,
+    property: "fantasy",
+    destinationMap: {},
+    events: {
+	// ex: {"pageload" : { lv:1, sp:"791000026", ps:"LREC,RM,M,WS" }}
+    }
+};
+
+Y.Sports.Ads.showAds = {
+    'playernoteFB' : true,
+    'bracketwizard': true
+}
+
+YUI.namespace("Sports.Ads");
+YUI.Sports.Ads = Y.Sports.Ads;
+
+
+}); // YUI().add();
+// force revision
+</script>
+<script type="text/javascript">
+
+YSF.use('event-hover',  function(Y) {
+	var mainNavLis = Y.all('.Nav-h .Navitem, .Nav-h > ul > li');
+	mainNavLis.on('hover',
+		
+		// Mouseover
+		function(){
+		 	var li_subnav; 
+		 	// We don't want a flyout for the selected tab
+		 	if (this.hasClass('Selected')) {
+		 		return;
+		 	}
+
+		 	// Add Hover class to nav li
+		 	this.addClass('Hover');
+		 	
+		 	// Add class to li's subnav
+		 	li_subnav = this.one('.Dropdown');
+		 	if (li_subnav) {
+		 		li_subnav.replaceClass('Hidden', 'Hover');
+		 	}
+		}, 
+
+		// Mouseout
+		function(){
+		 	var li_subnav;
+		 	
+		 	// We don't want a flyout for the selected tab
+		 	if (this.hasClass('Selected')) {
+		 		return;
+		 	}
+
+		 	// remove class from nav li
+		 	this.removeClass('Hover');
+			
+		 	// remove class from li's subnav
+		 	li_subnav = this.one('.Dropdown');
+			if (li_subnav) {
+		 		li_subnav.replaceClass('Hover', 'Hidden');
+		 	}
+		});
+});
+
+</script><script charset="utf-8" type="text/javascript" language="javascript"><!--
+YSF.use("node", function(Y) {
+    if(Y.one(".playernote[data-ys-playerid]")) {
+        YSF.use('media-playernotes', 'substitute', 'ysf-ads', function(Y) {
+            var registeredAds = [];
+            
+            Y.Sports.PlayerNotes.set('noteUrlFormatter', function() {
+                var oMod = this;
+                return Y.substitute('{league_url}/playernote?init={init}&view={type}&pid={pid}', {
+                    league_url : YUI.Fantasy.League.get('url'),
+                    init : (oMod.get('initialLoad')) ? 1 : 0,
+                    type : oMod.get('currentView'),
+                    pid : oMod.get('pid')
+                });
+            })
+            .set('comscoreUrlFormatter', function() {
+                var oMod = this;
+                return Y.substitute('{league_url}/playernote_dynamic_view?pid={pid}&rand={rand}', {
+                    league_url : YUI.Fantasy.League.get('url'),
+                    pid : oMod.get('pid'),
+                    rand : Math.random()
+                });
+            })
+            .set('enumerate', true)
+            .set('zIndex', 9000);
+                    
+            Y.Global.after('YSPlayerNote:initialLoad', function(e) {
+                var oMod = e.target;
+                Y.Array.each(registeredAds, function(el) {
+                    YUI.Sports.Ads.unregisterAd("LDRB", el);
+                });
+                registeredAds = [];
+                if (YUI.Sports.Ads.showAds.playernoteFB) {
+                    oMod.set('footerContent', '<div id="playernote-LDRB-'+oMod.get('pid')+'" class="playernote-LDRB"></div>');
+                    YUI.Sports.Ads.registerAd('LDRB', 'playernote-LDRB-'+oMod.get('pid'));
+                }
+                registeredAds.push('playernote-LDRB-'+oMod.get('pid'));
+                if (YAHOO.Sports.PlayerNoteConfig.is_enabled('player_notes_xfbml') && !Y.Lang.isUndefined(window.FB) && !Y.Lang.isUndefined(window.FB.XFBML)) {
+                    FB.XFBML.parse(this.body);
+                }
+                
+                
+                Y.delegate('click', function(e) {
+
+                    if (e.currentTarget && e.currentTarget.get('className').indexOf('noaction') !== -1) {
+                        e.preventDefault();
+                        Y.Fantasy.InitLinks.showNoActionPopup(e);
+                    }
+                    
+                },  oMod.get('contentBox'), 'a');
+                
+                
+            });
+            
+            Y.Global.after('YSPlayerNote:reveal', function(e) {
+                var oMod = e.target,
+                    ps;
+                if (YUI.Sports.Ads.showAds.playernoteFB) {
+                    YUI.Sports.Ads.subscribe('playernote-LDRB-'+oMod.get('pid'), 'now', {'playernoteview' : { lv:1, npv:true, sp:YUI.Fantasy.SpaceIds.getSpaceId("playernote_dynamic_" + oMod.get('currentView')), ps:"LDRB", em:{"site-attribute":"content=no_expandable;"} } });  
+                }
+
+                //Comscore Beacon
+                YSF.use('ysp-i13n', function(Y) {
+                    if(typeof(YSF.sendComscoreEvent) === 'function') {
+                     YSF.sendComscoreEvent(YUI.Fantasy.SpaceIds.getSpaceId("playernote"), encodeURIComponent(document.location.href))
+                    }
+                });
+            });
+            
+            Y.Global.after('DynaPlayers:refresh', function() {
+                Y.Sports.PlayerNotes.destroyAllNotes();
+            });
+
+        });
+        
+    }
+});
+
+// -->
+</script>
+<script type="text/javascript">
+YFB.use('event-base', function(Y) {
+    Y.on('domready', function() {
+        Y.use('fb_all', function() {
+            window.fbAsyncInit = function() {
+                FB.init( Y.config.FB.init );
+            }
+        });
+    });
+});
+</script>
+<script charset="utf-8" type="text/javascript" language="javascript">
+YFB.add('ysf-fb-liketracker', function(Y) {
+
+Y.on('FB:init', function(Y1) {
+
+    Y.use('fb_all', function() {
+
+        var b_img = Y.one('ysf-fb-bt-beacon');
+            fireBeacon = function(response) {
+
+                var b_src =  "http://pclick.internal.yahoo.com/p/s=2144969569&t="+Math.random();
+
+                if (!b_img) {
+                    b_img = Y.Node.create('<img src="' + b_src + '" height="1" width="1" id="ysf-fb-like-beacon">');
+                    Y.one('body').append(b_img);
+                } else {
+                    b_img.set('src', b_src);
+                }
+
+            };
+
+        FB.Event.subscribe('xfbml.render', function() {
+            FB.Event.unsubscribe('edge.create', fireBeacon);
+            FB.Event.subscribe('edge.create', fireBeacon);
+        });
+
+    });
+
+});
+
+}, '', {
+    requires : ['event-base', 'node-base']
+});
+
+ YFB.use('ysf-fb-liketracker', function() {});
+
+</script>
+<script charset="utf-8" type="text/javascript" language="javascript">
+YSF.add('ysf-postload', function(Y) {
+
+    Y.namespace('Fantasy');
+
+    Y.Fantasy.PostLoad = {
+
+        initImages : function(id) {
+            var el = Y.one('#'+id);
+            if (!el) return;
+            var images = Y.all('#'+id+' img[realimg]');
+            Y.NodeList.each(images, function(node) {
+                var realimg = node.getAttribute('realimg');
+                if (realimg && node.src != realimg ) {
+                    node.src = realimg;
+                }
+            });
+        },
+
+        initOnlineImages : function() {
+            var links = Y.all('img.imimg');
+            Y.NodeList.each(links, function(curLink){
+                var classes = curLink.get('class').split(' ');
+                if ( classes[1].indexOf('http://') != -1 ) { 
+                    curLink.set('src', classes[1]);
+                }   
+            });
+        },
+
+        initSelect : function(id) {
+            var el = Y.one('#'+id);
+            if (!el) return;
+            el.on('change', function() {
+                el.get('form').submit();
+            });
+        }
+
+    }
+
+}, '', {'requires': ['node']});
+</script>
+<script type="text/javascript">
+YSF.use("yfa-module", "node", "ysf-formenhancer", "ysf-postload", "ysf-initlinks", "ysf-alerts", "ysf-headshot", function(Y) {
+    var OVERLAYSELECTOR = '.yfa-overlay-trigger, .Overlay-trigger';
+    Y.on("domready", function(e, obj) {
+        Y.Fantasy.FantasyFormEnhancer.init();
+        Y.Fantasy.PostLoad.initImages('fantasy');
+        Y.Fantasy.PostLoad.initImages('yspcontentfooter');
+        Y.Fantasy.PostLoad.initImages('yspcontenthero');
+        Y.Fantasy.PostLoad.initSelect('seasonspec');
+        Y.Fantasy.Headshot.init('#fantasy');
+        Y.Fantasy.InitLinks.init();
+        var bd = Y.one("body"), mods;
+        if(bd) {
+            mods = bd.all(".Mod");
+            mods.each(function(mod) {
+                var module = new Y.Fantasy.Mod({"el": mod, "triggers": mod});
+                module.on("yfamodule:displayudpate", function(e) {} );
+                module.on("yfamodule:displayudpate", function(e) { 
+                    Y.Fantasy.PostLoad.initImages(mod.get('id')); 
+                });
+            });
+        }
+    });
+    Y.on('available', function() {
+        YSF.use('ysf-overlay', function(Y) {
+            // Y.log("using ysf-overlay");
+        });
+    }, OVERLAYSELECTOR);
+
+    Y.on('contentready', function() {
+        Y.use('ysf-alerts', function(){});
+    }, '#Alerts.Js-show');
+});
+</script>
+</footer><div id="comscore-beacon" >
+    <!-- COMSCORE BEACON -->
+    <script>
+        /*
+         * YUI3 port of i13n.js
+         */
+        // construct comscore beacon Image
+        if(typeof(YUI) === 'function') {
+
+            YUI.add('ysp-i13n', function(Y) {
+
+                var comscore_image = new Image();
+
+                YSF.sendComscoreEvent = function (spaceid, uri) {
+
+                    var beacon_url     = '//b.scorecardresearch.com/b?c1=2&c2=7241469&c7='+uri+'&c5='+spaceid;
+                    comscore_image.src = beacon_url;
+
+                };
+
+            }, '1.0', {});
+
+
+            YSF.use('ysp-i13n', function(Y) {
+                if(typeof(YSF.sendComscoreEvent) === 'function') {
+                  YSF.sendComscoreEvent(YUI.Fantasy.SpaceIds.spaceid, encodeURIComponent(document.location.href));
+                }
+            });
+
+        } else {
+                        document.write('<img src="http://b.scorecardresearch.com/b?c1=2&c2=7241469&c7=baseball.fantasysports.yahoo.com%2Fb1%2Fproleagues%2Fteams&c5=782203247&cv=2.0&cj=1" style="display:none" width="0" height="0" alt="">');
+        }
+
+    </script>
+
+    <noscript>
+      <img src="http://b.scorecardresearch.com/b?c1=2&c2=7241469&c7=baseball.fantasysports.yahoo.com%2Fb1%2Fproleagues%2Fteams&c5=782203247&cv=2.0&cj=1" style="display:none" width="0" height="0" alt="">    </noscript>
+    <!-- END OF COMSCORE BEACON -->
+</div>              </div> <!-- END .Page -->
+            </div> <!-- END .Page-wrap -->
+          </div> <!-- END .yui-sv-content -->
+        </div> <!-- END .ct-box-hd -->
+      </div> <!-- END .ct-box -->
+    </div><!-- END .outer-wrapper -->
+	</body>
+</html><script language=javascript>
+(function(){window.xzq_p=function(R){M=R};window.xzq_svr=function(R){J=R};function F(S){var T=document;if(T.xzq_i==null){T.xzq_i=new Array();T.xzq_i.c=0}var R=T.xzq_i;R[++R.c]=new Image();R[R.c].src=S}window.xzq_sr=function(){var S=window;var Y=S.xzq_d;if(Y==null){return }if(J==null){return }var T=J+M;if(T.length>P){C();return }var X="";var U=0;var W=Math.random();var V=(Y.hasOwnProperty!=null);var R;for(R in Y){if(typeof Y[R]=="string"){if(V&&!Y.hasOwnProperty(R)){continue}if(T.length+X.length+Y[R].length<=P){X+=Y[R]}else{if(T.length+Y[R].length>P){}else{U++;N(T,X,U,W);X=Y[R]}}}}if(U){U++}N(T,X,U,W);C()};function N(R,U,S,T){if(U.length>0){R+="&al="}F(R+U+"&s="+S+"&r="+T)}function C(){window.xzq_d=null;M=null;J=null}function K(R){xzq_sr()}function B(R){xzq_sr()}function L(U,V,W){if(W){var R=W.toString();var T=U;var Y=R.match(new RegExp("\\\\(([^\\\\)]*)\\\\)"));Y=(Y[1].length>0?Y[1]:"e");T=T.replace(new RegExp("\\\\([^\\\\)]*\\\\)","g"),"("+Y+")");if(R.indexOf(T)<0){var X=R.indexOf("{");if(X>0){R=R.substring(X,R.length)}else{return W}R=R.replace(new RegExp("([^a-zA-Z0-9$_])this([^a-zA-Z0-9$_])","g"),"$1xzq_this$2");var Z=T+";var rv = f( "+Y+",this);";var S="{var a0 = '"+Y+"';var ofb = '"+escape(R)+"' ;var f = new Function( a0, 'xzq_this', unescape(ofb));"+Z+"return rv;}";return new Function(Y,S)}else{return W}}return V}window.xzq_eh=function(){if(E||I){this.onload=L("xzq_onload(e)",K,this.onload,0);if(E&&typeof (this.onbeforeunload)!=O){this.onbeforeunload=L("xzq_dobeforeunload(e)",B,this.onbeforeunload,0)}}};window.xzq_s=function(){setTimeout("xzq_sr()",1)};var J=null;var M=null;var Q=navigator.appName;var H=navigator.appVersion;var G=navigator.userAgent;var A=parseInt(H);var D=Q.indexOf("Microsoft");var E=D!=-1&&A>=4;var I=(Q.indexOf("Netscape")!=-1||Q.indexOf("Opera")!=-1)&&A>=4;var O="undefined";var P=2000})();
+</script><script language=javascript>
+if(window.xzq_svr)xzq_svr('http://csc.beap.bc.yahoo.com/');
+if(window.xzq_p)xzq_p('yi?bv=1.0.0&bs=(1359q6qfk(gid$Z98c4jk4LjHBj.t5UkJcLwWdNzYuMVL9Vv7GRf_k,st$1392334590241401,si$4457551,sp$782203247,pv$1,v$2.0))&t=J_3-D_3');
+if(window.xzq_s)xzq_s();
+</script><noscript><img width=1 height=1 alt="" src="http://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(1359q6qfk(gid$Z98c4jk4LjHBj.t5Év7GRf_k,st$1392334590241401,si$4457551,sp$782203247,pv$1,v$2.0))&t=J_3-D_3"></noscript>
+<!-- fan208.sports.bf1.yahoo.com compressed/chunked Thu Feb 13 15:36:30 PST 2014 -->
