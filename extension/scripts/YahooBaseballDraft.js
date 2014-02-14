@@ -2,7 +2,7 @@
 	Represents the results of a league's draft from a specific year.
 
 	Constructor Parameters:
-		customLeaguePath - The final portion of the custom league path defined on the league's settings page as "Custom League URL".
+		customLeaguePath - The custom league path defined on the league's settings page as "Custom League URL".
 		year - The numeric year containing the draft represented by this object. (For example: 2013) If this year is in the past
 		that year's results are loaded. If it is the current year, loads the draft order.
 */
@@ -14,14 +14,16 @@ var YahooBaseballDraft = YahooBaseballCallbackObject.extend(function(
 	this.customLeaguePath = customLeaguePath;
 	this.draftResults = {};
 	this.year = year;
+	this.preDraftRankings = {};
 	
 	if(!customLeaguePath) { this.reportError("Base path for league not provided for draft data lookup."); return; }
 	if(!year) { this.reportError("Draft year not provided for draft data lookup."); return; }
 	
 	if(year < (new Date()).getFullYear()) this.loadDraftInThePast(customLeaguePath, year);
-	else this.loadCurrentDraft();
+	else this.loadCurrentDraft(customLeaguePath);
 })
 .methods({
+	// Loads results from previous draft.
 	loadDraftInThePast: function(customLeaguePath, year) {
 		var leagueBasePath = customLeaguePath + "/" + year;
 		var thisDraft = this;
@@ -68,8 +70,51 @@ var YahooBaseballDraft = YahooBaseballCallbackObject.extend(function(
 					". Error was: '" + errorThrown + "'.");
 			});
 		},
-	loadCurrentDraft: function() {
-		// Can't see what this looks like at the moment since the league I'm in hasn't yet set a draft order.
-		this.reportError("Ability to pull current season's draft picks not available.");
+	// Loads default player rankings for current season.
+	loadCurrentDraft: function(leagueBasePath) {
+		var thisDraft = this;
+		
+		$.get(leagueBasePath)
+			.success(function(data, textStatus, jqXHR) {
+				var draftRankingsUrl = $(data).find("#sitenav ul li a:contains('Pre-Draft Rankings')").attr("href");
+				var editDraftRankingsUrl = draftRankingsUrl.replace("/prerank", "/editprerank");
+				
+				$.post(editDraftRankingsUrl, { count: "ALL", pos: "ALL" })
+					.success(function(data, textStatus, jqXHR) {
+						var targetVariableIndicator = "var allPlayers";
+							
+						var rankingsScript = $(data).find("script:contains('" + targetVariableIndicator + "')");
+						if (rankingsScript.length == 0) { 
+							thisDraft.reportError("Could not locate rankings on edit rankings page at URL: " + editDraftRankingsUrl); 
+							return; 
+						}
+						
+						// Runs the portion of script with variable which contains player data so it is available in memory.
+						var targetVariableStartIndex = rankingsScript.text().indexOf(targetVariableIndicator);
+						var targetVariableEndIndex = rankingsScript.text().indexOf(";", targetVariableEndIndex);
+						if(targetVariableEndIndex < targetVariableStartIndex) {
+							thisDraft.reportError("Could not find player list in edit rankings page at URL: " + editDraftRankingsUrl);
+							return;
+						}
+						var targetVariableScriptText = rankingsScript.text().substring(
+							targetVariableStartIndex, targetVariableEndIndex + 1);
+						eval(targetVariableScriptText);
+						
+						$(allPlayers).each(function() {
+							thisDraft.preDraftRankings[this.pid] = parseInt(this.rank);
+						});
+						
+						// Loading has finished, so reports success
+						thisDraft.reportSuccess();
+					})
+					.fail(function(jqXHR, textStatus, errorThrown) {
+						thisDraft.reportError("Error loading draft rankings page: " + preDraftRankEditUrl +
+							". Error was: '" + errorThrown + "'.");
+					});
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				thisDraft.reportError("Error loading league homepage during draft data lookup at URL: " + leagueBasePath +
+					". Error was: '" + errorThrown + "'.");
+			});
 	}
 });
