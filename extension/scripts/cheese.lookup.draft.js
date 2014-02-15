@@ -50,7 +50,7 @@ $(document).ready(function() {
 				
 				asyncCallbackObjects
 					.whenReady(function() {
-						
+						var keeperAnalysis = createKeeperAnalysis(lastDraft, thisDraft, teams);
 					})
 					.onError(function(error) { console.error(error); });
 			}
@@ -58,4 +58,9 @@ $(document).ready(function() {
 		.onError(function(error) { console.error(error); });
 });
 
-
+/*
+	Creates draft analysis from data about last year's draft, this year's draft and current rosters.
+*/
+function createKeeperAnalysis(lastDraft, thisDraft, teams) {
+	console.log(lastDraft, thisDraft, teams);
+}
