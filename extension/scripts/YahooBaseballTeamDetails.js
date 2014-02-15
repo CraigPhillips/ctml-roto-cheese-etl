@@ -10,7 +10,7 @@ var YahooBaseballTeamDetails = YahooBaseballCallbackObject.extend(function(teamP
 		this.teamPageUrl = teamPageUrl;
 		this.roster = {};
 		
-		thisTeamDetails = this;
+		var thisTeamDetails = this;
 		
 		$.get(teamPageUrl)
 			.success(function(data, textStatus, jqXHR) {

@@ -14,6 +14,7 @@
 				"scripts/dust-full-0.3.0.min.js",
 				"scripts/klass.min.js",
 				"scripts/YahooBaseballCallbackObject.js",
+				"scripts/YahooBaseballCallbackObjectSet.js",
 				"scripts/YahooBaseballLeagueInfo.js",
 				"scripts/YahooBaseballTeamDetails.js",
 				"scripts/YahooBaseballDraft.js"

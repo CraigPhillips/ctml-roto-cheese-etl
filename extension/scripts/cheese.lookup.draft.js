@@ -32,8 +32,30 @@ $(document).ready(function() {
 					// Adds analysis content to content area
 					tabContentContainer.html(keeperContent);
 				});
+				
+				// Creates all asynchronously-loading object
+				var thisYear = (new Date()).getFullYear();
+				var lastDraft = new YahooBaseballDraft(leagueInfo.leagueUrl, thisYear - 1);
+				var thisDraft = new YahooBaseballDraft(leagueInfo.leagueUrl, thisYear);
+				var teams = [];
+				var callbackObjects = [];
+				callbackObjects.push(lastDraft);
+				callbackObjects.push(thisDraft);
+				$.each(leagueInfo.teams, function() { 
+					var thisTeam = new YahooBaseballTeamDetails(this.teamPageUrl);
+					teams.push(thisTeam);
+					callbackObjects.push(thisTeam);
+				});
+				var asyncCallbackObjects = new YahooBaseballCallbackObjectSet(callbackObjects);
+				
+				asyncCallbackObjects
+					.whenReady(function() {
+						
+					})
+					.onError(function(error) { console.error(error); });
 			}
 		})
 		.onError(function(error) { console.error(error); });
 });
+
 
