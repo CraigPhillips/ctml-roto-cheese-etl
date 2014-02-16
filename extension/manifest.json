@@ -30,7 +30,8 @@
 				"styles/cheese.draft-analysis.css"
 			],
 			"js": [
-				"scripts/cheese.lookup.draft.js"
+				"scripts/cheese.draft-analysis.template.js",
+				"scripts/cheese.draft-analysis.js"
 			]
 		}
 	],

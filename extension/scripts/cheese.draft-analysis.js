@@ -52,7 +52,11 @@ $(document).ready(function() {
 					.whenReady(function() {
 						var keeperAnalysis = createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, 18, 2);
 						
-						console.log(keeperAnalysis);
+						dust.render(draftAnalysisTemplate, keeperAnalysis, function(err, out) {
+							keeperContent = out;
+							console.log("Ready.");
+							console.log(err);
+						});
 					})
 					.onError(function(error) { console.error(error); });
 			}
