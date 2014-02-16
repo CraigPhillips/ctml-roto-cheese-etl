@@ -4,7 +4,7 @@
 	Constructor arguements:
 	- teamPageUrl - The URL at which the team's roster page can be found.
 */
-var YahooBaseballTeamDetails = YahooBaseballCallbackObject.extend(function(teamPageUrl) {
+var YahooBaseballTeamDetails = YahooBaseballCallbackObject.extend(function(teamPageUrl, teamMetadata) {
 		if(!teamPageUrl) this.reportError("Team page URL not available when attempting to lookup team details.");
 		
 		this.teamPageUrl = teamPageUrl;
@@ -23,6 +23,13 @@ var YahooBaseballTeamDetails = YahooBaseballCallbackObject.extend(function(teamP
 					if(playerData.name && playerData.yahooBaseballPlayerId) 
 						thisTeamDetails.roster[playerData.yahooBaseballPlayerId] = playerData;
 				});
+				
+				if(teamMetadata) {
+					if(teamMetadata.teamId) thisTeamDetails.id = teamMetadata.teamId;
+					if(teamMetadata.teamManagerName) thisTeamDetails.managerName = teamMetadata.teamManagerName;
+					if(teamMetadata.teamManagerPageUrl) thisTeamDetails.managerPageUrl = teamMetadata.teamManagerPageUrl;
+					if(teamMetadata.teamName) thisTeamDetails.name = teamMetadata.teamName;
+				}
 					
 				thisTeamDetails.reportSuccess();
 			})

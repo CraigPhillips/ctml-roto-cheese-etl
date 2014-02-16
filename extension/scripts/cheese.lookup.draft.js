@@ -42,7 +42,7 @@ $(document).ready(function() {
 				callbackObjects.push(lastDraft);
 				callbackObjects.push(thisDraft);
 				$.each(leagueInfo.teams, function() { 
-					var thisTeam = new YahooBaseballTeamDetails(this.teamPageUrl);
+					var thisTeam = new YahooBaseballTeamDetails(this.teamPageUrl, this);
 					teams.push(thisTeam);
 					callbackObjects.push(thisTeam);
 				});
@@ -50,7 +50,9 @@ $(document).ready(function() {
 				
 				asyncCallbackObjects
 					.whenReady(function() {
-						var keeperAnalysis = createKeeperAnalysis(lastDraft, thisDraft, teams);
+						var keeperAnalysis = createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, 18, 2);
+						
+						console.log(keeperAnalysis);
 					})
 					.onError(function(error) { console.error(error); });
 			}
@@ -61,6 +63,57 @@ $(document).ready(function() {
 /*
 	Creates draft analysis from data about last year's draft, this year's draft and current rosters.
 */
-function createKeeperAnalysis(lastDraft, thisDraft, teams) {
-	console.log(lastDraft, thisDraft, teams);
+function createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, defaultPlayerRound, keeperRoundCost) {
+	var keeperValues = [];
+	
+	$.each(teams, function(teamIndex, team) {
+		var teamOrder = teamIndex + 1;
+		
+		$.each(team.roster, function(playerId, player) {
+			var keeperValue = {};
+			if(lastDraft.draftResults[playerId]) keeperValue.previousDraftRound = lastDraft.draftResults[playerId].draftRound;
+			if(!keeperValue.previousDraftRound) keeperValue.previousDraftRound = defaultPlayerRound;
+			
+			keeperValue.potentialKeeperRound = keeperValue.previousDraftRound - keeperRoundCost;
+			if(keeperValue.potentialKeeperRound < 1) keeperValue.potentialKeeperRound = "Can't be kept.";
+			
+			keeperValue.potentialKeeperPick = 
+				// Reverses team order on even rounds
+				keeperValue.potentialKeeperRound % 2 == 0?
+					(keeperValue.potentialKeeperRound - 1) * teams.length + (teams.length - teamOrder + 1) :
+					(keeperValue.potentialKeeperRound - 1) * teams.length + teamOrder;
+			if(!keeperValue.potentialKeeperPick) keeperValue.potentialKeeperPick = "Can't be kept.";
+					
+			keeperValue.defaultDraftPick = thisDraft.preDraftRankings[playerId];
+			
+			keeperValue.keeperDiscount = keeperValue.potentialKeeperPick - keeperValue.defaultDraftPick;
+			if(!keeperValue.keeperDiscount) keeperValue.keeperDiscount = "Can't be kept.";
+			
+			keeperValue.playerData = player;
+			keeperValue.teamData = team;
+			
+			keeperValues.push(keeperValue);
+		});
+	});
+	
+	keeperValues.sort(function(keeperA, keeperB) {
+		var returnValue = 0;
+		
+		if(keeperA.keeperDiscount == keeperB.keeperDiscount) {
+			returnValue = keeperB.playerData.playerName > keeperA.playerData.playerName? 1 : -1;
+		}
+		else if (keeperB.keeperDiscount == "Can't be kept.") {
+			returnValue = -1;
+		}
+		else if (keeperA.keeperDiscount == "Can't be kept.") {
+			return Value = 1;
+		}
+		else {
+			returnValue = keeperB.keeperDiscount  - keeperA.keeperDiscount;
+		}
+		
+		return returnValue;
+	});
+	
+	return keeperValues;
 }

@@ -52,6 +52,12 @@ var YahooBaseballDraft = YahooBaseballCallbackObject.extend(function(
 							
 							if(playerData && playerData.name && playerData.yahooBaseballPlayerId) {
 								playerData.draftPosition = nextPlayerDraftPosition++;
+								
+								var draftRoundText = $(this).parents("table").find("th:contains('Round')").text();
+								var draftRoundParts = draftRoundText.split(" ");
+								var draftRound = draftRoundParts.length > 1? parseInt(draftRoundParts[1]) : 0;
+								if(draftRound) playerData.draftRound = draftRound;
+								
 								thisDraft.draftResults[playerData.yahooBaseballPlayerId] =
 									playerData;
 							}
