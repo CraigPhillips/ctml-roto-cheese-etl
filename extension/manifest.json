@@ -24,7 +24,9 @@
 			/* Runs draft analysis on homepage. */
 			"matches": [
 				"http://baseball.fantasysports.yahoo.com/b1/35225", 
-				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt"
+				"http://baseball.fantasysports.yahoo.com/b1/35225?*", 
+				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt",
+				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt?*"
 			],
 			"css": [
 				"styles/cheese.draft-analysis.css"
