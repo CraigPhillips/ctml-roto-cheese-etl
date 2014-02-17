@@ -54,8 +54,9 @@ $(document).ready(function() {
 						
 						dust.render(draftAnalysisTemplate, keeperAnalysis, function(err, out) {
 							keeperContent = out;
-							console.log("Ready.");
-							console.log(err);
+							
+							// If the keeper analysis tab is selected, puts the newly-loaded content in place.
+							if(keeperNavItem.hasClass("Selected")) tabContentContainer.html(keeperContent);
 						});
 					})
 					.onError(function(error) { console.error(error); });
@@ -79,19 +80,19 @@ function createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, defaul
 			if(!keeperValue.previousDraftRound) keeperValue.previousDraftRound = defaultPlayerRound;
 			
 			keeperValue.potentialKeeperRound = keeperValue.previousDraftRound - keeperRoundCost;
-			if(keeperValue.potentialKeeperRound < 1) keeperValue.potentialKeeperRound = "Can't be kept.";
+			if(keeperValue.potentialKeeperRound < 1) keeperValue.potentialKeeperRound = "-";
 			
 			keeperValue.potentialKeeperPick = 
 				// Reverses team order on even rounds
 				keeperValue.potentialKeeperRound % 2 == 0?
 					(keeperValue.potentialKeeperRound - 1) * teams.length + (teams.length - teamOrder + 1) :
 					(keeperValue.potentialKeeperRound - 1) * teams.length + teamOrder;
-			if(!keeperValue.potentialKeeperPick) keeperValue.potentialKeeperPick = "Can't be kept.";
+			if(!keeperValue.potentialKeeperPick) keeperValue.potentialKeeperPick = "-";
 					
 			keeperValue.defaultDraftPick = thisDraft.preDraftRankings[playerId];
 			
 			keeperValue.keeperDiscount = keeperValue.potentialKeeperPick - keeperValue.defaultDraftPick;
-			if(!keeperValue.keeperDiscount) keeperValue.keeperDiscount = "Can't be kept.";
+			if(!keeperValue.keeperDiscount) keeperValue.keeperDiscount = "-";
 			
 			keeperValue.playerData = player;
 			keeperValue.teamData = team;
@@ -106,10 +107,10 @@ function createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, defaul
 		if(keeperA.keeperDiscount == keeperB.keeperDiscount) {
 			returnValue = keeperB.playerData.playerName > keeperA.playerData.playerName? 1 : -1;
 		}
-		else if (keeperB.keeperDiscount == "Can't be kept.") {
+		else if (keeperB.keeperDiscount == "-") {
 			returnValue = -1;
 		}
-		else if (keeperA.keeperDiscount == "Can't be kept.") {
+		else if (keeperA.keeperDiscount == "-") {
 			return Value = 1;
 		}
 		else {
