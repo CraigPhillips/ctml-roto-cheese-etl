@@ -5,6 +5,7 @@ $(document).ready(function() {
 			// If the draft date has not yet passed, displays draft analysis
 			if((new Date()) < leagueInfo.draftDate) {
 				var topContentContainer = $("#matchupsmacktabbed");
+				var loadingError = "<p id='cheese-keeper-loading-message' class='F-shade'>There was an error producing this information.</p>";
 				if(topContentContainer.length == 0) { console.error("Could not locate content area to display draft analysis."); return; }
 				
 				var lastNavItem = topContentContainer.find(".Navitem").last();
@@ -50,21 +51,25 @@ $(document).ready(function() {
 				
 				asyncCallbackObjects
 					.whenReady(function() {
+						console.log(lastDraft);
+							
 						var keeperAnalysis = createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, 18, 2);
 						var keeperTemplate = new DustTemplate("cheese.keeper-analysis");
 						keeperTemplate.render(keeperAnalysis, function(error, out) {
+							if(error) console.error(error);
+								
 							keeperContent = error?
-								"<p id='cheese-keeper-loading-message' class='F-shade'>There was an error producing this information.</p>" :
+								loadingError :
 								out;
 							
 							// If the keeper analysis tab is selected, puts the newly-loaded content in place.
 							if(keeperNavItem.hasClass("Selected")) tabContentContainer.html(keeperContent);
 						});
 					})
-					.onError(function(error) { console.error(error); });
+					.onError(function(error) { console.error(error); keeperContent = loadingError; });
 			}
 		})
-		.onError(function(error) { console.error(error); });
+		.onError(function(error) { console.error(error); keeperContent = loadingError; });
 });
 
 /*

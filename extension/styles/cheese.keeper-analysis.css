@@ -6,7 +6,8 @@
 
 #cheese-keeper-analysis ul { 
 	max-height: 400px;
-	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y: scroll;
 	width: 100%; 
 }
 #cheese-keeper-analysis ul li.header { font-weight: bold; }

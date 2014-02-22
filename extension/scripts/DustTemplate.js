@@ -9,6 +9,7 @@ var DustTemplate = klass(function(templateName) {
 	dustTemplateGloballyUniqueId++;
 	this.templateId = "dust-template-with-unique-id-of-" + dustTemplateGloballyUniqueId.toString();
 	var templatePath = chrome.extension.getURL("views/" + templateName + ".dust");
+	var thisTemplate = this;
 	
 	// These templates are being loaded from the Chrome extension's file store so this should be quick enough
 	// to perform synchrously.
@@ -16,11 +17,11 @@ var DustTemplate = klass(function(templateName) {
 		async: false,
 		url: templatePath
 	})
-	.success(function(data, textStatus, jqXHR) {
-		dust.loadSource(dust.compile(data, templateId));
+	.done(function(data, textStatus, jqXHR) {
+		dust.loadSource(dust.compile(data, thisTemplate.templateId));
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {
-		throw new Error("Could not load template from path " + templatePath + ". Error was: " + errorThrown);
+		thisTemplate.errorMessage = "Could not load template from path " + templatePath + ". Error was: " + errorThrown;
 	});
 })
 .methods({
@@ -31,8 +32,14 @@ var DustTemplate = klass(function(templateName) {
 		callback - The function to use when rendering has finished to eithe report errors or consume output.
 	*/
 	render: function(context, callback) {
-		dust.render(this.templateId, context, function(err, out) {
-			if(callback) callback(error, out);
-		});
+		if(this.errorMessage) {
+			if(callback) callback(this.errorMessage, null); else console.error(this.errorMessage);
+		}
+		else {
+			dust.render(this.templateId, context, function(error, out) {
+				if(callback) callback(
+					error? "Error rendering dust template. Error reported by dust: " + error : null, out);
+			});
+		}
 	}
 });
