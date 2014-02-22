@@ -51,9 +51,11 @@ $(document).ready(function() {
 				asyncCallbackObjects
 					.whenReady(function() {
 						var keeperAnalysis = createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, 18, 2);
-						
-						dust.render(draftAnalysisTemplate, keeperAnalysis, function(err, out) {
-							keeperContent = out;
+						var keeperTemplate = new DustTemplate("cheese.keeper-analysis");
+						keeperTemplate.render(keeperAnalysis, function(error, out) {
+							keeperContent = error?
+								"<p id='cheese-keeper-loading-message' class='F-shade'>There was an error producing this information.</p>" :
+								out;
 							
 							// If the keeper analysis tab is selected, puts the newly-loaded content in place.
 							if(keeperNavItem.hasClass("Selected")) tabContentContainer.html(keeperContent);
