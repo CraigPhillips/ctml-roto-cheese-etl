@@ -9,7 +9,10 @@
 		</li>
 		{#analysis}
 			<li>
-				<div class="player-name">
+				<div 
+						class="player-name" 
+						title="Could be kept at pick {potentialKeeperPick} and Yahoo predicts the player will go at pick {defaultDraftPick}."
+					>
 					<a href="{playerData.playerDetailsPath}" target="_blank">
 						{playerData.name}
 					</a>
