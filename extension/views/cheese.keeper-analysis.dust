@@ -7,7 +7,7 @@
 			<div class="player-value">Value</div>
 			<div class="manager">Manager</div>
 		</li>
-		{#.}
+		{#analysis}
 			<li>
 				<div class="player-name">
 					<a href="{playerData.playerDetailsPath}" target="_blank">
@@ -23,6 +23,6 @@
 					</a>
 				</div>
 			</li>
-		{/.}
+		{/analysis}
 	</ul>
 </div>

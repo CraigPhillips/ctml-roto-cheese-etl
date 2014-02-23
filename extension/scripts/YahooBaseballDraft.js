@@ -14,7 +14,9 @@ var YahooBaseballDraft = YahooBaseballCallbackObject.extend(function(
 	this.customLeaguePath = customLeaguePath;
 	this.draftResults = {};
 	this.year = year;
+	this.nonPlayoffResults = {};
 	this.preDraftRankings = {};
+	this.playoffResults = {};
 	
 	if(!customLeaguePath) { this.reportError("Base path for league not provided for draft data lookup."); return; }
 	if(!year) { this.reportError("Draft year not provided for draft data lookup."); return; }
@@ -27,10 +29,60 @@ var YahooBaseballDraft = YahooBaseballCallbackObject.extend(function(
 	loadDraftInThePast: function(customLeaguePath, year) {
 		var leagueBasePath = customLeaguePath + "/" + year;
 		var thisDraft = this;
+		var nonPlayoffStandingsLoaded = false;
+		var draftResultsLoaded = false;
 		
 		// Retrieves homepage for requested season.
 		$.get(leagueBasePath)
-			.success(function(data, textStatus, jqXHR) {
+			.success(function(data, textStatus, jqXHR) {					
+				// Loads results from previous season.
+				var playoffResultsTeams = $(data).find("#g9 a");
+				if(playoffResultsTeams.length == 0) {
+					thisDraft.reportError("Could not load season's playoff results while looking up draft data."); return; 
+				}
+				var nextTeamPlace = 1;
+				playoffResultsTeams.each(function() {
+					var teamDetailsLink = $(this).attr("href");
+					if(teamDetailsLink.indexOf("/") == -1 || teamDetailsLink.indexOf("/") == teamDetailsLink.length - 1) {
+						thisDraft.reportError("Could not find team ID in team link. Link found was: " + teamDetailsLink);
+						return;
+					}
+					var teamId = parseInt(teamDetailsLink.substring(teamDetailsLink.lastIndexOf("/") + 1));
+					if(!teamId) { thisDraft.reportError("Could parse team ID in team link. Link found was: " + teamDetailsLink); return; }
+						
+					thisDraft.playoffResults[teamId] = nextTeamPlace++;
+				});
+				
+				$.get(leagueBasePath, { lhst: "stand", dynamic: "standings" })
+					.success(function(data, textStatus, jqXHR) {							
+						var nonPlayoffStandingsLinks = $(data.content).find("#standingstable tr:not(:contains('*')) td.team a");
+						if(nonPlayoffStandingsLinks.length == 0) {
+							thisDraft.reportError("Could not load season's non-playoff results while looking up draft data."); return;
+						}
+						
+						nonPlayoffStandingsLinks.each(function() {
+							var teamDetailsLink = $(this).attr("href");
+							if(teamDetailsLink.indexOf("/") == -1 || teamDetailsLink.indexOf("/") == teamDetailsLink.length - 1) {
+								thisDraft.reportError("Could not find team ID in team link. Link found was: " + teamDetailsLink);
+								return;
+							}
+							var teamId = parseInt(teamDetailsLink.substring(teamDetailsLink.lastIndexOf("/") + 1));
+							
+							var teamRank = parseInt($(this).parent().siblings(".rank").text());
+							if(!teamRank) { thisDraft.reportError("Could not find team ranking with link: " + teamDetailsLink); return; }
+							
+							thisDraft.nonPlayoffResults[teamId] = teamRank - (nextTeamPlace - 1);
+						});
+						
+						// Reports success if the draft listings have also been loaded.
+						nonPlayoffStandingsLoaded = true;
+						if(draftResultsLoaded) thisDraft.reportSuccess();
+					})
+					.fail(function (jqXHR, textStatus, errorThrown) {
+						thisDraft.reportError("Error loading non-playoff standings for url " + leagueBasePath + ". Error was " +
+							errorThrown);
+					});
+					
 				var draftLink = $(data).find("#yspsubnav ul li a:contains('Draft Results')");
 				if(draftLink.length == 0) { thisDraft.reportError("No draft link found on league page while looking up draft data."); return; };
 				
@@ -63,8 +115,9 @@ var YahooBaseballDraft = YahooBaseballCallbackObject.extend(function(
 							}
 						});
 						
-						// Loading has completed so calls registered callbacks.
-						thisDraft.reportSuccess();
+						// Loading has completed so calls registered callbacks, if the draft results have also been loaded
+						draftResultsLoaded = true;
+						if(nonPlayoffStandingsLoaded) thisDraft.reportSuccess();
 					})
 					.fail(function (jqXHR, textStatus, errorThrown) {
 						thisDraft.reportError("Error loading season's draft results draft data at URL: " + draftPath +

@@ -51,11 +51,26 @@ $(document).ready(function() {
 				
 				asyncCallbackObjects
 					.whenReady(function() {
-						console.log(lastDraft);
+						// Manually reorders teams - needed until draft order is actually set.
+						var reorderedTeams = [
+							teams[5],
+							teams[7],
+							teams[1],
+							teams[8],
+							teams[3],
+							teams[6],
+							// Scott hasn't signed up yet.
+							{},
+							teams[2],
+							teams[0],
+							teams[4]
+						];
 							
-						var keeperAnalysis = createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, 18, 2);
+						var keeperAnalysis = createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, reorderedTeams, 18, 2);
 						var keeperTemplate = new DustTemplate("cheese.keeper-analysis");
-						keeperTemplate.render(keeperAnalysis, function(error, out) {
+						var keeperAnalysisViewModel = { analysis: keeperAnalysis, teams: teams };
+						
+						keeperTemplate.render(keeperAnalysisViewModel, function(error, out) {
 							if(error) console.error(error);
 								
 							keeperContent = error?
@@ -81,31 +96,33 @@ function createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, defaul
 	$.each(teams, function(teamIndex, team) {
 		var teamOrder = teamIndex + 1;
 		
-		$.each(team.roster, function(playerId, player) {
-			var keeperValue = {};
-			if(lastDraft.draftResults[playerId]) keeperValue.previousDraftRound = lastDraft.draftResults[playerId].draftRound;
-			if(!keeperValue.previousDraftRound) keeperValue.previousDraftRound = defaultPlayerRound;
-			
-			keeperValue.potentialKeeperRound = keeperValue.previousDraftRound - keeperRoundCost;
-			if(keeperValue.potentialKeeperRound < 1) keeperValue.potentialKeeperRound = "-";
-			
-			keeperValue.potentialKeeperPick = 
-				// Reverses team order on even rounds
-				keeperValue.potentialKeeperRound % 2 == 0?
-					(keeperValue.potentialKeeperRound - 1) * teams.length + (teams.length - teamOrder + 1) :
-					(keeperValue.potentialKeeperRound - 1) * teams.length + teamOrder;
-			if(!keeperValue.potentialKeeperPick) keeperValue.potentialKeeperPick = "-";
-					
-			keeperValue.defaultDraftPick = thisDraft.preDraftRankings[playerId];
-			
-			keeperValue.keeperDiscount = keeperValue.potentialKeeperPick - keeperValue.defaultDraftPick;
-			if(!keeperValue.keeperDiscount) keeperValue.keeperDiscount = "-";
-			
-			keeperValue.playerData = player;
-			keeperValue.teamData = team;
-			
-			keeperValues.push(keeperValue);
-		});
+		if(team.roster) {
+			$.each(team.roster, function(playerId, player) {
+				var keeperValue = {};
+				if(lastDraft.draftResults[playerId]) keeperValue.previousDraftRound = lastDraft.draftResults[playerId].draftRound;
+				if(!keeperValue.previousDraftRound) keeperValue.previousDraftRound = defaultPlayerRound;
+				
+				keeperValue.potentialKeeperRound = keeperValue.previousDraftRound - keeperRoundCost;
+				if(keeperValue.potentialKeeperRound < 1) keeperValue.potentialKeeperRound = "-";
+				
+				keeperValue.potentialKeeperPick = 
+					// Reverses team order on even rounds
+					keeperValue.potentialKeeperRound % 2 == 0?
+						(keeperValue.potentialKeeperRound - 1) * teams.length + (teams.length - teamOrder + 1) :
+						(keeperValue.potentialKeeperRound - 1) * teams.length + teamOrder;
+				if(!keeperValue.potentialKeeperPick) keeperValue.potentialKeeperPick = "-";
+						
+				keeperValue.defaultDraftPick = thisDraft.preDraftRankings[playerId];
+				
+				keeperValue.keeperDiscount = keeperValue.potentialKeeperPick - keeperValue.defaultDraftPick;
+				if(!keeperValue.keeperDiscount) keeperValue.keeperDiscount = "-";
+				
+				keeperValue.playerData = player;
+				keeperValue.teamData = team;
+				
+				keeperValues.push(keeperValue);
+			});
+		}
 	});
 	
 	keeperValues.sort(function(keeperA, keeperB) {
