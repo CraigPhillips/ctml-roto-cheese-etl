@@ -1,0 +1,52 @@
+#cheese-keeper-controls, #cheese-keeper-analysis ul {
+	padding: 5px 15px;
+}
+p#cheese-keeper-loading-message {
+	padding: 10px 15px;
+}
+
+#cheese-keeper-analysis * { box-sizing: border-box; }
+
+#cheese-keeper-analysis ul { 
+	border: 1px solid rgba(231, 231, 231, 0.05);
+	border-left: none;
+	border-right: none;
+	max-height: 400px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	width: 100%; 
+}
+#cheese-keeper-analysis ul.header-list { 
+	background-color: rgba(14, 14, 16, 0.35);
+	border-top: 1px solid rgba(231, 231, 231, 0.05);
+	padding: 0 15px; 
+}
+#cheese-keeper-analysis ul li.header { font-weight: bold; }
+#cheese-keeper-analysis ul li div { 
+	display: inline-block;
+	padding: 2px 10px 2px 0;
+	width: 12%; 
+}
+#cheese-keeper-analysis ul li div.player-name { width: 25%; }
+#cheese-keeper-analysis ul li div.manager { width: 35%; }
+
+#cheese-keeper-analysis h2 {
+	font-weight: bold;
+	margin-bottom: 5px;
+	margin-top: 3px;
+}
+#cheese-keeper-analysis #cheese-keeper-controls {
+	background-color: rgba(14, 14, 16, 0.35);
+	padding-bottom: 5px;
+}
+#cheese-keeper-analysis .show-team-controls {
+	display: inline-block;
+	padding: 0 10px 3px 0;
+	width: 200px;
+}
+
+#cheese-keeper-analysis input[type="checkbox"] { margin-right: 3px; }
+
+#cheese-keeper-analysis button[type="button"] {
+	margin: 7px 5px 10px -2px;
+}

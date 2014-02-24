@@ -1,17 +1,42 @@
 {
-	"content_scripts": [{
-		"matches": ["http://baseball.fantasysports.yahoo.com/b1/74133*", "http://baseball.fantasysports.yahoo.com/league/chickentendermelt*"],
-		"css": [
-			"styles/ctml roto.css"
-		],
-		"js": [
-			"scripts/jquery-1.7.1.min.js", 
-			"scripts/jquery.tinysort.min.js",
-			"scripts/jquery.animate-colors-min.js",
-			"scripts/ctml scoring category details.js", 
-			"scripts/ctml roto.js"
-		]
-	}],
+	"content_scripts": [
+		{
+			/* Runs core scripts on all pages. */
+			"matches": [
+				"http://baseball.fantasysports.yahoo.com/b1/35225*", 
+				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt*"
+			],
+			"css": [
+				"styles/cheese.css"
+			],
+			"js": [
+				"scripts/jquery-1.11.0.min.js",
+				"scripts/dust-full-0.3.0.min.js",
+				"scripts/klass.min.js",
+				"scripts/DustTemplate.js",
+				"scripts/YahooBaseballCallbackObject.js",
+				"scripts/YahooBaseballCallbackObjectSet.js",
+				"scripts/YahooBaseballLeagueInfo.js",
+				"scripts/YahooBaseballTeamDetails.js",
+				"scripts/YahooBaseballDraft.js"
+			]
+		},
+		{
+			/* Runs draft analysis on homepage. */
+			"matches": [
+				"http://baseball.fantasysports.yahoo.com/b1/35225", 
+				"http://baseball.fantasysports.yahoo.com/b1/35225?*", 
+				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt",
+				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt?*"
+			],
+			"css": [
+				"styles/cheese.keeper-analysis.css"
+			],
+			"js": [
+				"scripts/cheese.keeper-analysis.js"
+			]
+		}
+	],
 	"description": "Chicken Tender Melt League Baseball Chrome extension. Why cheese? BECAUSE FREE ICONS. That's why.",
 	"icons": {
 		"16": "images/cheese 16.png",
@@ -23,11 +48,8 @@
 	"permissions": [
 		"http://*.frozenexports.net/"
 	],
-	"version": "2.0.5.1000",
+	"version": "3.0.0.1001",
 	"web_accessible_resources": [
-		"images/expand.gif",
-		"images/collapse.gif",
-		"images/right.png",
-		"images/left.png"
+		"views/cheese.keeper-analysis.dust"
 	]
 }
