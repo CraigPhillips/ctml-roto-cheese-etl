@@ -31,7 +31,8 @@ $(document).ready(function() {
 					keeperNavItem.addClass("Selected");
 					
 					// Adds analysis content to content area
-					tabContentContainer.html(keeperContent);
+					tabContentContainer.html(keeperContent);	
+					attachEvents();
 				});
 				
 				// Creates all asynchronously-loading object
@@ -78,7 +79,10 @@ $(document).ready(function() {
 								out;
 							
 							// If the keeper analysis tab is selected, puts the newly-loaded content in place.
-							if(keeperNavItem.hasClass("Selected")) tabContentContainer.html(keeperContent);
+							if(keeperNavItem.hasClass("Selected")) {									
+								tabContentContainer.html(keeperContent);
+								attachEvents();
+							}
 						});
 					})
 					.onError(function(error) { console.error(error); keeperContent = loadingError; });
@@ -145,4 +149,33 @@ function createKeeperAnalysisUsingSnakeDraft(lastDraft, thisDraft, teams, defaul
 	});
 	
 	return keeperValues;
+}
+
+/*
+	Responds to a show/hide checkbox being checked.
+*/
+function showHideCheckboxChecked(button) {
+	if(button.length != 0) {
+		var teamId = parseInt(button.attr("data-team-id"));
+		if(teamId) {
+			$("#cheese-keeper-analysis ul li[data-team-id='" + teamId + "']").toggleClass("hidden");
+		}
+	}
+};
+
+/*
+	After inserting HTML, attaches needed events.
+*/
+function attachEvents() {	
+	$("#cheese-keeper-controls input[type='checkbox']").click(function() {
+		showHideCheckboxChecked($(this));
+	});
+	
+	$("#cheese-keeper-controls .check-all-button").click(function() {
+		$("#cheese-keeper-controls input[type='checkbox']:not(:checked)").click();
+	});
+	
+	$("#cheese-keeper-controls .uncheck-all-button").click(function() {
+		$("#cheese-keeper-controls input[type='checkbox']:checked").click();
+	});
 }
