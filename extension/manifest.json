@@ -1,7 +1,6 @@
 {
 	"content_scripts": [
 		{
-			/* Runs core scripts on all pages. */
 			"matches": [
 				"http://baseball.fantasysports.yahoo.com/b1/35225*", 
 				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt*"
@@ -22,7 +21,6 @@
 			]
 		},
 		{
-			/* Runs draft analysis on homepage. */
 			"matches": [
 				"http://baseball.fantasysports.yahoo.com/b1/35225", 
 				"http://baseball.fantasysports.yahoo.com/b1/35225?*", 
