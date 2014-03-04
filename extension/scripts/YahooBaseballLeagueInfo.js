@@ -73,6 +73,29 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 			if (!leagueUrl) thisLeagueInfo.reportError(
 				"Unable to load league URL at settings page: " + settingsPageURL);
 			
+			var batCategoryText = thisLeagueInfo.loadSettingsPageValue("Batters Stat Categories", $(data));
+			var pitchCategoryText = thisLeagueInfo.loadSettingsPageValue("Pitchers Stat Categories", $(data));
+			if (!batCategoryText) thisLeagueInfo.reportError(
+				"Unable to load batting categories at settings page: " + settingsPageURL);
+			if (!pitchCategoryText) thisLeagueInfo.reportError(
+				"Unable to load pitching categories at settings page: " + settingsPageURL);
+			var categoriesText = batCategoryText + ", " + pitchCategoryText;
+			
+			thisLeagueInfo.scoringCategories = [];
+			$.each(categoriesText.split(","), function(index, scoringCategory) {
+				if(scoringCategory.indexOf("(") > -1 && scoringCategory.indexOf("(") < scoringCategory.length - 1
+						&& scoringCategory.indexOf(")") > 0) {
+					var abbreviationStartIndex = scoringCategory.lastIndexOf("(") + 1;
+					var abbreviationEndIndex = scoringCategory.lastIndexOf(")");
+					if(abbreviationStartIndex < abbreviationEndIndex) {
+						var abbreviation = scoringCategory.substring(abbreviationStartIndex, abbreviationEndIndex).trim();
+						var description = scoringCategory.substring(0, abbreviationStartIndex - 1).trim();
+						
+						thisLeagueInfo.scoringCategories.push({ abbreviation: abbreviation, description: description });
+					}
+				}
+			});
+			
 			thisLeagueInfo.draftDate = draftDate;
 			thisLeagueInfo.leagueUrl = leagueUrl;
 			

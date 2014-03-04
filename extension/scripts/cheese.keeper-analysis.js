@@ -2,6 +2,8 @@ $(document).ready(function() {
 	var leagueInfo = new YahooBaseballLeagueInfo();
 	leagueInfo
 		.whenReady(function() {
+			console.log(leagueInfo);
+				
 			// If the draft date has not yet passed, displays draft analysis
 			if((new Date()) < leagueInfo.draftDate) {
 				var topContentContainer = $("#matchupsmacktabbed");
@@ -60,8 +62,7 @@ $(document).ready(function() {
 							teams[8],
 							teams[3],
 							teams[6],
-							// Scott hasn't signed up yet.
-							{},
+							teams[9],
 							teams[2],
 							teams[0],
 							teams[4]
