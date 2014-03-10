@@ -1,9 +1,7 @@
 $(document).ready(function() {		
 	var leagueInfo = new YahooBaseballLeagueInfo();
 	leagueInfo
-		.whenReady(function() {
-			console.log(leagueInfo);
-				
+		.whenReady(function() {				
 			// If the draft date has not yet passed, displays draft analysis
 			if((new Date()) < leagueInfo.draftDate) {
 				var topContentContainer = $("#matchupsmacktabbed");

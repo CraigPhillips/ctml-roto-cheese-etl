@@ -5,13 +5,89 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 	this.teams = {};
 	this.teamsLoaded = false;
 	this.settingsLoaded = false;
+	this.weeklyScoresLoaded = false;
+	this.matchups = [];
+	this.teamScoresInCurrentWeek = [];
 		
 	var thisLeagueInfo = this;
 	
 	var siteRootUrl = $("ul#sitenav > li > a:contains('League')").attr("href");
 	if(!siteRootUrl) { this.reportError("Could not locate site root URL while looking up league information."); }
-	var managersListPageUrl = siteRootUrl + "/teams";
+	var managersListPageUrl = siteRootUrl + "/teams";	
 	
+	// Retrieves matchup information from the league home.
+	$.get(siteRootUrl)
+		.success(function(data, textStatus, jqXHR) {
+			var matchupLinks = $(data).find(".yfa-matchup a.yfa-rapid-module-scoreboard-game-status");
+			matchupLinks.each(function() {
+				var matchupUrl = 	$(this).attr("href");
+				
+				$.get(matchupUrl)
+					.success(function(data, textStatus, jqXHR) {
+						var thisMatchup = { matchupUrl: matchupUrl, teamsInMatchup: [] };	
+							
+						// Loads scoring category order
+						var scoringCategories = [];
+						$(data).find("#matchup-wall-header th.Ta-c div").each(function() {
+							scoringCategories.push($(this).text());
+						});
+					
+						// Loads team information
+						var teamsInMatchup = $(data).find("#matchup-wall-header span.Grid-u a");
+						if(teamsInMatchup.length != 2) {
+							thisLeagueInfo.reportError(
+								"Incorrect number of teams (" + teamsInMatchup.length + ") found at URL: " + matchupUrl);
+							return;
+						}
+						var teamsProcessed = 0;
+						teamsInMatchup.each(function() {
+							var teamId = thisLeagueInfo.extractIdFromLink($(this).attr("href"));
+							if(!teamId) {
+								thisLeagueInfo.reportError(
+									"Unable to load team Id from Url: " + $(this).attr("href"));
+							}
+								
+							thisMatchup.teamsInMatchup[teamsProcessed++] = {
+								teamId: teamId,
+								teamPageUrl: $(this).attr("href"),
+								teamName: $(this).text(),
+								scores: {},
+								weeklyMatchupUrl: matchupUrl
+							};
+						});
+						
+						// Loads scores
+						var scoresProcessed = 0;
+						$(data).find("#matchup-wall-header td.Ta-c:not(.Fw-b) div").each(function() {
+							var teamIndex = scoresProcessed < scoringCategories.length? 0 : 1;
+							thisMatchup
+								.teamsInMatchup[teamIndex]
+								.scores[
+									scoringCategories[scoresProcessed % scoringCategories.length]] =
+										$(this).text();
+										
+							scoresProcessed++;
+						});
+						
+						thisLeagueInfo.matchups.push(thisMatchup);
+						// Duplicates scores data at the top level
+						thisLeagueInfo.teamScoresInCurrentWeek.push(thisMatchup.teamsInMatchup[0]);
+						thisLeagueInfo.teamScoresInCurrentWeek.push(thisMatchup.teamsInMatchup[1]);
+						
+						if(thisLeagueInfo.matchups.length == matchupLinks.length) { 
+							thisLeagueInfo.weeklyScoresLoaded = true;
+							thisLeagueInfo.checkForCompletion();
+						}
+					})
+					.fail(function(jqXHR, textStatus, errorThrown) {
+						thisLeagueInfo.reportError(
+							"Error attempting to retrieve matchup information at " + matchupUrl + ". Error was: " + errorThrown);
+					});
+			});
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			thisLeagueInfo.reportError("Error attempting to retrieve league homepage data. Error was " + errorThrown);
+		});
 	
 	// Retrieves list of teams and their managers.
 	$.get(managersListPageUrl)
@@ -58,7 +134,6 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 		});
 		
 	var settingsPageUrl = siteRootUrl + "/settings";
-	
 	// Retrieves information about league settings.
 	$.get(settingsPageUrl)
 		.success(function(data, textStatus, jqXHR) {
@@ -112,7 +187,7 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 		If all asynchronously loaded sections are finished loading, reports loading as successful. Otherwise, does nothing.
 	*/
 	checkForCompletion: function() {
-		if(this.teamsLoaded && this.settingsLoaded) this.reportSuccess();
+		if(this.teamsLoaded && this.settingsLoaded && this.weeklyScoresLoaded) this.reportSuccess();
 	},
 	/*
 		Pulls the string value of the setting with the provided title from the provided HTML. If the value can not be found, reports an error.

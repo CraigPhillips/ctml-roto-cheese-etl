@@ -31,7 +31,7 @@
 				"styles/cheese.keeper-analysis.css"
 			],
 			"js": [
-				"scripts/cheese.keeper-analysis.js"
+				"scripts/cheese.weekly-roto.js"
 			]
 		}
 	],
@@ -46,7 +46,7 @@
 	"permissions": [
 		"http://*.frozenexports.net/"
 	],
-	"version": "3.0.0.1001",
+	"version": "3.1.0.1001",
 	"web_accessible_resources": [
 		"views/cheese.keeper-analysis.dust"
 	]

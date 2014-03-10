@@ -1,3 +1,4 @@
 # Ignores jEdit temporary files
 *~
 *.marks
+*#*#

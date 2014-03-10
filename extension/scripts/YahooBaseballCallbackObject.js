@@ -66,5 +66,15 @@ var YahooBaseballCallbackObject = klass(function() {
 		}
 		
 		return playerObject;
+	},
+	// Pulls numeric ID from end of URL
+	extractIdFromLink: function(link) {
+		var extractedId;
+		
+		if(link && link.indexOf("/") > -1 && link.lastIndexOf("/") < link.length - 1)
+			extractedId = parseInt(link.substring(link.lastIndexOf("/") + 1));
+		if (!extractedId) extractedId = 0;
+		
+		return extractedId;
 	}
 });
