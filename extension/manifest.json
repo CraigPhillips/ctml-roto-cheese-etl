@@ -15,9 +15,11 @@
 				"scripts/DustTemplate.js",
 				"scripts/YahooBaseballCallbackObject.js",
 				"scripts/YahooBaseballCallbackObjectSet.js",
+				"scripts/YahooBaseballDraft.js",
 				"scripts/YahooBaseballLeagueInfo.js",
 				"scripts/YahooBaseballTeamDetails.js",
-				"scripts/YahooBaseballDraft.js"
+				"scripts/YahooBaseballScoringCategories.js",
+				"scripts/YahooBaseballWeeklyRotoScores.js"
 			]
 		},
 		{

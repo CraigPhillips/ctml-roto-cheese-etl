@@ -4,7 +4,11 @@ $(document).ready(function() {
 	
 	leagueInfo
 		.whenReady(function() {
-			console.log(leagueInfo);
+			var scoring = new YahooBaseballWeeklyRotoScores(leagueInfo);
+			
+			if(scoring.errorMessage) { console.error(scoring.errorMessage); weeklyRotoContent = scoring.errorMessage; }
+			else {
+			}
 		})
 		.onError(function(error) { console.error(error); weeklyRotoContent = loadingError; });
 });
