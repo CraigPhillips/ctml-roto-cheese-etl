@@ -27,9 +27,9 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 						var thisMatchup = { matchupUrl: matchupUrl, teamsInMatchup: [] };	
 							
 						// Loads scoring category order
-						var scoringCategories = [];
-						$(data).find("#matchup-wall-header th.Ta-c div").each(function() {
-							scoringCategories.push($(this).text());
+						var foundScoringCategories = [];
+						$(data).find("#matchup-wall-header th.Ta-c:not(.Fw-b) div").each(function() {
+							foundScoringCategories.push($(this).text());
 						});
 					
 						// Loads team information
@@ -45,6 +45,7 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 							if(!teamId) {
 								thisLeagueInfo.reportError(
 									"Unable to load team Id from Url: " + $(this).attr("href"));
+								return;
 							}
 								
 							thisMatchup.teamsInMatchup[teamsProcessed++] = {
@@ -55,16 +56,22 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 								weeklyMatchupUrl: matchupUrl
 							};
 						});
-						
-						// Loads scores
+							
 						var scoresProcessed = 0;
 						$(data).find("#matchup-wall-header td.Ta-c:not(.Fw-b) div").each(function() {
-							var teamIndex = scoresProcessed < scoringCategories.length? 0 : 1;
+							// Loads scoring category
+							var scoringCategoryAbbreviation = foundScoringCategories[scoresProcessed % foundScoringCategories.length];
+							if(!scoringCategoryAbbreviation) {
+								thisLeagueInfo.reportError(
+									"Could not load scoring category number " + scoresProcessed % foundScoringCategories.length +  ".");
+								return;
+							}
+								
+							var teamIndex = scoresProcessed < foundScoringCategories.length? 0 : 1;
 							thisMatchup
 								.teamsInMatchup[teamIndex]
-								.scores[
-									scoringCategories[scoresProcessed % scoringCategories.length]] =
-										$(this).text();
+								.scores[scoringCategoryAbbreviation] =
+									scoringCategories[scoringCategoryAbbreviation].toNumeric($(this).text());
 										
 							scoresProcessed++;
 						});
@@ -156,7 +163,7 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 				"Unable to load pitching categories at settings page: " + settingsPageURL);
 			var categoriesText = batCategoryText + ", " + pitchCategoryText;
 			
-			thisLeagueInfo.scoringCategories = [];
+			thisLeagueInfo.foundScoringCategories = [];
 			$.each(categoriesText.split(","), function(index, scoringCategory) {
 				if(scoringCategory.indexOf("(") > -1 && scoringCategory.indexOf("(") < scoringCategory.length - 1
 						&& scoringCategory.indexOf(")") > 0) {
@@ -166,7 +173,7 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 						var abbreviation = scoringCategory.substring(abbreviationStartIndex, abbreviationEndIndex).trim();
 						var description = scoringCategory.substring(0, abbreviationStartIndex - 1).trim();
 						
-						thisLeagueInfo.scoringCategories.push({ abbreviation: abbreviation, description: description });
+						thisLeagueInfo.foundScoringCategories.push({ abbreviation: abbreviation, description: description });
 					}
 				}
 			});

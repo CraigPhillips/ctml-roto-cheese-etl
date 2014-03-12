@@ -8,6 +8,7 @@ $(document).ready(function() {
 			
 			if(scoring.errorMessage) { console.error(scoring.errorMessage); weeklyRotoContent = scoring.errorMessage; }
 			else {
+				console.log(scoring);
 			}
 		})
 		.onError(function(error) { console.error(error); weeklyRotoContent = loadingError; });

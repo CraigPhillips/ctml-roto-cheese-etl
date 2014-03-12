@@ -2,11 +2,11 @@
 	Information about how scoring categories in Yahoo fantasy baseball behaves and should be displayed.
 */
 var scoringCategories = {
-	R: {
+	"R": {
 		higherIsBetter: true,
 		toNumeric: toScoreInt
 	},
-	HR: {
+	"HR": {
 		higherIsBetter: true,
 		toNumeric: toScoreInt
 	},
@@ -47,7 +47,7 @@ var scoringCategories = {
 function toScoreInt(input) {
 	var returnValue = 
 		input == "-" ? 
-			0 : parseInt(input);
+			0 : parseInt(input.replace("*", ""));
 			
 	return returnValue;
 }
@@ -55,7 +55,7 @@ function toScoreInt(input) {
 function toScoreFloat2(input) {
 	var returnValue =
 		input == "-" ?
-			0 : parseFloat(input).toFixed(2);
+			0 : parseFloat(input.replace("*", "")).toFixed(2);
 			
 	return returnValue;
 }
@@ -63,7 +63,7 @@ function toScoreFloat2(input) {
 function toScoreFloat3(input) {
 	var returnValue =
 		input == "-" ?
-			0 : parseFloat(input).toFixed(3);
+			0 : parseFloat(input.replace("*", "")).toFixed(3);
 			
 	return returnValue;
 }
