@@ -30,7 +30,7 @@
 				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt?*"
 			],
 			"css": [
-				"styles/cheese.keeper-analysis.css"
+				"styles/cheese.weekly-roto.css"
 			],
 			"js": [
 				"scripts/cheese.weekly-roto.js"
@@ -50,6 +50,8 @@
 	],
 	"version": "3.1.0.1001",
 	"web_accessible_resources": [
-		"views/cheese.keeper-analysis.dust"
+		"views/cheese.keeper-analysis.dust",
+		"views/cheese.weekly-roto.main.dust",
+		"views/cheese.weekly-roto.overall-scores.dust"
 	]
 }
