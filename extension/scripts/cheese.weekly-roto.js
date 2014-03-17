@@ -50,8 +50,8 @@ $(document).ready(function() {
 						weeklyRotoContent = loadingError;
 					}
 					else {
+						scoring.reorder();
 						overallRotoScoresTemplate.render(scoring, function(error, overallScoringContent) {
-							console.log(leagueInfo);
 							console.log(scoring);
 							
 							weeklyRotoContent = rotoWrapperContent;

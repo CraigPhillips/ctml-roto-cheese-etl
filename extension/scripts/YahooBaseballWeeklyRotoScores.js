@@ -103,4 +103,26 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 			}
 		});
 	});
+})
+.methods({
+	reorder: function(orderByStat) {
+		// If no order-by stat was provided, order by overall place
+		if(!orderByStat) {
+			this.teamScores.sort(function(scoreA, scoreB) {
+				var sortValue = 0;
+				
+				var scoreAPlace = scoreA.overallPlace;
+				var scoreBPlace = scoreB.overallPlace;
+				
+				// Attempts to order by place, but if that is the same, orders by team name.
+				if(scoreAPlace != scoreBPlace) sortValue = scoreAPlace - scoreBPlace;
+				else {
+					if(scoreA.teamName > scoreB.teamName) sortValue = 1;
+					else if(scoreA.teamName < scoreB.teamName) sortValue = -1;
+				}
+				
+				return sortValue;
+			});
+		}
+	}
 });

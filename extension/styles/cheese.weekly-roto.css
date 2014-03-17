@@ -28,14 +28,14 @@
 }
 .team-scores li > .roto-team {
 	text-align: left;
-	width: 300px;
+	width: 500px;
 }
 .team-scores li > .roto-team img {
 	margin: 3px 0;
 	vertical-align: -45%;
 }
 .team-scores li > .roto-score {
-	text-align: left;
+	text-align: right;
 	width: 45px;
 }
 
