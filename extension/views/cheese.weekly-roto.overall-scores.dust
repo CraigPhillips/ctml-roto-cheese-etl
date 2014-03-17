@@ -1,1 +1,29 @@
-<li>hi</li>
+<li class="roto-heading">
+	<div class="roto-rank">
+		Rank
+	</div>
+	<div class="roto-team">
+		Team
+	</div>
+	<div class="roto-score">
+		Score
+	</div>
+	<div class="roto-controls">
+	</div>
+</li>
+{#teamScores}
+<li class="roto-team-score">
+	<div class="roto-rank">
+		{overallPlace}
+	</div>
+	<div class="roto-team">
+		<img src="{teamLogoUrl}" alt="{teamName} Logo" class="Avatar-sm Grid-u Mend-med" />
+		<a href="{teamPageUrl}">{teamName}</a>
+	</div>
+	<div class="roto-score">
+		{overallScore}
+	</div>
+	<div class="roto-controls">
+	</div>
+</li>
+{/teamScores}

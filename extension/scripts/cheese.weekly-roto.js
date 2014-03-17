@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	var leagueInfo = new YahooBaseballLeagueInfo();
 	var weeklyRotoContent = "<p id=\"cheese-weekly-loading-message\">Loading...</p>";
+	var scoringContent = "";
 	var loadingError = "<p id=\"cheese-weekly-loading-message\">An error occurred while loading the weekly rotisserie standings.</p>";
 	var rootWeeklyRotoTemplate = new DustTemplate("cheese.weekly-roto.main");
 	var overallRotoScoresTemplate = new DustTemplate("cheese.weekly-roto.overall-scores");
@@ -37,24 +38,31 @@ $(document).ready(function() {
 					// Adds analysis content to content area
 					tabContentContainer.html(weeklyRotoContent);	
 					attachTopLevelRotoEvents();
+					$("ul.team-scores").html(scoringContent);
 					
 					// Hides weekly naviation element
 					$("#matchup_week_nav").hide();
 				});
 				
-				rootWeeklyRotoTemplate.render(leagueInfo, function(error, content) {
+				rootWeeklyRotoTemplate.render(leagueInfo, function(error, rotoWrapperContent) {
 					if(error) {
 						console.error("Unable to render weekly root roto content. Error was: " + error);
 						weeklyRotoContent = loadingError;
 					}
-					else {						
-						weeklyRotoContent = content;
-						
-						// If weekly tab is selected, puts the newly-loaded content in place.
-						if(rotoNavItem.hasClass("Selected")) {									
-							tabContentContainer.html(content);
-							attachTopLevelRotoEvents();
-						}
+					else {
+						overallRotoScoresTemplate.render(scoring, function(error, overallScoringContent) {
+							console.log(leagueInfo);
+							console.log(scoring);
+							
+							weeklyRotoContent = rotoWrapperContent;
+							scoringContent = overallScoringContent;
+							
+							// If weekly tab is selected, puts the newly-loaded content in place.
+							if(rotoNavItem.hasClass("Selected")) {									
+								tabContentContainer.html(content);
+								attachTopLevelRotoEvents();
+							}
+						});
 					}
 				});
 			}

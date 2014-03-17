@@ -21,6 +21,7 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 				categoryScores: [],
 				overallScore: 0,
 				teamId: currentTeamScores.teamId,
+				teamLogoUrl: currentTeamScores.teamLogoUrl,
 				teamName: currentTeamScores.teamName,
 				teamPageUrl: currentTeamScores.teamPageUrl
 			};

@@ -47,9 +47,17 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 									"Unable to load team Id from Url: " + $(this).attr("href"));
 								return;
 							}
+							
+							var teamLogoUrl = $(this).parents(".Pstart-lg").find("img.Avatar-sm").attr("src");
+							if(!teamLogoUrl) {
+								thisLeagueInfo.reportError(
+									"Unable to load team logo along with team ID " + teamId);
+								return;
+							}
 								
 							thisMatchup.teamsInMatchup[teamsProcessed++] = {
 								teamId: teamId,
+								teamLogoUrl: teamLogoUrl,
 								teamPageUrl: $(this).attr("href"),
 								teamName: $(this).text(),
 								scores: {},
@@ -194,7 +202,9 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 		If all asynchronously loaded sections are finished loading, reports loading as successful. Otherwise, does nothing.
 	*/
 	checkForCompletion: function() {
-		if(this.teamsLoaded && this.settingsLoaded && this.weeklyScoresLoaded) this.reportSuccess();
+		if(this.teamsLoaded && this.settingsLoaded && this.weeklyScoresLoaded) {			
+			this.reportSuccess();
+		}
 	},
 	/*
 		Pulls the string value of the setting with the provided title from the provided HTML. If the value can not be found, reports an error.

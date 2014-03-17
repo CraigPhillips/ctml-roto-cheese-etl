@@ -2,7 +2,44 @@
 	padding: 15px;
 }
 
-.team-scores { padding: 15px 0; }
 .team-scores li {
-	padding: 0 15px 5px 15px;
+	border-bottom: 1px solid rgba(109, 109, 109, .25);	
+	cursor: pointer;
+	padding: 3px 0;
+	width: 100%;
+}
+.team-scores li:hover {
+	background-color: rgba(255, 255, 255, .2);
+}
+.team-scores li.roto-heading {
+	font-size: 11px;
+}
+.team-scores li > div {
+	display: inline-block;
+}
+.team-scores li > .roto-rank {
+	padding-left: 12px;
+	text-align: left;
+	width: 45px;
+}
+.team-scores li.roto-heading > .roto-rank{
+	padding: 0;
+	text-align: center;
+}
+.team-scores li > .roto-team {
+	text-align: left;
+	width: 300px;
+}
+.team-scores li > .roto-team img {
+	margin: 3px 0;
+	vertical-align: -45%;
+}
+.team-scores li > .roto-score {
+	text-align: left;
+	width: 45px;
+}
+
+.weekly-roto * {
+	box-sizing: border-box;
+	color: #b0b0b0;
 }

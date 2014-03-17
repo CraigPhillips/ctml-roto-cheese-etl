@@ -30,7 +30,7 @@ var YahooBaseballTeamDetails = YahooBaseballCallbackObject.extend(function(teamP
 					if(teamMetadata.teamManagerPageUrl) thisTeamDetails.managerPageUrl = teamMetadata.teamManagerPageUrl;
 					if(teamMetadata.teamName) thisTeamDetails.name = teamMetadata.teamName;
 				}
-					
+				
 				thisTeamDetails.reportSuccess();
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
