@@ -71,5 +71,14 @@ $(document).ready(function() {
 });
 
 function attachTopLevelRotoEvents() {
+	$(".roto-team-score").click(function() {
+		if(!$(this).hasClass("expanded")) {
+			$(this).css({ height: "default" });
+			var defaultHeight = $(this).height();
+			$(this).css({ height: defaultHeight });
+		}
+			
+		$(this).toggleClass("expanded");
+	});
 }
 

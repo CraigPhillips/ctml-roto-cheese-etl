@@ -25,5 +25,12 @@
 	</div>
 	<div class="roto-controls">
 	</div>
+	<ul class="scoring-details">
+		{#categoryScores}
+			<li>
+				{categoryName}: {rawScore}
+			</li>
+		{/categoryScores}
+	</ul>
 </li>
 {/teamScores}

@@ -12,7 +12,11 @@
 	background-color: rgba(255, 255, 255, .2);
 }
 .team-scores li.roto-heading {
+	cursor: default;
 	font-size: 11px;
+}
+.team-scores li.roto-heading:hover {
+	background-color: inherit;
 }
 .team-scores li > div {
 	display: inline-block;
@@ -42,4 +46,10 @@
 .weekly-roto * {
 	box-sizing: border-box;
 	color: #b0b0b0;
+}
+
+.scoring-details {
+	height: 0;
+	transition: height 1s;
+	overflow: hidden;
 }
