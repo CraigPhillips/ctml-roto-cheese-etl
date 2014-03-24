@@ -25,5 +25,22 @@
 	</div>
 	<div class="roto-controls">
 	</div>
+	<ul class="scoring-details">
+		{#categoryScores}
+			<li>
+				<div class="raw-score">{categoryName}: {rawScore}</div>
+				<div class="place-summary">
+					{@if cond="{tiedCount} > 1"}
+						Place: {place} ({tiedCount}-way tie)
+					{:else}
+						Place: {place}
+					{/if}
+				</div>
+				<div class="category-score">
+					(+{points})
+				</div>
+			</li>
+		{/categoryScores}
+	</ul>
 </li>
 {/teamScores}

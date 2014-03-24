@@ -10,7 +10,8 @@
 			],
 			"js": [
 				"scripts/jquery-1.11.0.min.js",
-				"scripts/dust-full-0.3.0.min.js",
+				"scripts/dust-full.min.js",
+				"scripts/dust-helpers.min.js",
 				"scripts/klass.min.js",
 				"scripts/DustTemplate.js",
 				"scripts/YahooBaseballCallbackObject.js",

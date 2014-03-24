@@ -4,12 +4,8 @@
 
 .team-scores li {
 	border-bottom: 1px solid rgba(109, 109, 109, .25);	
-	cursor: pointer;
 	padding: 3px 0;
 	width: 100%;
-}
-.team-scores li:hover {
-	background-color: rgba(255, 255, 255, .2);
 }
 .team-scores li.roto-heading {
 	font-size: 11px;
@@ -42,4 +38,47 @@
 .weekly-roto * {
 	box-sizing: border-box;
 	color: #b0b0b0;
+}
+
+.scoring-details {
+	max-height: 0;
+	transition: max-height .5s linear;
+	overflow: hidden;
+}
+.scoring-details.expanded {
+	max-height: 275px;
+}
+.scoring-details li {
+	border-bottom: none;
+	border-top: 1px solid rgba(109, 109, 109, .25);	
+	font-size: 90%;
+	padding: 5px 0 3px 25px;
+}
+.scoring-details .raw-score {
+	width: 250px;
+}
+.scoring-details .place-summary {
+	width: 275px;
+}
+.scoring-details .category-score {
+	text-align: right;
+	width: 40px;
+}
+
+.roto-team-score .roto-controls { 
+	cursor: pointer; 
+	margin-left: 10px;
+}
+.roto-team-score .roto-controls:before {
+	border: 1px solid rgba(109, 109, 109, .75);
+	border-radius: 50%;
+	content: "+";
+	display: block;
+	height: 18px;
+	line-height: 18px;
+	text-align: center;
+	width: 18px;
+}
+.roto-team-score .roto-controls.expanded:before {
+	content: "-";
 }

@@ -65,7 +65,7 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 					}
 					// Processes being ahead of the other team
 					else if(
-							(currentTeamScoreInCategory > comnparingTeamScoreInCategory 
+							(currentTeamScoreInCategory > comparingTeamScoreInCategory 
 								&& scoringCategories[scoringCategory.abbreviation].higherIsBetter) ||
 							(currentTeamScoreInCategory < comparingTeamScoreInCategory
 								&& !scoringCategories[scoringCategory.abbreviation].higherIsBetter)) {
@@ -73,7 +73,7 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 					}
 					// Processes being behind the other team
 					else {
-						place++;
+						categoryScore.place++;
 					}
 				});
 				
