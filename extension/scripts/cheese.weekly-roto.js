@@ -6,7 +6,7 @@ $(document).ready(function() {
 	var rootWeeklyRotoTemplate = new DustTemplate("cheese.weekly-roto.main");
 	var overallRotoScoresTemplate = new DustTemplate("cheese.weekly-roto.overall-scores");
 	
-	$(document).on("click", ".roto-team-score", function() { teamSummaryClicked($(this)) });
+	$(document).on("click", ".roto-controls", function() { summaryExpandClicked($(this)) });
 	
 	leagueInfo
 		.whenReady(function() {
@@ -70,10 +70,15 @@ $(document).ready(function() {
 		.onError(function(error) { console.error(error); weeklyRotoContent = loadingError; });
 });
 
-function teamSummaryClicked(teamClicked) {
-	if(teamClicked && teamClicked.length) {
-		var detailsList = teamClicked.find("ul.scoring-details");
-		detailsList.toggleClass("expanded");
+function summaryExpandClicked(button) {
+	if(button && button.length) {
+		var teamClicked = button.parent();
+		
+		if(teamClicked.length) {
+			var detailsList = teamClicked.find("ul.scoring-details");
+			button.toggleClass("expanded");
+			detailsList.toggleClass("expanded");
+		}
 	}
 }
 
