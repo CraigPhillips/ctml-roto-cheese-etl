@@ -49,7 +49,10 @@
 }
 
 .scoring-details {
-	height: 0;
-	transition: height 1s;
+	max-height: 0;
+	transition: max-height .5s linear;
 	overflow: hidden;
+}
+.scoring-details.expanded {
+	max-height: 275px;
 }

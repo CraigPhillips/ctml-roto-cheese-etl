@@ -6,6 +6,8 @@ $(document).ready(function() {
 	var rootWeeklyRotoTemplate = new DustTemplate("cheese.weekly-roto.main");
 	var overallRotoScoresTemplate = new DustTemplate("cheese.weekly-roto.overall-scores");
 	
+	$(document).on("click", ".roto-team-score", function() { teamSummaryClicked($(this)) });
+	
 	leagueInfo
 		.whenReady(function() {
 			var scoring = new YahooBaseballWeeklyRotoScores(leagueInfo);
@@ -37,7 +39,6 @@ $(document).ready(function() {
 					
 					// Adds analysis content to content area
 					tabContentContainer.html(weeklyRotoContent);	
-					attachTopLevelRotoEvents();
 					$("ul.team-scores").html(scoringContent);
 					
 					// Hides weekly naviation element
@@ -60,7 +61,6 @@ $(document).ready(function() {
 							// If weekly tab is selected, puts the newly-loaded content in place.
 							if(rotoNavItem.hasClass("Selected")) {									
 								tabContentContainer.html(content);
-								attachTopLevelRotoEvents();
 							}
 						});
 					}
@@ -70,15 +70,10 @@ $(document).ready(function() {
 		.onError(function(error) { console.error(error); weeklyRotoContent = loadingError; });
 });
 
-function attachTopLevelRotoEvents() {
-	$(".roto-team-score").click(function() {
-		if(!$(this).hasClass("expanded")) {
-			$(this).css({ height: "default" });
-			var defaultHeight = $(this).height();
-			$(this).css({ height: defaultHeight });
-		}
-			
-		$(this).toggleClass("expanded");
-	});
+function teamSummaryClicked(teamClicked) {
+	if(teamClicked && teamClicked.length) {
+		var detailsList = teamClicked.find("ul.scoring-details");
+		detailsList.toggleClass("expanded");
+	}
 }
 
