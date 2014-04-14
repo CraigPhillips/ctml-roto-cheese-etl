@@ -53,7 +53,8 @@ $(document).ready(function() {
 					else {
 						scoring.reorder();
 						overallRotoScoresTemplate.render(scoring, function(error, overallScoringContent) {
-							console.log(scoring);
+							console.log("Rendered wekly scoring. Seralized scoring follows.");
+							console.log(JSON.stringify(scoring));
 							
 							weeklyRotoContent = rotoWrapperContent;
 							scoringContent = overallScoringContent;
