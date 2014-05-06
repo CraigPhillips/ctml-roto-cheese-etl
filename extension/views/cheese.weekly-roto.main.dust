@@ -3,7 +3,7 @@
     <div id="scoring-category-type-controls">
       Scoring Category:
       <select id="weekly-roto-score-type-selector">
-        <option data-scoring-category="{overall}">Overall</option>
+        <option data-scoring-category="overall">Overall</option>
         {#foundScoringCategories}
         <option data-scoring-category="{abbreviation}">{abbreviation}</option>
         {/foundScoringCategories}

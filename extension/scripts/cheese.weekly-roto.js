@@ -6,7 +6,10 @@ $(document).ready(function() {
 	var rootWeeklyRotoTemplate = new DustTemplate("cheese.weekly-roto.main");
 	var overallRotoScoresTemplate = new DustTemplate("cheese.weekly-roto.overall-scores");
 	
-	$(document).on("click", ".roto-controls", function() { summaryExpandClicked($(this)) });
+	$(document).on("click", ".roto-controls", function () { summaryExpandClicked($(this)) });
+	$(document).on("change", "#weekly-roto-score-type-selector", function () {
+	    scoringCategoryChanged($(this), leagueInfo);
+	});
 	
 	leagueInfo
 		.whenReady(function() {
@@ -84,3 +87,14 @@ function summaryExpandClicked(button) {
 	}
 }
 
+function scoringCategoryChanged(scoringCategoriesControl, leagueInfo) {
+    if (scoringCategoriesControl && scoringCategoriesControl.length && leagueInfo && leagueInfo.isLoaded) {
+        var selectedCategoryOption =
+            scoringCategoriesControl.find("option:selected");
+        if (selectedCategoryOption.length) {
+            var selectedCategory = selectedCategoryOption.attr("data-scoring-category");
+            if (selectedCategory) console.log(selectedCategory);
+            console.log(leagueInfo);
+        }
+    }
+}
