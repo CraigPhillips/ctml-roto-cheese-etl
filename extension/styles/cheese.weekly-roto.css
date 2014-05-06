@@ -2,6 +2,22 @@
 	padding: 15px;
 }
 
+.weekly-roto-controls {
+    height: 20px;
+    margin: 10px 0;
+    position: relative;
+    width: 100%;
+}
+.weekly-roto-controls #scoring-category-type-controls {
+    display: inline;
+    position: absolute;
+    right: 15px;
+}
+.weekly-roto-controls #scoring-category-type-controls option,
+.weekly-roto-controls #scoring-category-type-controls select {
+    color: black;
+}
+
 .team-scores li {
 	border-bottom: 1px solid rgba(109, 109, 109, .25);	
 	padding: 3px 0;

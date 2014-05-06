@@ -45,6 +45,7 @@ $(document).ready(function() {
 					$("#matchup_week_nav").hide();
 				});
 				
+				console.log(leagueInfo);
 				rootWeeklyRotoTemplate.render(leagueInfo, function(error, rotoWrapperContent) {
 					if(error) {
 						console.error("Unable to render weekly root roto content. Error was: " + error);

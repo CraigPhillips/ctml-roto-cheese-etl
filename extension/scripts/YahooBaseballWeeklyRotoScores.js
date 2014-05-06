@@ -37,6 +37,7 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 				};
 				
 				var currentTeamScoreInCategory = currentTeamScores.scores[scoringCategory.abbreviation];
+				currentTeamScoreInCategory = parseFloat(currentTeamScoreInCategory.toString());
 				if(!currentTeamScoreInCategory && currentTeamScoreInCategory != 0) {
 					thisRotoScoreSet.errorMessage = 
 						"Could not find score for category '" + scoringCategory.description + "' for target team " + currentTeamScores.teamName;
@@ -46,7 +47,8 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 				
 				// Checks this scoring category each other team in the league
 				$.each(leagueInfo.teamScoresInCurrentWeek, function(index, comparingTeamScores) {	
-					var comparingTeamScoreInCategory = comparingTeamScores.scores[scoringCategory.abbreviation];
+				    var comparingTeamScoreInCategory = comparingTeamScores.scores[scoringCategory.abbreviation];
+				    comparingTeamScoreInCategory = parseFloat(comparingTeamScoreInCategory.toString());
 					if(!comparingTeamScoreInCategory && comparingTeamScoreInCategory != 0) {
 						thisRotoScoreSet.errorMessage =
 							"Could not find score for category '" + scoringCategory.description + "' for comparing team " + currentTeamScores.teamName;
