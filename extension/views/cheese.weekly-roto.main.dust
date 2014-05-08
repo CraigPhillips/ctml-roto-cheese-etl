@@ -1,12 +1,12 @@
 <div class="weekly-roto">
-	<div class="weekly-roto-controls">
+  <div class="weekly-roto-controls">
     <div id="scoring-category-type-controls">
       Scoring Category:
       <select id="weekly-roto-score-type-selector">
         <option data-scoring-category="overall">Overall</option>
-        {#foundScoringCategories}
-        <option data-scoring-category="{abbreviation}">{abbreviation}</option>
-        {/foundScoringCategories}
+          {#foundScoringCategories}
+            <option data-scoring-category="{abbreviation}">{abbreviation}</option>
+          {/foundScoringCategories}
       </select>
     </div>
 	</div>

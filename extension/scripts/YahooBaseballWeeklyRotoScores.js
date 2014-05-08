@@ -3,6 +3,7 @@
 */
 var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 	this.teamScores = [];
+	this.statScores = {};
 		
 	if(!leagueInfo || !leagueInfo instanceof YahooBaseballWeeklyRotoScores) {
 		this.errorMessage = "League info wasn't provided to constructor.";
@@ -105,6 +106,8 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 			}
 		});
 	});
+
+	this.reorder();
 })
 .methods({
 	reorder: function(orderByStat) {
