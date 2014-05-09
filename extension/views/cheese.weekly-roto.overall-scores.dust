@@ -23,7 +23,7 @@
 		<div class="roto-score">
 			{overallScore}
 		</div>
-		<div class="roto-controls">
+		<div class="roto-controls{#rawScore} not-expandable{/rawScore}">
 		</div>
 		<ul class="scoring-details">
 			{#categoryScores}

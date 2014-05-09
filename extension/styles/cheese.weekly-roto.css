@@ -98,3 +98,9 @@
 .roto-team-score .roto-controls.expanded:before {
 	content: "-";
 }
+.roto-team-score .roto-controls.not-expandable {
+	cursor: default;
+}
+.roto-team-score .roto-controls.not-expandable:before {
+	display: none;
+}

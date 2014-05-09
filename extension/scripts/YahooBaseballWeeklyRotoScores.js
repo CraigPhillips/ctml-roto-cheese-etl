@@ -34,6 +34,10 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 					categoryName: scoringCategory.description,
 					place: 1,
 					points: 0,
+					teamId: currentTeamScores.teamId,
+					teamLogoUrl: currentTeamScores.teamLogoUrl,
+					teamName: currentTeamRoto.teamName,
+					teamPageUrl: currentTeamScores.teamPageUrl,
 					tiedCount: 1
 				};
 				
@@ -45,6 +49,7 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 					return;
 				}
 				categoryScore.rawScore = currentTeamScoreInCategory;
+				categoryScore.overallScore = currentTeamScoreInCategory;
 				
 				// Checks this scoring category each other team in the league
 				$.each(leagueInfo.teamScoresInCurrentWeek, function(index, comparingTeamScores) {	
@@ -79,12 +84,38 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 						categoryScore.place++;
 					}
 				});
+				categoryScore.overallPlace = categoryScore.place;
 				
 				currentTeamRoto.categoryScores.push(categoryScore);
 				currentTeamRoto.overallScore += categoryScore.points;
+
+				// Slots this team's category score into alternate score storage scheme
+				if(!thisRotoScoreSet.statScores[categoryScore.categoryAbbreviation])
+					thisRotoScoreSet.statScores[categoryScore.categoryAbbreviation] = [];
+				thisRotoScoreSet.statScores[categoryScore.categoryAbbreviation].push(categoryScore);
 			});
 			
 			thisRotoScoreSet.teamScores.push(currentTeamRoto);
+	});
+
+	// Reorders each by-category score list
+	$.each(this.statScores, function(category, scoreList) {
+		scoreList.sort(function(scoreA, scoreB) {
+			var sortValue = 0;
+
+			var scoreAPlace = scoreA.place;
+			var scoreBPlace = scoreB.place;
+
+			// Attempts to order by place, but if that is the same, orders by team name, and if that is the same, just used team ID.
+			if(scoreAPlace != scoreBPlace) sortValue = scoreAPlace - scoreBPlace;
+			else {
+				if(scoreA.teamName > scoreB.teamName) sortValue = 1;
+				else if(scoreA.teamName < scoreB.teamName) sortValue = -1;
+				else sortValue = scoreA.teamId - scoreB.teamId;
+			}
+
+			return sortValue;
+		});
 	});
 	
 	// Calculates overall team placement

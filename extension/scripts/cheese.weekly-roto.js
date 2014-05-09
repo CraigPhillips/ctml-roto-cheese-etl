@@ -55,8 +55,8 @@ $(document).ready(function() {
 					}
 					else {
 						rotoScoresTemplate.render(scoring, function(error, overallScoringContent) {
-							console.log("Rendered wekly scoring. Seralized scoring follows.");
-							console.log(JSON.stringify(scoring));
+							/*console.log("Rendered wekly scoring. Seralized scoring follows.");
+							console.log(JSON.stringify(scoring));*/
 							
 							weeklyRotoContent = rotoWrapperContent;
 							scoringContent = overallScoringContent;
@@ -92,10 +92,11 @@ function scoringCategoryChanged(scoringCategoriesControl, leagueInfo, scoresTemp
         if (selectedCategoryOption.length) {
             var selectedCategory = selectedCategoryOption.attr("data-scoring-category");
 			var scoring = new YahooBaseballWeeklyRotoScores(leagueInfo);
+			var selectedCategoryScoring = scoring.statScores[selectedCategory];
 
-			console.log(scoring.statScores[selectedCategory]);
-            scoresTemplate.render({teamScores: scoring}, function(error, scoringContent) {
-           		$(".weekly-roto-display").html(scoringContent);
+			console.log(selectedCategoryScoring);
+            scoresTemplate.render(selectedCategoryScoring ? {teamScores: selectedCategoryScoring} : scoring, function(error, scoringContent) {
+           		$("ul.team-scores").html(scoringContent);
             });
         }
     }
