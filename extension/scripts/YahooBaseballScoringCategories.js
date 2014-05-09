@@ -2,11 +2,11 @@
 	Information about how scoring categories in Yahoo fantasy baseball behaves and should be displayed.
 */
 var scoringCategories = {
-	"R": {
+	R: {
 		higherIsBetter: true,
 		toNumeric: toScoreInt
 	},
-	"HR": {
+	HR: {
 		higherIsBetter: true,
 		toNumeric: toScoreInt
 	},
