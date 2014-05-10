@@ -68,7 +68,7 @@ function toScoreFloat3(input) {
 	return returnValue;
 }
 
-/* Custom converter for Dust.js, format is  {@formatCategoryScoreValue score="scoreVariableName" /} */
+/* Custom converter for Dust.js, format is {@formatCategoryScoreValue score="rawScoreValue" category="categoryAbbreviation" /} */
 if(dust && dust.helpers) {
 	dust.helpers.formatCategoryScoreValue = function (chunk, context, bodies, params) {
     	var score = dust.helpers.tap(params.score, chunk, context);
