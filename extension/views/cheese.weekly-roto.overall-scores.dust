@@ -21,14 +21,15 @@
 			<a href="{teamPageUrl}">{teamName}</a>
 		</div>
 		<div class="roto-score">
-			{overallScore}
+			{#overallScore}{overallScore}{/overallScore}
+			{#rawScore}{@formatCategoryScoreValue score="{rawScore}" category="{categoryAbbreviation}" /}{/rawScore}
 		</div>
 		<div class="roto-controls{#rawScore} not-expandable{/rawScore}">
 		</div>
 		<ul class="scoring-details">
 			{#categoryScores}
 				<li>
-					<div class="raw-score">{categoryName}: {rawScore}</div>
+					<div class="raw-score">{categoryName}: {@formatCategoryScoreValue score="{rawScore}" category="{categoryAbbreviation}" /}</div>
 					<div class="place-summary">
 						{@if cond="{tiedCount} > 1"}
 							Place: {place} ({tiedCount}-way tie)

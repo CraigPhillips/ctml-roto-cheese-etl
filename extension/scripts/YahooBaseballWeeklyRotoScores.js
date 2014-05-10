@@ -49,7 +49,6 @@ var YahooBaseballWeeklyRotoScores = klass(function(leagueInfo) {
 					return;
 				}
 				categoryScore.rawScore = currentTeamScoreInCategory;
-				categoryScore.overallScore = currentTeamScoreInCategory;
 				
 				// Checks this scoring category each other team in the league
 				$.each(leagueInfo.teamScoresInCurrentWeek, function(index, comparingTeamScores) {	

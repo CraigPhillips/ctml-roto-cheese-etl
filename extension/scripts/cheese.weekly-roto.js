@@ -94,7 +94,6 @@ function scoringCategoryChanged(scoringCategoriesControl, leagueInfo, scoresTemp
 			var scoring = new YahooBaseballWeeklyRotoScores(leagueInfo);
 			var selectedCategoryScoring = scoring.statScores[selectedCategory];
 
-			console.log(selectedCategoryScoring);
             scoresTemplate.render(selectedCategoryScoring ? {teamScores: selectedCategoryScoring} : scoring, function(error, scoringContent) {
            		$("ul.team-scores").html(scoringContent);
             });
