@@ -19,6 +19,7 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 	$.get(siteRootUrl)
 		.success(function(data, textStatus, jqXHR) {
 			var matchupLinks = $(data).find("#scoreboard-fantasy .yfa-matchup a.yfa-rapid-module-scoreboard-game-status");
+			
 			matchupLinks.each(function() {
 				var matchupUrl = 	$(this).attr("href");
 				

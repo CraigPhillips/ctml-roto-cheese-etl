@@ -4,9 +4,12 @@ $(document).ready(function() {
 	var scoringContent = "";
 	var loadingError = "<p id=\"cheese-weekly-loading-message\">An error occurred while loading the weekly rotisserie standings.</p>";
 	var rootWeeklyRotoTemplate = new DustTemplate("cheese.weekly-roto.main");
-	var overallRotoScoresTemplate = new DustTemplate("cheese.weekly-roto.overall-scores");
+	var rotoScoresTemplate = new DustTemplate("cheese.weekly-roto.overall-scores");
 	
-	$(document).on("click", ".roto-controls", function() { summaryExpandClicked($(this)) });
+	$(document).on("click", ".roto-controls", function () { summaryExpandClicked($(this)) });
+	$(document).on("change", "#weekly-roto-score-type-selector", function () {
+	    scoringCategoryChanged($(this), leagueInfo, rotoScoresTemplate);
+	});
 	
 	leagueInfo
 		.whenReady(function() {
@@ -51,9 +54,9 @@ $(document).ready(function() {
 						weeklyRotoContent = loadingError;
 					}
 					else {
-						scoring.reorder();
-						overallRotoScoresTemplate.render(scoring, function(error, overallScoringContent) {
-							console.log(scoring);
+						rotoScoresTemplate.render(scoring, function(error, overallScoringContent) {
+							/*console.log("Rendered wekly scoring. Seralized scoring follows.");
+							console.log(JSON.stringify(scoring));*/
 							
 							weeklyRotoContent = rotoWrapperContent;
 							scoringContent = overallScoringContent;
@@ -82,3 +85,18 @@ function summaryExpandClicked(button) {
 	}
 }
 
+function scoringCategoryChanged(scoringCategoriesControl, leagueInfo, scoresTemplate) {
+    if (scoringCategoriesControl && scoringCategoriesControl.length && leagueInfo && leagueInfo.isLoaded && scoresTemplate) {
+        var selectedCategoryOption =
+            scoringCategoriesControl.find("option:selected");
+        if (selectedCategoryOption.length) {
+            var selectedCategory = selectedCategoryOption.attr("data-scoring-category");
+			var scoring = new YahooBaseballWeeklyRotoScores(leagueInfo);
+			var selectedCategoryScoring = scoring.statScores[selectedCategory];
+
+            scoresTemplate.render(selectedCategoryScoring ? {teamScores: selectedCategoryScoring} : scoring, function(error, scoringContent) {
+           		$("ul.team-scores").html(scoringContent);
+            });
+        }
+    }
+}
