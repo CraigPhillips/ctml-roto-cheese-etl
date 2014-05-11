@@ -18,6 +18,7 @@
 				"scripts/YahooBaseballCallbackObjectSet.js",
 				"scripts/YahooBaseballDraft.js",
 				"scripts/YahooBaseballLeagueInfo.js",
+				"scripts/YahooBaseballPastScores.js",
 				"scripts/YahooBaseballTeamDetails.js",
 				"scripts/YahooBaseballScoringCategories.js",
 				"scripts/YahooBaseballWeeklyRotoScores.js"

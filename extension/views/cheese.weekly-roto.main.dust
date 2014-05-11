@@ -1,5 +1,16 @@
 <div class="weekly-roto">
   <div class="weekly-roto-controls">
+    <div id="week-controls">
+      Displayed Week:
+      <select id="weekly-roto-week-selector">
+        {#pastScores}
+          {#.}
+            <option data-week-index="{$idx}">Week {$idx}</option>
+          {/.}
+        {/pastScores}
+        <option data-week-index="current" selected>Current Week</option>
+      </select>
+    </div>
     <div id="scoring-category-type-controls">
       Scoring Category:
       <select id="weekly-roto-score-type-selector">

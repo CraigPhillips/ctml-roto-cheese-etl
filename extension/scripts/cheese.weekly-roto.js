@@ -1,10 +1,12 @@
 $(document).ready(function() {
+	var cacheAvoider = (new Date()).getTime();
 	var leagueInfo = new YahooBaseballLeagueInfo();
 	var weeklyRotoContent = "<p id=\"cheese-weekly-loading-message\">Loading...</p>";
 	var scoringContent = "";
 	var loadingError = "<p id=\"cheese-weekly-loading-message\">An error occurred while loading the weekly rotisserie standings.</p>";
 	var rootWeeklyRotoTemplate = new DustTemplate("cheese.weekly-roto.main");
 	var rotoScoresTemplate = new DustTemplate("cheese.weekly-roto.overall-scores");
+	var pastRotoScores = new YahooBaseballPastScores("http://frozenexports.net/files/projects/ctmlcheese/past scores.json?cacheAvoider=" + cacheAvoider);
 	
 	$(document).on("click", ".roto-controls", function () { summaryExpandClicked($(this)) });
 	$(document).on("change", "#weekly-roto-score-type-selector", function () {
@@ -48,26 +50,32 @@ $(document).ready(function() {
 					$("#matchup_week_nav").hide();
 				});
 				
-				rootWeeklyRotoTemplate.render(leagueInfo, function(error, rotoWrapperContent) {
-					if(error) {
-						console.error("Unable to render weekly root roto content. Error was: " + error);
-						weeklyRotoContent = loadingError;
-					}
-					else {
-						rotoScoresTemplate.render(scoring, function(error, overallScoringContent) {
-							/*console.log("Rendered wekly scoring. Seralized scoring follows.");
-							console.log(JSON.stringify(scoring));*/
-							
-							weeklyRotoContent = rotoWrapperContent;
-							scoringContent = overallScoringContent;
-							
-							// If weekly tab is selected, puts the newly-loaded content in place.
-							if(rotoNavItem.hasClass("Selected")) {									
-								tabContentContainer.html(content);
+				pastRotoScores
+					.whenReady(function() {
+						leagueInfo.pastScores = pastRotoScores.scores;
+
+						rootWeeklyRotoTemplate.render(leagueInfo, function(error, rotoWrapperContent) {
+							if(error) {
+								console.error("Unable to render weekly root roto content. Error was: " + error);
+								weeklyRotoContent = loadingError;
+							}
+							else {
+								rotoScoresTemplate.render(scoring, function(error, overallScoringContent) {
+									/*console.log("Rendered weekly scoring. Seralized scoring follows.");
+									console.log(JSON.stringify(scoring));*/
+									
+									weeklyRotoContent = rotoWrapperContent;
+									scoringContent = overallScoringContent;
+									
+									// If weekly tab is selected, puts the newly-loaded content in place.
+									if(rotoNavItem.hasClass("Selected")) {									
+										tabContentContainer.html(content);
+									}
+								});
 							}
 						});
-					}
-				});
+					})
+					.onError(function(error) { console.error(error); weeklyRotoContent = loadingError; });
 			}
 		})
 		.onError(function(error) { console.error(error); weeklyRotoContent = loadingError; });

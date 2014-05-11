@@ -8,15 +8,22 @@
     position: relative;
     width: 100%;
 }
-.weekly-roto-controls #scoring-category-type-controls {
+.weekly-roto-controls #scoring-category-type-controls, .weekly-roto-controls #week-controls {
     display: inline;
     position: absolute;
+}
+.weekly-roto-controls #week-controls {
+	left: 10px;
+}
+.weekly-roto-controls #scoring-category-type-controls {
     right: 15px;
 }
-.weekly-roto-controls #scoring-category-type-controls option,
-.weekly-roto-controls #scoring-category-type-controls select {
+
+.weekly-roto-controls option,
+.weekly-roto-controls select {
     color: black;
 }
+.weekly-roto-controls select { margin-left: 10px; width: 105px; }
 
 .team-scores li {
 	border-bottom: 1px solid rgba(109, 109, 109, .25);	
