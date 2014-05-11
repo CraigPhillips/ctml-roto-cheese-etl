@@ -9,13 +9,14 @@ $(document).ready(function() {
 	var pastRotoScores = new YahooBaseballPastScores("http://frozenexports.net/files/projects/ctmlcheese/past scores.json?cacheAvoider=" + cacheAvoider);
 	
 	$(document).on("click", ".roto-controls", function () { summaryExpandClicked($(this)) });
-	$(document).on("change", "#weekly-roto-score-type-selector", function () {
-	    scoringCategoryChanged($(this), leagueInfo, rotoScoresTemplate);
-	});
+	$(document).on("change", "#weekly-roto-score-type-selector", function () { updateScoringUI(leagueInfo, rotoScoresTemplate); });
+	$(document).on("change", "#weekly-roto-week-selector", function() { updateScoringUI(leagueInfo, rotoScoresTemplate); });
 	
 	leagueInfo
 		.whenReady(function() {
 			var scoring = new YahooBaseballWeeklyRotoScores(leagueInfo);
+			/*console.log("Calculated weekly scoring. Seralized scoring data follows.");
+			console.log(JSON.stringify(leagueInfo));*/
 			
 			if(scoring.errorMessage) { console.error(scoring.errorMessage); weeklyRotoContent = scoring.errorMessage; }
 			else {
@@ -51,7 +52,7 @@ $(document).ready(function() {
 				});
 				
 				pastRotoScores
-					.whenReady(function() {
+					.whenReady(function() {						
 						leagueInfo.pastScores = pastRotoScores.scores;
 
 						rootWeeklyRotoTemplate.render(leagueInfo, function(error, rotoWrapperContent) {
@@ -60,10 +61,7 @@ $(document).ready(function() {
 								weeklyRotoContent = loadingError;
 							}
 							else {
-								rotoScoresTemplate.render(scoring, function(error, overallScoringContent) {
-									/*console.log("Rendered weekly scoring. Seralized scoring follows.");
-									console.log(JSON.stringify(scoring));*/
-									
+								rotoScoresTemplate.render(scoring, function(error, overallScoringContent) {									
 									weeklyRotoContent = rotoWrapperContent;
 									scoringContent = overallScoringContent;
 									
@@ -108,3 +106,30 @@ function scoringCategoryChanged(scoringCategoriesControl, leagueInfo, scoresTemp
         }
     }
 }
+
+function updateScoringUI(leagueInfo, scoresTemplate) {
+	var selectedCategoryOption = $("select#weekly-roto-score-type-selector > option:selected");
+	var selectedWeekOption = $("select#weekly-roto-week-selector > option:selected");
+
+	if(!selectedCategoryOption.length) {
+		console.error("Unable to locate selected category to update weekly scoring UI.");
+		return;
+	}
+	if(!selectedWeekOption.length) {
+		console.error("Unable to locate selected week to update weekly scoring UI.");
+		return;
+	}
+
+	var selectedCategory = selectedCategoryOption.attr("data-scoring-category");
+	var selectedWeekNumber = parseInt(selectedWeekOption.attr("data-week-index"));
+	if(isNaN(selectedWeekNumber)) selectedWeekNumber = 0;
+
+	var targetWeeklyData = selectedWeekNumber > 0 && selectedWeekNumber < leagueInfo.pastScores.length? leagueInfo.pastScores[selectedWeekNumber] : leagueInfo;
+	var scoringData = new YahooBaseballWeeklyRotoScores(targetWeeklyData);
+	var selectedCategoryScoring = scoringData.statScores[selectedCategory];
+
+	scoresTemplate.render(selectedCategoryScoring? { teamScores: selectedCategoryScoring } : scoringData, function(error, scoringContent) {
+		$("ul.team-scores").html(scoringContent);
+	});
+}
+

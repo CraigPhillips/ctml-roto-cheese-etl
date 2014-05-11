@@ -19,7 +19,16 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 	$.get(siteRootUrl)
 		.success(function(data, textStatus, jqXHR) {
 			var matchupLinks = $(data).find("#scoreboard-fantasy .yfa-matchup a.yfa-rapid-module-scoreboard-game-status");
-			
+
+			// Week 1
+			matchupLinks = $([
+				$("<a href='http://baseball.fantasysports.yahoo.com/b1/35225/matchup?week=1&mid1=3&mid2=6'></a>"),
+				$("<a href='http://baseball.fantasysports.yahoo.com/b1/35225/matchup?week=1&mid1=1&mid2=8'></a>"),
+				$("<a href='http://baseball.fantasysports.yahoo.com/b1/35225/matchup?week=1&mid1=2&mid2=9'></a>"),
+				$("<a href='http://baseball.fantasysports.yahoo.com/b1/35225/matchup?week=1&mid1=4&mid2=5'></a>"),
+				$("<a href='http://baseball.fantasysports.yahoo.com/b1/35225/matchup?week=1&mid1=7&mid2=10'></a>")
+			]);
+						
 			matchupLinks.each(function() {
 				var matchupUrl = 	$(this).attr("href");
 				

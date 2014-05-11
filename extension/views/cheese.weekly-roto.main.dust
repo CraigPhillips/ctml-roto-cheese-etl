@@ -8,7 +8,7 @@
             <option data-week-index="{$idx}">Week {$idx}</option>
           {/.}
         {/pastScores}
-        <option data-week-index="current" selected>Current Week</option>
+        <option data-week-index="0" selected>Current Week</option>
       </select>
     </div>
     <div id="scoring-category-type-controls">
