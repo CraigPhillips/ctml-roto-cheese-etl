@@ -15,8 +15,8 @@ $(document).ready(function() {
 	leagueInfo
 		.whenReady(function() {
 			var scoring = new YahooBaseballWeeklyRotoScores(leagueInfo);
-			/*console.log("Calculated weekly scoring. Seralized scoring data follows.");
-			console.log(JSON.stringify(leagueInfo));*/
+			console.log("Calculated weekly scoring. Seralized scoring data follows.");
+			console.log(JSON.stringify(leagueInfo));
 			
 			if(scoring.errorMessage) { console.error(scoring.errorMessage); weeklyRotoContent = scoring.errorMessage; }
 			else {
