@@ -23,7 +23,7 @@
 .weekly-roto-controls select {
     color: black;
 }
-.weekly-roto-controls select { margin-left: 10px; width: 105px; }
+.weekly-roto-controls select { margin-left: 10px; }
 
 .team-scores li {
 	border-bottom: 1px solid rgba(109, 109, 109, .25);	
