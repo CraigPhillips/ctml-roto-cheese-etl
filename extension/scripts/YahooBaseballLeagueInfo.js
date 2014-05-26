@@ -108,11 +108,11 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 	// Retrieves list of teams and their managers.
 	$.get(managersListPageUrl)
 		.success(function(data, textStatus, jqXHR) {
-			var teamRows = $(data).find("table.teamtable tbody tr");
+			var teamRows = $(data).find("#teams table tbody tr");
 			if(teamRows.length == 0) { thisLeagueInfo.reportError("No teams found on managers list page while loading league information."); return; }
 			
 			$(teamRows).each(function() {
-					var teamPageLink = $(this).find("td.first a");
+					var teamPageLink = $(this).find("td:first-child a");
 					var teamUrl = teamPageLink.attr("href");
 					// Verifies that a URL is found, contains a path separator but doesn't end in a path separator
 					if(!teamUrl || !teamUrl.indexOf("/") == -1 || teamUrl.lastIndexOf("/") == teamUrl.length - 1) {
