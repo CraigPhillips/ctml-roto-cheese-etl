@@ -22,8 +22,8 @@
 .weekly-roto-controls option,
 .weekly-roto-controls select {
     color: black;
+    margin: 0 0 10px 10px !important; 
 }
-.weekly-roto-controls select { margin-left: 10px; }
 
 .team-scores li {
 	border-bottom: 1px solid rgba(109, 109, 109, .25);	

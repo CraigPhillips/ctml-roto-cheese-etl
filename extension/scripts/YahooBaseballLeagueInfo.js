@@ -67,10 +67,20 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 						});
 							
 						var scoresProcessed = 0;
-						$(data).find("#matchup-wall-header td.Ta-c:not(.Fw-b) div").each(function() {
+
+						var scoreContainers = $(data).find("#matchup-wall-header td.Ta-c:not(.Fz-lg) div");
+						if(scoreContainers.length != teamsInMatchup.length * foundScoringCategories.length) {
+							thisLeagueInfo.reportError(
+								"Incorrect number of scores found in matchup at URL \"" + thisMatchup.matchupUrl + "\". Found " +
+								scoreContainers.length + " but should have been " + teamsInMatchup.length * foundScoringCategories.length + ".");
+							return;
+						}
+
+						scoreContainers.each(function() {
 							// Loads scoring category
 							var scoringCategoryAbbreviation = foundScoringCategories[scoresProcessed % foundScoringCategories.length];
 							if(!scoringCategoryAbbreviation) {
+								consoleLog(scoresProcessed, foundScoringCategories);
 								thisLeagueInfo.reportError(
 									"Could not load scoring category number " + scoresProcessed % foundScoringCategories.length +  ".");
 								return;
