@@ -50,7 +50,7 @@
 	"permissions": [
 		"http://*.frozenexports.net/"
 	],
-	"version": "3.4.1.1003",
+	"version": "3.4.1.1004",
 	"web_accessible_resources": [
 		"views/cheese.keeper-analysis.dust",
 		"views/cheese.weekly-roto.main.dust",
