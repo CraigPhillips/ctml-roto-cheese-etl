@@ -7,13 +7,15 @@ $(document).ready(function() {
 	var rootWeeklyRotoTemplate = new DustTemplate("cheese.weekly-roto.main");
 	var rotoScoresTemplate = new DustTemplate("cheese.weekly-roto.overall-scores");
 	var pastRotoScores = new YahooBaseballPastScores("http://frozenexports.net/files/projects/ctmlcheese/past scores.json?cacheAvoider=" + cacheAvoider);
-	
+
 	$(document).on("click", ".roto-controls", function () { summaryExpandClicked($(this)) });
 	$(document).on("change", "#weekly-roto-score-type-selector", function () { updateScoringUI(leagueInfo, rotoScoresTemplate); });
 	$(document).on("change", "#weekly-roto-week-selector", function() { updateScoringUI(leagueInfo, rotoScoresTemplate); });
 	
 	leagueInfo
 		.whenReady(function() {
+			console.log("League Info Ready");
+
 			var scoring = new YahooBaseballWeeklyRotoScores(leagueInfo);
 			console.log("Calculated weekly scoring. Seralized scoring data follows.");
 			console.log(JSON.stringify(leagueInfo));

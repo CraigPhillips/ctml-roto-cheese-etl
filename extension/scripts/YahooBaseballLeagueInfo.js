@@ -18,10 +18,10 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 	// Retrieves matchup information from the league home.
 	$.get(siteRootUrl)
 		.success(function(data, textStatus, jqXHR) {
-			var matchupLinks = $(data).find("#scoreboard-fantasy .yfa-matchup a.yfa-rapid-module-scoreboard-game-status");
+			var matchupBoxes = $(data).find(".Linkable.Listitem.No-p[data-target]");
 
-			matchupLinks.each(function() {
-				var matchupUrl = 	$(this).attr("href");
+			matchupBoxes.each(function() {
+				var matchupUrl = $(this).attr("data-target");
 				
 				$.get(matchupUrl)
 					.success(function(data, textStatus, jqXHR) {
@@ -100,7 +100,7 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 						thisLeagueInfo.teamScoresInCurrentWeek.push(thisMatchup.teamsInMatchup[0]);
 						thisLeagueInfo.teamScoresInCurrentWeek.push(thisMatchup.teamsInMatchup[1]);
 						
-						if(thisLeagueInfo.matchups.length == matchupLinks.length) { 
+						if(thisLeagueInfo.matchups.length == matchupBoxes.length) { 
 							thisLeagueInfo.weeklyScoresLoaded = true;
 							thisLeagueInfo.checkForCompletion();
 						}
