@@ -1,0 +1,12 @@
+
+<h1>CTML Roto Cheese</h1>
+<p>
+	Weekly Rotisserie Scoring for the CTML Fantasy Baseball League
+</p>
+<div id="ctml-weekly-roto-section">
+	<div id="ctml-week-selection-controls" />
+	<div id="ctml-scoring-display" />
+	<div id="ctml-score-type-display" />
+</div>
+<div id="keeper-analysis-section">
+</div>
