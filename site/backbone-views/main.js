@@ -26,13 +26,31 @@ var CtmlRotoMainView = Backbone.View.extend({
 
 		var thisView = this;
 
-		hello.on("auth.login", function(authorization) {
+		hello("yahoo").login(function(authorization) {
+			console.log(authorization);
+			thisView.currentAccessCode = authorization.authResponse.access_token;
 			thisView.render();
-		}).login();
+		});
 	},
 
 	// Begins loading child views
 	postDustRender: function() {
+		var thisView = this;
+
+		$.ajax({
+			beforeSend : function(xhr) {
+		      xhr.setRequestHeader("Authorization", "Bearer " + thisView.currentAccessCode);
+		    },
+		    dataType: "jsonp",
+			url: "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games"
+		})
+		.done(function(data) {
+			console.log(data);
+		})
+		.fail(function(jqXHR, textStatus, errorThrown ) {
+			console.error("Failed.");
+			console.error(jqXHR, textStatus, errorThrown);
+		});
 	},
 
 	developmentYahooConsumerKey: "dj0yJmk9QVg0QU5pMDk5SWRyJmQ9WVdrOVZHbzVaMHhWTm5VbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1kZA--",

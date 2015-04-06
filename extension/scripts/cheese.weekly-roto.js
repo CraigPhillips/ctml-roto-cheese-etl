@@ -22,13 +22,13 @@ $(document).ready(function() {
 			
 			if(scoring.errorMessage) { console.error(scoring.errorMessage); weeklyRotoContent = scoring.errorMessage; }
 			else {
-				var topContentContainer = $("#matchupsmacktabbed");
+				var topContentContainer = $("#leaguestandingstabs");
 				if(topContentContainer.length == 0) { console.error("Could not locate content area to display draft analysis."); return; }
 				
 				var lastNavItem = topContentContainer.find(".Navitem").last();
 				if(lastNavItem.length == 0) { console.error("Could not locate item needed to insert keeper analysis tab."); return; }
 				
-				var tabContentContainer = topContentContainer.children("div");
+				var tabContentContainer = topContentContainer; // .children("div");
 				if(tabContentContainer.length == 0) { console.error("Could not locate content area to which roto score is to be added."); return; }
 				
 				// Inserts and attaches events to weekly roto tab
@@ -37,20 +37,39 @@ $(document).ready(function() {
 				rotoLink.attr("href", "").attr("id", "weekly-roto-link");
 				rotoLink.text("Weekly Roto");
 				lastNavItem.after(rotoNavItem);
+
+
+				var standingsContent = $("#lhststandtab");
+
 				rotoNavItem.click(function(clickEvent) {
 					clickEvent.preventDefault();
 					clickEvent.stopPropagation();
-					
+
 					// Changes which tab is shown as selected
 					rotoNavItem.siblings(".Selected").removeClass("Selected");
 					rotoNavItem.addClass("Selected");
-					
+
+					var existingRotoArea = standingsContent.siblings(".ctml-roto-standings");
+
+					// Adds CTML roto content if it doesn't already exist.
+					if(existingRotoArea.length == 0) {
+						var standingsClone = standingsContent.clone().attr("id", "ctml-roto-standings");
+						standingsClone.html(weeklyRotoContent);
+						standingsClone.find("ul.team-scores").html(scoringContent);
+						standingsContent.after(standingsClone);
+
+						existingRotoArea = standingsClone;
+					}
+
+					existingRotoArea.siblings(".Selected").removeClass("Selected");
+					existingRotoArea.addClass("Selected");
+
 					// Adds analysis content to content area
-					tabContentContainer.html(weeklyRotoContent);	
-					$("ul.team-scores").html(scoringContent);
+					// tabContentContainer.html(weeklyRotoContent);	
+					// $("ul.team-scores").html(scoringContent);
 					
 					// Hides weekly naviation element
-					$("#matchup_week_nav").hide();
+					// $("#matchup_week_nav").hide();
 				});
 				
 				pastRotoScores

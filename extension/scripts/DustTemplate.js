@@ -11,10 +11,8 @@ var DustTemplate = klass(function(templateName) {
 	var templatePath = chrome.extension.getURL("views/" + templateName + ".dust");
 	var thisTemplate = this;
 	
-	// These templates are being loaded from the Chrome extension's file store so this should be quick enough
-	// to perform synchrously.
+	// These templates are being loaded from the Chrome extension's directory so this should be pretty quick.
 	$.ajax({
-		async: false,
 		url: templatePath
 	})
 	.done(function(data, textStatus, jqXHR) {
