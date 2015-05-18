@@ -11,9 +11,18 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 		
 	var thisLeagueInfo = this;
 	
-	var siteRootUrl = $("ul#sitenav > li > a:contains('League')").attr("href");
+	var leagueLinks = $("ul#sitenav > li > a:contains('League')");
+	var siteRootUrl = null;
+	if(leagueLinks.length > 0) {
+		$.each(leagueLinks, function(index, link) {
+			if($(link).text() == "League") siteRootUrl = $(link).attr("href");
+		});
+	}
+
 	if(!siteRootUrl) { this.reportError("Could not locate site root URL while looking up league information."); }
 	var managersListPageUrl = siteRootUrl + "/teams";	
+
+	console.log(siteRootUrl);
 
 	// Retrieves matchup information from the league home.
 	$.get(siteRootUrl)
