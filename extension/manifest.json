@@ -2,7 +2,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"http://baseball.fantasysports.yahoo.com/b1/44688*", 
+				"http://baseball.fantasysports.yahoo.com/b1/33405*",
 				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt*"
 			],
 			"css": [
@@ -26,8 +26,8 @@
 		},
 		{
 			"matches": [
-				"http://baseball.fantasysports.yahoo.com/b1/44688", 
-				"http://baseball.fantasysports.yahoo.com/b1/44688?*", 
+				"http://baseball.fantasysports.yahoo.com/b1/33405",
+				"http://baseball.fantasysports.yahoo.com/b1/33405?*",
 				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt",
 				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt?*"
 			],
@@ -50,7 +50,7 @@
 	"permissions": [
 		"http://*.frozenexports.net/"
 	],
-	"version": "5.1.2.1001",
+	"version": "6.0.0.1005",
 	"web_accessible_resources": [
 		"views/cheese.keeper-analysis.dust",
 		"views/cheese.weekly-roto.main.dust",
