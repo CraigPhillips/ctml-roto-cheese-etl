@@ -22,14 +22,10 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 	if(!siteRootUrl) { this.reportError("Could not locate site root URL while looking up league information."); }
 	var managersListPageUrl = siteRootUrl + "/teams";	
 
-	console.log(siteRootUrl);
-
 	// Retrieves matchup information from the league home.
 	$.get(siteRootUrl)
 		.success(function(data, textStatus, jqXHR) {
 			var matchupBoxes = $(data).find(".Linkable.Listitem.No-p[data-target]");
-
-			console.log(matchupBoxes);
 
 			matchupBoxes.each(function() {
 				var matchupUrl = $(this).attr("data-target");

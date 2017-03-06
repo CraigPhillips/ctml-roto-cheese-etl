@@ -2,7 +2,9 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"http://baseball.fantasysports.yahoo.com/b1/33405*",
+				"https://baseball.fantasysports.yahoo.com/b1/53006*",
+				"https://baseball.fantasysports.yahoo.com/league/chickentendermelt*",
+				"http://baseball.fantasysports.yahoo.com/b1/53006*",
 				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt*"
 			],
 			"css": [
@@ -26,8 +28,12 @@
 		},
 		{
 			"matches": [
-				"http://baseball.fantasysports.yahoo.com/b1/33405",
-				"http://baseball.fantasysports.yahoo.com/b1/33405?*",
+				"https://baseball.fantasysports.yahoo.com/b1/53006",
+				"https://baseball.fantasysports.yahoo.com/b1/53006?*",
+				"https://baseball.fantasysports.yahoo.com/league/chickentendermelt",
+				"https://baseball.fantasysports.yahoo.com/league/chickentendermelt?*",
+				"http://baseball.fantasysports.yahoo.com/b1/53006",
+				"http://baseball.fantasysports.yahoo.com/b1/53006?*",
 				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt",
 				"http://baseball.fantasysports.yahoo.com/league/chickentendermelt?*"
 			],
@@ -48,9 +54,9 @@
 	"manifest_version": 2,
 	"name": "CTML Baseball Cheese",
 	"permissions": [
-		"http://*.frozenexports.net/"
+		"https://s3-us-west-2.amazonaws.com/"
 	],
-	"version": "6.0.0.1005",
+	"version": "6.0.1",
 	"web_accessible_resources": [
 		"views/cheese.keeper-analysis.dust",
 		"views/cheese.weekly-roto.main.dust",

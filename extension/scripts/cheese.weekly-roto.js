@@ -6,7 +6,7 @@ $(document).ready(function() {
 	var loadingError = "<p id=\"cheese-weekly-loading-message\">An error occurred while loading the weekly rotisserie standings.</p>";
 	var rootWeeklyRotoTemplate = new DustTemplate("cheese.weekly-roto.main");
 	var rotoScoresTemplate = new DustTemplate("cheese.weekly-roto.overall-scores");
-	var pastRotoScores = new YahooBaseballPastScores("http://frozenexports.net/files/projects/ctmlcheese/past scores.json?cacheAvoider=" + cacheAvoider);
+	var pastRotoScores = new YahooBaseballPastScores("https://s3-us-west-2.amazonaws.com/fe-share/ctml/past+scores.json?cacheAvoider=" + cacheAvoider);
 
 	$(document).on("click", ".roto-controls", function () { summaryExpandClicked($(this)) });
 	$(document).on("change", "#weekly-roto-score-type-selector", function () { updateScoringUI(leagueInfo, rotoScoresTemplate); });
