@@ -56,7 +56,7 @@
 	"permissions": [
 		"https://s3-us-west-2.amazonaws.com/"
 	],
-	"version": "6.0.1",
+	"version": "6.0.2",
 	"web_accessible_resources": [
 		"views/cheese.keeper-analysis.dust",
 		"views/cheese.weekly-roto.main.dust",

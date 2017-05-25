@@ -92,12 +92,14 @@ var YahooBaseballLeagueInfo = YahooBaseballCallbackObject.extend(function() {
 									"Could not load scoring category number " + scoresProcessed % foundScoringCategories.length +  ".");
 								return;
 							}
-								
-							var teamIndex = scoresProcessed < foundScoringCategories.length? 0 : 1;
-							thisMatchup
-								.teamsInMatchup[teamIndex]
-								.scores[scoringCategoryAbbreviation] =
-									scoringCategories[scoringCategoryAbbreviation].toNumeric($(this).text());
+
+              if(scoringCategoryAbbreviation.indexOf("*") == -1) {
+                var teamIndex = scoresProcessed < foundScoringCategories.length? 0 : 1;
+                thisMatchup
+                  .teamsInMatchup[teamIndex]
+                  .scores[scoringCategoryAbbreviation] =
+                    scoringCategories[scoringCategoryAbbreviation].toNumeric($(this).text());
+              }
 										
 							scoresProcessed++;
 						});
