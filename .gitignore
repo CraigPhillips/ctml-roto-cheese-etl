@@ -1,5 +1,0 @@
-# Ignores jEdit temporary files
-*~
-*.marks
-*#*#
-.DS_Store
