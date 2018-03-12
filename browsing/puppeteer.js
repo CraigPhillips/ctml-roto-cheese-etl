@@ -17,13 +17,13 @@ async function getBrowser(from) {
   return _(from).browser;
 }
 
-function isAPage(thing) {
-  return thing &&
-    thing.$eval &&
-    thing.evaluate &&
-    thing.goto &&
-    thing.screeshot &&
-    thing.waitForSelector;
+function isAPage(possiblePage) {
+  return possiblePage &&
+    possiblePage.$eval &&
+    possiblePage.evaluate &&
+    possiblePage.goto &&
+    possiblePage.screeshot &&
+    possiblePage.waitForSelector;
 }
 
 class Puppeteer {
@@ -37,11 +37,22 @@ class Puppeteer {
   }
 
   async do(actionTypeToTake, ...params) {
-    return await this.then(actionTypeToTake, ...params);
-  }
+    if (!actionTypeToTake) throw new Error('action to take is required');
 
-  async then(actionTypeToTake, ...params) {
-    // try again
+    const browser = await getBrowser(this);
+    const pageProvided = isAPage(params[0]);
+    const page = pageProvided ? params[0] : await browser.newPage();
+
+    switch(actionTypeToTake)
+    {
+      case actionType.browseTo:
+        const url = pageProvided ? params[1] : params[0];
+        if (!url) throw new Error('missing browsing URL');
+        await page.goto(url);
+        break;
+      default:
+        throw new Error(`unknown action type: ${actionTypeToTake.toString()}`);
+    }
   }
 };
 
