@@ -1,5 +1,6 @@
 const _ = require('privatize')();
 const puppeteerLib = require('puppeteer');
+const VError = require('verror');
 
 class ActionTypes {
   constructor() {
@@ -17,15 +18,6 @@ async function getBrowser(from) {
   return _(from).browser;
 }
 
-function isAPage(possiblePage) {
-  return possiblePage &&
-    possiblePage.$eval &&
-    possiblePage.evaluate &&
-    possiblePage.goto &&
-    possiblePage.screeshot &&
-    possiblePage.waitForSelector;
-}
-
 class Puppeteer {
   constructor(puppeteer = puppeteerLib) {
     _(this).puppeteer = puppeteer;
@@ -36,22 +28,30 @@ class Puppeteer {
     await browser.close();
   }
 
-  async do(actionTypeToTake, ...params) {
-    if (!actionTypeToTake) throw new Error('action to take is required');
+  async do(actions) {
+    try {
+      const toDos = actions && actions.length? actions : [actions];
+      const browser = await getBrowser(this);
+      const page = await browser.newPage();
 
-    const browser = await getBrowser(this);
-    const pageProvided = isAPage(params[0]);
-    const page = pageProvided ? params[0] : await browser.newPage();
+      let i = 1;
+      for (let action of toDos) {
+        if (!action.type) throw new Error(`action ${i} missing type`);
 
-    switch(actionTypeToTake)
-    {
-      case actionType.browseTo:
-        const url = pageProvided ? params[1] : params[0];
-        if (!url) throw new Error('missing browsing URL');
-        await page.goto(url);
-        break;
-      default:
-        throw new Error(`unknown action type: ${actionTypeToTake.toString()}`);
+        switch(action.type)
+        {
+          case actionType.browseTo:
+            if (!action.url) throw new Error(`action ${i} missing URL`);
+            await page.goto(action.url);
+            break;
+          default:
+            throw new Error(`unknown action type: ${actionTypeToTake}`);
+        }
+
+        i++;
+      }
+    } catch(actionError) {
+      throw new VError(actionError, 'error while executing actions');
     }
   }
 };

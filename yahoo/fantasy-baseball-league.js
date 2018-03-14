@@ -1,6 +1,7 @@
 const _ = require('privatize')();
 const { actionType, Puppeteer } = require('../browsing/puppeteer');
 
+const { browseTo, click, enterText } = actionType;
 const yahooLeagueUrlPrefix = 'https://baseball.fantasysports.yahoo.com/league/';
 
 class League {
@@ -15,7 +16,9 @@ class League {
 
   async getCurrentWeeklyScores() {
     await _(this).browser
-      .do(actionType.browseTo, `${yahooLeagueUrlPrefix}${_(this).leagueName}`);
+      .do([
+        { type: browseTo, url: `${yahooLeagueUrlPrefix}${_(this).leagueName}` },
+      ]);
   }
 }
 
