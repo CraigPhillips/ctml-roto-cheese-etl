@@ -13,7 +13,7 @@ const actionType = new ActionTypes();
 
 async function getBrowser(from) {
   if (!_(from).browser) {
-    _(from).browser = await _(from).puppeteer.launch({ headless: false });
+    _(from).browser = await _(from).puppeteer.launch({ headless: true });
   }
   return _(from).browser;
 }

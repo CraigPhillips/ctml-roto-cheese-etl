@@ -22,6 +22,8 @@ class League {
         { type: browseTo, url: `${yahooLeagueUrlPrefix}${_(this).leagueName}` },
         { type: enterText, field: '#login-username', value: _(this).userName },
         { type: click, field: '#login-signin' },
+        { type: enterText, field: '#login-password', value: _(this).password },
+        { type: click, field: '#login-signin' },
       ]);
   }
 }
