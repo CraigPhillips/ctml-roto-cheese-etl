@@ -10,6 +10,8 @@ class League {
 
     _(this).browser = browser;
     _(this).leagueName = leagueName;
+    _(this).password = process.env.FE_CHEESE_YAHOO_PASS;
+    _(this).userName = process.env.FE_CHEESE_YAHOO_USER;
   }
 
   async dispose() { _(this).browser.dispose(); }
@@ -18,6 +20,8 @@ class League {
     await _(this).browser
       .do([
         { type: browseTo, url: `${yahooLeagueUrlPrefix}${_(this).leagueName}` },
+        { type: enterText, field: '#login-username', value: _(this).userName },
+        { type: click, field: '#login-signin' },
       ]);
   }
 }

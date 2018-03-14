@@ -34,21 +34,33 @@ class Puppeteer {
       const browser = await getBrowser(this);
       const page = await browser.newPage();
 
-      let i = 1;
-      for (let action of toDos) {
-        if (!action.type) throw new Error(`action ${i} missing type`);
+      for (let i of toDos.keys()) {
+        const action = toDos[i];
+        const errorPre = `action ${i + 1}`;
+        if (!action.type) throw new Error(`${errorPre} missing type`);
 
         switch(action.type)
         {
           case actionType.browseTo:
-            if (!action.url) throw new Error(`action ${i} missing URL`);
+            if (!action.url) throw new Error(`${errorPre} missing URL`);
             await page.goto(action.url);
+            break;
+          case actionType.click:
+            if (!action.field) throw new Error(`${errorPre} missing field`);
+            await page.waitForSelector(action.field);
+            const clickTarget = await page.$(action.field);
+            await clickTarget.click();
+            break;
+          case actionType.enterText:
+            if (!action.field) throw new Error(`${errorPre} missing field`);
+            if (!action.value) throw new Error(`${errorPre} missing value`);
+            await page.waitForSelector(action.field);
+            const textTarget = await page.$(action.field);
+            await textTarget.type(action.value);
             break;
           default:
             throw new Error(`unknown action type: ${actionTypeToTake}`);
         }
-
-        i++;
       }
     } catch(actionError) {
       throw new VError(actionError, 'error while executing actions');
