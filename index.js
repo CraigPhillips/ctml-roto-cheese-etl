@@ -1,7 +1,7 @@
 const { League } = require('./yahoo/fantasy-baseball-league');
 
-process.env.FE_CHEESE_YAHOO_USER = 'craigphillipsmissinggoogle';
-process.env.FE_CHEESE_YAHOO_PASS = 'Nn#KN4xHJ*b8fwUdUQz*DhiF8';
+process.env.FE_CHEESE_YAHOO_USER = '';
+process.env.FE_CHEESE_YAHOO_PASS = '';
 
 (async () => {
   let league;
