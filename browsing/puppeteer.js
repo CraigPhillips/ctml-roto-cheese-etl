@@ -64,8 +64,16 @@ class Puppeteer {
             if (!action.att) throw new Error(`${errorPre} missing attribute`);
             await page.waitForSelector(action.field);
             const selectedFields = await page.$$(action.field);
-            console.log(selectedFields.length);
+            /*console.log(selectedFields.length);
+            console.log(action.field);
+            for (const field of selectedFields) {
+              const valueHandle = await field.getProperty(action.att);
+              console.log(await valueHandle.jsonValue());
+            }*/
 
+            let input = await page.$('#matchupweek');
+            let valueHandle = await input.getProperty('id');
+            console.log(await valueHandle.jsonValue());
             break;
           default:
             throw new Error(`unknown action type: ${actionTypeToTake}`);
