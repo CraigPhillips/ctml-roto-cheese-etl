@@ -17,15 +17,21 @@ class League {
   async dispose() { _(this).browser.dispose(); }
 
   async getCurrentWeeklyScores() {
-    await _(this).browser
+    const weeklyMatchups = await _(this).browser
       .do([
         { type: browseTo, url: `${yahooLeagueUrlPrefix}${_(this).leagueName}` },
         { type: enterText, field: '#login-username', value: _(this).userName },
         { type: click, field: '#login-signin' },
         { type: enterText, field: '#login-passwd', value: _(this).password },
         { type: click, field: '#login-signin' },
-        { type: getAtts, field: '#matchupweek [data-target]', att: 'data-target' },
+        {
+          type: getAtts,
+          field: '#matchupweek [data-target^="/b1"]',
+          att: 'data-target'
+        },
       ]);
+
+    console.log(weeklyMatchups);
   }
 }
 

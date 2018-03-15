@@ -14,7 +14,7 @@ const actionType = new ActionTypes();
 
 async function getBrowser(from) {
   if (!_(from).browser) {
-    _(from).browser = await _(from).puppeteer.launch({ headless: false });
+    _(from).browser = await _(from).puppeteer.launch({ headless: true });
   }
   return _(from).browser;
 }
@@ -34,6 +34,7 @@ class Puppeteer {
       const toDos = actions && actions.length? actions : [actions];
       const browser = await getBrowser(this);
       const page = await browser.newPage();
+      const values = [];
 
       for (let i of toDos.keys()) {
         const action = toDos[i];
@@ -62,23 +63,22 @@ class Puppeteer {
           case actionType.getAtts:
             if (!action.field) throw new Error(`${errorPre} missing field`);
             if (!action.att) throw new Error(`${errorPre} missing attribute`);
+
             await page.waitForSelector(action.field);
             const selectedFields = await page.$$(action.field);
-            /*console.log(selectedFields.length);
-            console.log(action.field);
             for (const field of selectedFields) {
-              const valueHandle = await field.getProperty(action.att);
-              console.log(await valueHandle.jsonValue());
-            }*/
-
-            let input = await page.$('#matchupweek');
-            let valueHandle = await input.getProperty('id');
-            console.log(await valueHandle.jsonValue());
+              const value = await page.evaluate((el, att) => {
+                return el.getAttribute(att);
+              }, field, action.att);
+              values.push(value);
+            }
             break;
           default:
             throw new Error(`unknown action type: ${actionTypeToTake}`);
         }
       }
+
+      return values.length > 1 ? values : values.length ? values[1] : undefined;
     } catch(actionError) {
       throw new VError(actionError, 'error while executing actions');
     }
