@@ -39,27 +39,27 @@ class Puppeteer {
 
       for (let i of toDos.keys()) {
         const action = toDos[i];
-        const errorPre = `action ${i + 1}`;
+        const errorPrefix = `action ${i + 1}`;
         const valuesSubset = [];
-        if (!action.type) throw new Error(`${errorPre} missing type`);
+        if (!action.type) throw new Error(`${errorPrefix} missing type`);
 
         switch(action.type)
         {
           case actionType.browseTo:
-            if (!action.url) throw new Error(`${errorPre} missing URL`);
+            if (!action.url) throw new Error(`${errorPrefix} missing URL`);
 
             await page.goto(action.url);
             break;
           case actionType.click:
-            if (!action.field) throw new Error(`${errorPre} missing field`);
+            if (!action.field) throw new Error(`${errorPrefix} missing field`);
 
             await page.waitForSelector(action.field);
             const clickTarget = await page.$(action.field);
             await clickTarget.click();
             break;
           case actionType.enterText:
-            if (!action.field) throw new Error(`${errorPre} missing field`);
-            if (!action.value) throw new Error(`${errorPre} missing value`);
+            if (!action.field) throw new Error(`${errorPrefix} missing field`);
+            if (!action.value) throw new Error(`${errorPrefix} missing value`);
 
             await page.waitForSelector(action.field);
             const textTarget = await page.$(action.field);
@@ -67,9 +67,9 @@ class Puppeteer {
             break;
           case actionType.getAtts:
           case actionType.getText:
-            if (!action.field) throw new Error(`${errorPre} missing field`);
+            if (!action.field) throw new Error(`${errorPrefix} missing field`);
             if (action.type === actionType.getAtts && !action.att) {
-              throw new Error(`${errorPre} missing attribute`);
+              throw new Error(`${errorPrefix} missing attribute`);
             }
 
             await page.waitForSelector(action.field);
