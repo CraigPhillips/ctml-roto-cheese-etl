@@ -1,7 +1,7 @@
 const _ = require('privatize')();
 const { actionType, Puppeteer } = require('../browsing/puppeteer');
 
-const { browseTo, click, enterText } = actionType;
+const { browseTo, click, enterText, getAtts } = actionType;
 const yahooLeagueUrlPrefix = 'https://baseball.fantasysports.yahoo.com/league/';
 
 class League {
@@ -22,8 +22,9 @@ class League {
         { type: browseTo, url: `${yahooLeagueUrlPrefix}${_(this).leagueName}` },
         { type: enterText, field: '#login-username', value: _(this).userName },
         { type: click, field: '#login-signin' },
-        { type: enterText, field: '#login-password', value: _(this).password },
+        { type: enterText, field: '#login-passwd', value: _(this).password },
         { type: click, field: '#login-signin' },
+        { type: getAtts, field: '#matchupweek [data-target]', att: 'data-target' },
       ]);
   }
 }

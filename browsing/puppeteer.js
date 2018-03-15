@@ -7,13 +7,14 @@ class ActionTypes {
     this.browseTo = Symbol('fe-cheese-puppeteer-browse-to');
     this.enterText = Symbol('fe-cheese-puppeteer-enter-text');
     this.click = Symbol('fe-cheese-puppeteer-click');
+    this.getAtts = Symbol('fe-cheese-puppeteer-get-attributes');
   }
 };
 const actionType = new ActionTypes();
 
 async function getBrowser(from) {
   if (!_(from).browser) {
-    _(from).browser = await _(from).puppeteer.launch({ headless: true });
+    _(from).browser = await _(from).puppeteer.launch({ headless: false });
   }
   return _(from).browser;
 }
@@ -57,6 +58,14 @@ class Puppeteer {
             await page.waitForSelector(action.field);
             const textTarget = await page.$(action.field);
             await textTarget.type(action.value);
+            break;
+          case actionType.getAtts:
+            if (!action.field) throw new Error(`${errorPre} missing field`);
+            if (!action.att) throw new Error(`${errorPre} missing attribute`);
+            await page.waitForSelector(action.field);
+            const selectedFields = await page.$$(action.field);
+            console.log(selectedFields.length);
+
             break;
           default:
             throw new Error(`unknown action type: ${actionTypeToTake}`);
