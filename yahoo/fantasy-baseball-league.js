@@ -1,8 +1,50 @@
 const _ = require('privatize')();
+const VError = require('verror');
+
 const { actionType, Puppeteer } = require('../browsing/puppeteer');
 
 const { browseTo, click, enterText, getAtts, getText } = actionType;
 const yahooLeagueUrlPrefix = 'https://baseball.fantasysports.yahoo.com';
+
+function parseWeeklyScoreValue(value) {
+  if (!value) throw new Error('no value to parse');
+
+  let parsed = value === '-' ? 0 : parseFloat(value.replace('*', ''));
+  if (isNaN(parsed)) parsed = value;
+
+  return parsed;
+}
+
+function parseWeeklyScoreResults(results, isSecondTeam) {
+  const score = {};
+
+  try {
+    if (!results) throw new Error('no results to parse');
+    if (results.length < 2) throw new Error('missing categories or results');
+
+    const [categories, values] = results;
+
+    for (let i of categories.keys()) {
+      const cat = categories[i].toLowerCase().replace('*', '');
+      const value = values[isSecondTeam ? i + categories.length : i];
+
+      if (cat.indexOf('/') === -1) {
+        score[cat] = parseWeeklyScoreValue(value);
+      } else {
+        const cats = cat.split('/');
+        const values = value.split('/');
+        for (let catI of cats.keys()) {
+          score[cats[catI]] = parseWeeklyScoreValue(values[catI]);
+        }
+      }
+    }
+
+  } catch(parseError) {
+    throw new VError(parseError, 'failed to parse results');
+  }
+
+  return score;
+}
 
 class League {
   constructor(leagueName, browser = new Puppeteer()) {
@@ -18,6 +60,8 @@ class League {
 
   async getCurrentWeeklyScores() {
     const leagueSuffix = `/league/${_(this).league}`;
+    const matchupStatuses = [];
+    const scores = {};
 
     const weeklyMatchups = await _(this).browser
       .do([
@@ -33,7 +77,6 @@ class League {
         },
       ]);
 
-    const matchupStatuses = [];
     for (let matchup of weeklyMatchups) {
       // regex: matches any number following mid{X}= where {X} is one digit
       const teamNumbers = matchup.match(/(?<=mid[\d]=)[\d]+/g);
@@ -49,26 +92,13 @@ class League {
     }
 
     const results = await Promise.all(matchupStatuses.map(s => s.readAttempt));
-    const scores = {};
     for (let i of results.keys()) {
       const teams = matchupStatuses[i].teamNumbers;
-      const [categories, values] = results[i];
-      const team1Score = {};
-      const team2Score = {};
-      for (let catI of categories.keys()) {
-        const cat = categories[catI].toLowerCase().replace('*', '');
-        const team1Value = values[catI] === '-' ? 0 : values[catI];
-        const catI2 = catI + categories.length;
-        const team2Value = values[catI2] === '-' ? 0 : values[catI2];
-        team1Score[cat] = parseFloat(team1Value);
-        team2Score[cat] = parseFloat(team2Value);
-      }
-
-      scores[teams[0]] = team1Score;
-      scores[teams[1]] = team2Score;
+      scores[teams[0]] = parseWeeklyScoreResults(results[i]);
+      scores[teams[1]] = parseWeeklyScoreResults(results[i], false);
     }
 
-    console.log(scores);
+    return scores;
   }
 }
 
