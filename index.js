@@ -8,6 +8,7 @@ process.env.FE_CHEESE_YAHOO_PASS = '';
   try {
     league = new League('chickentendermelt');
     const currentScores = await league.getCurrentWeeklyScores();
+    console.log(currentScores);
   } catch(testingError) {
     console.error(testingError);
   } finally {

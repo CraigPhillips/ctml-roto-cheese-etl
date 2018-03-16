@@ -1,15 +1,20 @@
 const _ = require('privatize')();
 const VError = require('verror');
 
+const { categories } = require('../scoring/categories');
 const { actionType, Puppeteer } = require('../browsing/puppeteer');
 
 const { browseTo, click, enterText, getAtts, getText } = actionType;
+const allCats = categories.all();
 const yahooLeagueUrlPrefix = 'https://baseball.fantasysports.yahoo.com';
 
-function parseWeeklyScoreValue(value) {
+function parseWeeklyScoreValue(value, cat) {
   if (!value) throw new Error('no value to parse');
+  const biggerIsBetter =
+    allCats.indexOf(cat) === -1 || categories.detailsFor(cat).biggerIsBetter;
+  const defaultVal = biggerIsBetter? 0 : Infinity;
 
-  let parsed = value === '-' ? 0 : parseFloat(value.replace('*', ''));
+  let parsed = value === '-' ? defaultVal : parseFloat(value.replace('*', ''));
   if (isNaN(parsed)) parsed = value;
 
   return parsed;
@@ -29,12 +34,12 @@ function parseWeeklyScoreResults(results, isSecondTeam) {
       const value = values[isSecondTeam ? i + categories.length : i];
 
       if (cat.indexOf('/') === -1) {
-        score[cat] = parseWeeklyScoreValue(value);
+        score[cat] = parseWeeklyScoreValue(value, cat);
       } else {
         const cats = cat.split('/');
         const values = value.split('/');
         for (let catI of cats.keys()) {
-          score[cats[catI]] = parseWeeklyScoreValue(values[catI]);
+          score[cats[catI]] = parseWeeklyScoreValue(values[catI], cats[catI]);
         }
       }
     }
