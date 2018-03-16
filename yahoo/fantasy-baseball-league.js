@@ -133,7 +133,18 @@ class League {
       { type: getText, field: '#teams td.user-id a' },
       { type: getAtts, field: '#teams td.user-id a', att: 'href' }
     ]);
-    console.log(logos, logoMap);
+
+    for (let i of names.keys()) {
+      const teamId = urls[i].match(/[\d]+$/)[0];
+
+      teams[teamId] = {
+        logo: logos[logoMap.indexOf(urls[i])],
+        name: names[i],
+        url: `${yahooLeagueUrlPrefix}${urls[i]}`,
+        owner: owners[i],
+        ownerProfile: profiles[i],
+      };
+    }
 
     return teams;
   }
