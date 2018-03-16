@@ -8,6 +8,23 @@ const { browseTo, click, enterText, getAtts, getText } = actionType;
 const allCats = categories.all();
 const yahooLeagueUrlPrefix = 'https://baseball.fantasysports.yahoo.com';
 
+async function doInLoggedInBrowser(steps) {
+  let preSteps = [
+    { type: browseTo, url: `${yahooLeagueUrlPrefix}${_(this).leagueSufx}` }
+  ];
+  preSteps = preSteps.concat(_(this).loggedIn? [] : [
+    { type: enterText, field: '#login-username', value: _(this).userName },
+    { type: click, field: '#login-signin' },
+    { type: enterText, field: '#login-passwd', value: _(this).password },
+    { type: click, field: '#login-signin' },
+  ]);
+
+  const result = await _(this).browser.do(preSteps.concat(steps));
+  _(this).loggedIn = true;
+
+  return result;
+}
+
 function parseWeeklyScoreValue(value, cat) {
   if (!value) throw new Error('no value to parse');
   const biggerIsBetter =
@@ -56,7 +73,8 @@ class League {
     if (!leagueName) throw new Error('missing league name');
 
     _(this).browser = browser;
-    _(this).league = leagueName;
+    _(this).leagueSufx = `/league/${leagueName}`;
+    _(this).loggedIn = false;
     _(this).password = process.env.FE_CHEESE_YAHOO_PASS;
     _(this).userName = process.env.FE_CHEESE_YAHOO_USER;
   }
@@ -64,23 +82,14 @@ class League {
   async dispose() { _(this).browser.dispose(); }
 
   async getCurrentWeeklyScores() {
-    const leagueSuffix = `/league/${_(this).league}`;
     const matchupStatuses = [];
     const scores = {};
 
-    const weeklyMatchups = await _(this).browser
-      .do([
-        { type: browseTo, url: `${yahooLeagueUrlPrefix}${leagueSuffix}` },
-        { type: enterText, field: '#login-username', value: _(this).userName },
-        { type: click, field: '#login-signin' },
-        { type: enterText, field: '#login-passwd', value: _(this).password },
-        { type: click, field: '#login-signin' },
-        {
-          type: getAtts,
-          field: '#matchupweek [data-target^="/b1"]',
-          att: 'data-target'
-        },
-      ]);
+    const weeklyMatchups = await doInLoggedInBrowser.call(this, [{
+      type: getAtts,
+      field: '#matchupweek [data-target^="/b1"]',
+      att: 'data-target'
+    }]);
 
     for (let matchup of weeklyMatchups) {
       // regex: matches any number following mid{X}= where {X} is one digit
@@ -104,6 +113,29 @@ class League {
     }
 
     return scores;
+  }
+
+  async getTeams() {
+    const teams = {};
+
+    const [nav, text, logos, logoMap] = await doInLoggedInBrowser.call(this, [
+      { type: getAtts, field: '#sitenav a', att: 'href' },
+      { type: getText, field: '#sitenav a' },
+      { type: getAtts, field: '.Tst-manager img.Avatar-sm', att: 'src' },
+      { type: getAtts, field: '.Tst-manager a:first-of-type', att: 'href' },
+    ]);
+    const managersUrl = nav[text.indexOf('Managers')];
+
+    const [names, urls, owners, profiles] = await _(this).browser.do([
+      { type: browseTo, url: `${yahooLeagueUrlPrefix}${managersUrl}` },
+      { type: getText, field: '#teams td:first-of-type' },
+      { type: getAtts, field: '#teams td:first-of-type a', att: 'href' },
+      { type: getText, field: '#teams td.user-id a' },
+      { type: getAtts, field: '#teams td.user-id a', att: 'href' }
+    ]);
+    console.log(logos, logoMap);
+
+    return teams;
   }
 }
 

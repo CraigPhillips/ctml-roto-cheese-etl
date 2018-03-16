@@ -15,7 +15,7 @@ const actionType = new ActionTypes();
 
 async function getBrowser(from) {
   if (!_(from).browser) {
-    _(from).browser = await _(from).puppeteer.launch({ headless: true });
+    _(from).browser = await _(from).puppeteer.launch({ headless: false });
   }
   return _(from).browser;
 }
@@ -40,7 +40,7 @@ class Puppeteer {
       for (let i of toDos.keys()) {
         const action = toDos[i];
         const errorPrefix = `action ${i + 1}`;
-        const valuesSubset = [];
+        const subValues = [];
         if (!action.type) throw new Error(`${errorPrefix} missing type`);
 
         switch(action.type)
@@ -82,16 +82,17 @@ class Puppeteer {
                 await page.evaluate((el) => {
                   return el.textContent;
                 }, field);
-              valuesSubset.push(value? value.trim() : value);
+              subValues.push(value? value.trim() : value);
             }
             break;
           default:
             throw new Error(`unknown action type: ${action.type.toString()}`);
         }
 
-        if (valuesSubset.length > 0 ) values.push(valuesSubset);
+        if (subValues.length > 0 ) {
+          values.push(subValues.length === 1? subValues[0] : subValues);
+        }
       }
-
       return values.length === 1? values[0] : values;
     } catch(actionError) {
       throw new VError(actionError, 'error while executing actions');
