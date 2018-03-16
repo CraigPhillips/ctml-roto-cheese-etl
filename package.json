@@ -1,0 +1,24 @@
+{
+  "name": "ctml-roto-cheese",
+  "version": "1.0.0",
+  "description": "CTML Baseball weekly rotisserie scoring",
+  "dependencies": {
+    "puppeteer": "^1.1.1",
+    "privatize": "github:CraigPhillips/privatize#develop",
+    "verror": "^1.10.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Craig Phillips <craig.phillips@frozenexports.net>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CraigPhillips/ctml-roto-cheese.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CraigPhillips/ctml-roto-cheese/issues"
+  },
+  "homepage": "https://github.com/CraigPhillips/ctml-roto-cheese#readme"
+}
