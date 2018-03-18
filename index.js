@@ -1,4 +1,5 @@
 const { League } = require('./yahoo/fantasy-baseball-league');
+const { WeeklyRotoScore } = require('./scoring/weekly-roto.js');
 
 process.env.FE_CHEESE_YAHOO_USER = '';
 process.env.FE_CHEESE_YAHOO_PASS = '';
@@ -133,7 +134,7 @@ process.env.FE_CHEESE_YAHOO_PASS = '';
       ip: 0,
       w: 0,
       sv: 0,
-      k: 0,
+      k: 3,
       era: Infinity,
       whip: Infinity,
       score: 0 },
@@ -150,14 +151,14 @@ process.env.FE_CHEESE_YAHOO_PASS = '';
       w: 0,
       sv: 0,
       k: 0,
-      era: Infinity,
+      era: 2.54,
       whip: Infinity,
       score: 0 },
    '10':
     { team: 'Liars or Crybabies',
       h: 0,
       ab: 0,
-      r: 0,
+      r: 1,
       hr: 0,
       rbi: 0,
       sb: 0,
@@ -167,7 +168,7 @@ process.env.FE_CHEESE_YAHOO_PASS = '';
       sv: 0,
       k: 0,
       era: Infinity,
-      whip: Infinity,
+      whip: .25,
       score: 0 } };
     // console.log(currentScores);
 
@@ -233,6 +234,10 @@ process.env.FE_CHEESE_YAHOO_PASS = '';
         owner: 'Rocky',
         ownerProfile: 'https://profiles.sports.yahoo.com/user/ITC6NTMBDPLP2BG2PC25BQB2VY' } };
     // console.log(teams);
+
+    const rotoScores = new WeeklyRotoScore(currentScores);
+
+    console.log(rotoScores);
   } catch(testingError) {
     console.error(testingError);
   } finally {
