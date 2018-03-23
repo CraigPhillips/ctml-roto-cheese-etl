@@ -1,16 +1,20 @@
 const { League } = require('./yahoo/fantasy-baseball-league');
+const { S3Publisher } = require('./aws/s3-publisher');
 const { WeeklyRotoScore } = require('./scoring/weekly-roto.js');
 
 process.env.FE_CHEESE_YAHOO_USER = '';
 process.env.FE_CHEESE_YAHOO_PASS = '';
+process.env.FE_CHEESE_PUB_PREFIX = '';
+process.env.FE_CHEESE_PUB_BUCKET = '';
 
 (async () => {
   let league;
   try {
     // league = new League('chickentendermelt');
+    const s3Publisher = new S3Publisher();
 
     const currentScores = // await league.getCurrentWeeklyScores();
-    { '1':
+    { 'weekNumber': 1,  '1':
     { team: 'Let\'s Play Two 2',
       h: 0,
       ab: 0,
@@ -237,10 +241,13 @@ process.env.FE_CHEESE_YAHOO_PASS = '';
 
     const rotoScores = new WeeklyRotoScore(currentScores);
 
-    console.log(rotoScores);
+    console.log(await s3Publisher.write(rotoScores, teams));
   } catch(testingError) {
-    console.error(testingError);
+    console.error('error in test run', testingError);
   } finally {
-    if (league) await league.dispose();
+    try { if (league) await league.dispose(); }
+    catch(disposeError) {
+      console.error('error in league shut down', disposeError);
+    }
   }
 })();

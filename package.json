@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "CTML Baseball weekly rotisserie scoring",
   "dependencies": {
-    "puppeteer": "^1.1.1",
+    "aws-sdk": "^2.213.1",
     "privatize": "github:CraigPhillips/privatize#develop",
+    "puppeteer": "^1.1.1",
     "verror": "^1.10.0"
   },
   "main": "index.js",
