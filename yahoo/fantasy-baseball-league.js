@@ -85,11 +85,19 @@ class League {
     const matchupStatuses = [];
     const scores = {};
 
-    const weeklyMatchups = await doInLoggedInBrowser.call(this, [{
-      type: getAtts,
-      field: '#matchupweek [data-target^="/b1"]',
-      att: 'data-target'
-    }]);
+    const [weeklyMatchups, weekDesc] = await doInLoggedInBrowser.call(this, [
+      {
+        type: getAtts,
+        field: '#matchupweek [data-target^="/b1"]',
+        att: 'data-target'
+      },
+      { type: getText, field: '#matchup_selectlist_nav .flyout-title' },
+    ]);
+    // regex: matches any number at the end of the string
+    try { scores.weekNumber = parseInt(weekDesc.match(/[\d]+$/)[0]); }
+    catch(parseError) {
+      throw new VError(parseError, 'week number parse error');
+    }
 
     for (let matchup of weeklyMatchups) {
       // regex: matches any number following mid{X}= where {X} is one digit

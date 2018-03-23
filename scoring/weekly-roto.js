@@ -8,8 +8,9 @@ class WeeklyRotoScore {
   populateFromScores(scores) {
     if (!scores) throw new Error('weekly scores required');
     const teamNums = [];
+    if (scores.weekNumber) this.weekNumber = scores.weekNumber;
 
-    for (let teamNum of Object.keys(scores)) {
+    for (let teamNum of Object.keys(scores).filter(k => k !== 'weekNumber')) {
       const team = scores[teamNum];
       const weeklyRotoScores = { rank: 1, tieCount: 1, total: 0 };
 
