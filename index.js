@@ -238,7 +238,6 @@ process.env.FE_CHEESE_PUB_BUCKET = '';
         owner: 'Rocky',
         ownerProfile: 'https://profiles.sports.yahoo.com/user/ITC6NTMBDPLP2BG2PC25BQB2VY' } };
     // console.log(teams);
-    teams.currentWeek = scores.weekNumber;
 
     const rotoScores = new WeeklyRotoScore(currentScores);
 

@@ -29,6 +29,7 @@ class S3Publisher {
       }).promise();
 
       if (team) {
+        team.currentWeek = scores.weekNumber;
         result.teamPubResult = await _(this).s3.putObject({
           Body: JSON.stringify(team),
           Bucket: _(this).targetBucket,
