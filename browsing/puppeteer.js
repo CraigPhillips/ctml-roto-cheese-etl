@@ -34,10 +34,11 @@ class Puppeteer {
 
   async do(actions) {
     let lastActionSeen;
+    let page;
     try {
       const toDos = actions && actions.length? actions : [actions];
       const browser = await getBrowser(this);
-      const page = await browser.newPage();
+      page = await browser.newPage();
       const values = [];
 
       for (let i of toDos.keys()) {
@@ -100,6 +101,7 @@ class Puppeteer {
       return values.length === 1? values[0] : values;
     } catch(actionError) {
       console.log('error triggered during: ', lastActionSeen);
+      if (page) await page.screenshot({ path: 'errored.png' });
       throw new VError(actionError, 'error while executing actions');
     }
   }
