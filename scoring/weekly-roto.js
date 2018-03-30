@@ -10,7 +10,8 @@ class WeeklyRotoScore {
     const teamNums = [];
     if (scores.weekNumber) this.weekNumber = scores.weekNumber;
 
-    for (let teamNum of Object.keys(scores).filter(k => k !== 'weekNumber')) {
+    const teamNumbers = Object.keys(scores).filter(k => k !== 'weekNumber');
+    for (let teamNum of teamNumbers) {
       const team = scores[teamNum];
       const weeklyRotoScores = { rank: 1, tieCount: 1, total: 0 };
 
@@ -21,7 +22,7 @@ class WeeklyRotoScore {
         let thisScore = 1;
         let thisTieCount = 1;
 
-        for (let compareToTeamNum of Object.keys(scores)) {
+        for (let compareToTeamNum of teamNumbers) {
           if (teamNum !== compareToTeamNum) {
             let compareToCatScore = scores[compareToTeamNum][cat];
             if (thisCatScore > compareToCatScore) {

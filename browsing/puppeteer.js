@@ -13,9 +13,11 @@ class ActionTypes {
 };
 const actionType = new ActionTypes();
 
+const timeout = 10000;
+
 async function getBrowser(from) {
   if (!_(from).browser) {
-    _(from).browser = await _(from).puppeteer.launch({ headless: false });
+    _(from).browser = await _(from).puppeteer.launch({ headless: true });
   }
   return _(from).browser;
 }
@@ -31,6 +33,7 @@ class Puppeteer {
   }
 
   async do(actions) {
+    let lastActionSeen;
     try {
       const toDos = actions && actions.length? actions : [actions];
       const browser = await getBrowser(this);
@@ -43,6 +46,7 @@ class Puppeteer {
         const subValues = [];
         if (!action.type) throw new Error(`${errorPrefix} missing type`);
 
+        lastActionSeen = action;
         switch(action.type)
         {
           case actionType.browseTo:
@@ -53,7 +57,7 @@ class Puppeteer {
           case actionType.click:
             if (!action.field) throw new Error(`${errorPrefix} missing field`);
 
-            await page.waitForSelector(action.field);
+            await page.waitForSelector(action.field,  { timeout });
             const clickTarget = await page.$(action.field);
             await clickTarget.click();
             break;
@@ -61,7 +65,7 @@ class Puppeteer {
             if (!action.field) throw new Error(`${errorPrefix} missing field`);
             if (!action.value) throw new Error(`${errorPrefix} missing value`);
 
-            await page.waitForSelector(action.field);
+            await page.waitForSelector(action.field, { timeout });
             const textTarget = await page.$(action.field);
             await textTarget.type(action.value);
             break;
@@ -72,7 +76,7 @@ class Puppeteer {
               throw new Error(`${errorPrefix} missing attribute`);
             }
 
-            await page.waitForSelector(action.field);
+            await page.waitForSelector(action.field, { timeout });
             const selectedFields = await page.$$(action.field);
             for (const field of selectedFields) {
               const value = action.type === actionType.getAtts ?
@@ -95,6 +99,7 @@ class Puppeteer {
       }
       return values.length === 1? values[0] : values;
     } catch(actionError) {
+      console.log('error triggered during: ', lastActionSeen);
       throw new VError(actionError, 'error while executing actions');
     }
   }

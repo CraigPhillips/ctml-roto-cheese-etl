@@ -107,8 +107,8 @@ class League {
         readAttempt: _(this).browser
           .do([
             { type: browseTo, url: `${yahooLeagueUrlPrefix}${matchup}` },
-            { type: getText, field: '#matchup-wall-header th' },
-            { type: getText, field: '#matchup-wall-header td' },
+            { type: getText, field: '.RedZone > table > thead > tr > *' },
+            { type: getText, field: '.RedZone > table > tbody > tr > *' },
           ])
       });
     }
@@ -117,7 +117,7 @@ class League {
     for (let i of results.keys()) {
       const teams = matchupStatuses[i].teamNumbers;
       scores[teams[0]] = parseWeeklyScoreResults(results[i]);
-      scores[teams[1]] = parseWeeklyScoreResults(results[i], false);
+      scores[teams[1]] = parseWeeklyScoreResults(results[i], true);
     }
 
     return scores;
@@ -141,13 +141,15 @@ class League {
       { type: getText, field: '#teams td.user-id a' },
       { type: getAtts, field: '#teams td.user-id a', att: 'href' }
     ]);
+    const safeNames = [];
+    for(let name of names) { if (name !== 'Co-Manager') safeNames.push(name); }
 
-    for (let i of names.keys()) {
+    for (let i of safeNames.keys()) {
       const teamId = urls[i].match(/[\d]+$/)[0];
 
       teams[teamId] = {
         logo: logos[logoMap.indexOf(urls[i])],
-        name: names[i],
+        name: safeNames[i],
         url: `${yahooLeagueUrlPrefix}${urls[i]}`,
         owner: owners[i],
         ownerProfile: profiles[i],
