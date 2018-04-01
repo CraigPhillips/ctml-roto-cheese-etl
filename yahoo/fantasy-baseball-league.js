@@ -83,7 +83,7 @@ class League {
 
   async getCurrentWeeklyScores() {
     const matchupStatuses = [];
-    const scores = {};
+    const scores = { timestamp: (new Date()).toUTCString() };
 
     const [weeklyMatchups, weekDesc] = await doInLoggedInBrowser.call(this, [
       {

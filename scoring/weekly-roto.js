@@ -9,8 +9,11 @@ class WeeklyRotoScore {
     if (!scores) throw new Error('weekly scores required');
     const teamNums = [];
     if (scores.weekNumber) this.weekNumber = scores.weekNumber;
+    if (scores.timestamp) this.timestamp = scores.timestamp;
 
-    const teamNumbers = Object.keys(scores).filter(k => k !== 'weekNumber');
+    const teamNumbers = Object
+      .keys(scores)
+      .filter(k => k !== 'weekNumber' && k !== 'timestamp');
     for (let teamNum of teamNumbers) {
       const team = scores[teamNum];
       const weeklyRotoScores = { rank: 1, tieCount: 1, total: 0 };
