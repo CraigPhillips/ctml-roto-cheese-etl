@@ -7,7 +7,9 @@ process.env.FE_CHEESE_YAHOO_PASS = '';
 process.env.FE_CHEESE_PUB_PREFIX = '';
 process.env.FE_CHEESE_PUB_BUCKET = '';
 
-(async () => {
+const run = (async () => {
+  console.time('ctml data update');
+  console.log(`starting update at ${(new Date()).toString()}`);
   let league;
   try {
     league = new League('chickentendermelt');
@@ -26,4 +28,13 @@ process.env.FE_CHEESE_PUB_BUCKET = '';
       console.error('error in league shut down', disposeError);
     }
   }
-})();
+
+  console.log(`finished update at ${(new Date()).toString()}`);
+  console.timeEnd('ctml data updated');
+});
+
+run();
+const interval = setInterval(() => {
+  run();
+  // clearInterval(interval);
+}, 5 * 60 * 1000);

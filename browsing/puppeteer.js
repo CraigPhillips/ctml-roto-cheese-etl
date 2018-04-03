@@ -13,7 +13,7 @@ class ActionTypes {
 };
 const actionType = new ActionTypes();
 
-const timeout = 10000;
+const timeout = 90000;
 
 async function getBrowser(from) {
   if (!_(from).browser) {
@@ -53,7 +53,7 @@ class Puppeteer {
           case actionType.browseTo:
             if (!action.url) throw new Error(`${errorPrefix} missing URL`);
 
-            await page.goto(action.url);
+            await page.goto(action.url, { timeout });
             break;
           case actionType.click:
             if (!action.field) throw new Error(`${errorPrefix} missing field`);
