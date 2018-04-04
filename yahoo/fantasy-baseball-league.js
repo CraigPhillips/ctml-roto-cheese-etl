@@ -81,7 +81,13 @@ class League {
 
   async dispose() { _(this).browser.dispose(); }
 
-  async getCurrentWeeklyScores() {
+  async getCurrentWeeklyScores(alternateMatchupSelectors) {
+    const matchupCatSelector =
+      alternateMatchupSelectors && alternateMatchupSelectors.categories ?
+        alternateMatchupSelectors.categories : '#matchup-wall-header th';
+    const matchupScoresSelector =
+      alternateMatchupSelectors && alternateMatchupSelectors.scores ?
+        alternateMatchupSelectors.scores : '#matchup-wall-header td';
     const matchupStatuses = [];
     const scores = { timestamp: (new Date()).toUTCString() };
 
@@ -107,8 +113,12 @@ class League {
         readAttempt: _(this).browser
           .do([
             { type: browseTo, url: `${yahooLeagueUrlPrefix}${matchup}` },
-            { type: getText, field: '.RedZone > table > thead > tr > *' },
-            { type: getText, field: '.RedZone > table > tbody > tr > *' },
+            // { type: getText, field: '.RedZone > table > thead > tr > *' },
+            // { type: getText, field: '.RedZone > table > tbody > tr > *' },
+            // { type: getText, field: '#matchup-wall-header th' },
+            // { type: getText, field: '#matchup-wall-header td' },
+            { type: getText, field: matchupCatSelector },
+            { type: getText, field: matchupScoresSelector },
           ])
       });
     }

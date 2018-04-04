@@ -3,19 +3,30 @@ const { S3Publisher } = require('./aws/s3-publisher');
 const { WeeklyRotoScore } = require('./scoring/weekly-roto.js');
 
 process.env.FE_CHEESE_YAHOO_USER = '';
-process.env.FE_CHEESE_YAHOO_PASS = '';
+process.env.FE_CHEESE_YAHOO_PASS = '' ;
 process.env.FE_CHEESE_PUB_PREFIX = '';
 process.env.FE_CHEESE_PUB_BUCKET = '';
 
 const run = (async () => {
-  console.time('ctml data update');
+  console.time('ctml data updated');
   console.log(`starting update at ${(new Date()).toString()}`);
   let league;
   try {
     league = new League('chickentendermelt');
     const s3Publisher = new S3Publisher();
 
-    const currentScores = await league.getCurrentWeeklyScores();
+    let currentScores;
+    try { currentScores = await league.getCurrentWeeklyScores(); }
+    catch(error) {
+      console.error('encountered error with default lookup fields:');
+      console.error(error);
+      console.log('trying again...');
+      currentScores = await league.getCurrentWeeklyScores({
+        categories: '.RedZone > table > thead > tr > *',
+        scores: '.RedZone > table > tbody > tr > *',
+      });
+    }
+
     const teams = await league.getTeams();
     const rotoScores = new WeeklyRotoScore(currentScores);
 

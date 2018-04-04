@@ -13,7 +13,8 @@ class ActionTypes {
 };
 const actionType = new ActionTypes();
 
-const timeout = 90000;
+const browseTimeout = 90000;
+const timeout = 30000;
 
 async function getBrowser(from) {
   if (!_(from).browser) {
@@ -53,7 +54,7 @@ class Puppeteer {
           case actionType.browseTo:
             if (!action.url) throw new Error(`${errorPrefix} missing URL`);
 
-            await page.goto(action.url, { timeout });
+            await page.goto(action.url, { timeout: browseTimeout });
             break;
           case actionType.click:
             if (!action.field) throw new Error(`${errorPrefix} missing field`);
@@ -100,7 +101,7 @@ class Puppeteer {
       }
       return values.length === 1? values[0] : values;
     } catch(actionError) {
-      console.log('error triggered during: ', lastActionSeen);
+      // console.log('error triggered during: ', lastActionSeen);
       if (page) await page.screenshot({ path: 'errored.png' });
       throw new VError(actionError, 'error while executing actions');
     }
