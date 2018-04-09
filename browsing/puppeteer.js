@@ -16,9 +16,13 @@ const actionType = new ActionTypes();
 const browseTimeout = 90000;
 const timeout = 30000;
 
+const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10 7 4) AppleWebKit/537.13 (KHTML, like Gecko) Chrome/24.0.1290.1 Safari/537.13';
+
 async function getBrowser(from) {
   if (!_(from).browser) {
-    _(from).browser = await _(from).puppeteer.launch({ headless: true });
+    const flags = {
+    };
+    _(from).browser = await _(from).puppeteer.launch({ flags, headless: true });
   }
   return _(from).browser;
 }
@@ -40,6 +44,7 @@ class Puppeteer {
       const toDos = actions && actions.length? actions : [actions];
       const browser = await getBrowser(this);
       page = await browser.newPage();
+      await page.setUserAgent(userAgent);
       const values = [];
 
       for (let i of toDos.keys()) {

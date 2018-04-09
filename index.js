@@ -2,10 +2,10 @@ const { League } = require('./yahoo/fantasy-baseball-league');
 const { S3Publisher } = require('./aws/s3-publisher');
 const { WeeklyRotoScore } = require('./scoring/weekly-roto.js');
 
-process.env.FE_CHEESE_YAHOO_USER = '';
-process.env.FE_CHEESE_YAHOO_PASS = '' ;
-process.env.FE_CHEESE_PUB_PREFIX = '';
-process.env.FE_CHEESE_PUB_BUCKET = '';
+process.env.FE_CHEESE_YAHOO_USER = 'craigphillipsmissinggoogle';
+process.env.FE_CHEESE_YAHOO_PASS = 'y:KQ#C?rz1^4ioJ=uXM-gOqt^';
+process.env.FE_CHEESE_PUB_PREFIX = 'data';
+process.env.FE_CHEESE_PUB_BUCKET = 'cheese.frozenexports.net';
 
 const run = (async () => {
   console.time('ctml data updated');
@@ -16,15 +16,17 @@ const run = (async () => {
     const s3Publisher = new S3Publisher();
 
     let currentScores;
-    try { currentScores = await league.getCurrentWeeklyScores(); }
-    catch(error) {
-      console.error('encountered error with default lookup fields:');
-      console.error(error);
-      console.log('trying again...');
+    try {
       currentScores = await league.getCurrentWeeklyScores({
         categories: '.RedZone > table > thead > tr > *',
         scores: '.RedZone > table > tbody > tr > *',
       });
+    }
+    catch(error) {
+      console.error('encountered error with default lookup fields:');
+      console.error(error);
+      console.log('trying again...');
+      currentScores = await league.getCurrentWeeklyScores();
     }
 
     const teams = await league.getTeams();
