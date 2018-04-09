@@ -2,10 +2,10 @@ const { League } = require('./yahoo/fantasy-baseball-league');
 const { S3Publisher } = require('./aws/s3-publisher');
 const { WeeklyRotoScore } = require('./scoring/weekly-roto.js');
 
-process.env.FE_CHEESE_YAHOO_USER = 'craigphillipsmissinggoogle';
-process.env.FE_CHEESE_YAHOO_PASS = 'y:KQ#C?rz1^4ioJ=uXM-gOqt^';
-process.env.FE_CHEESE_PUB_PREFIX = 'data';
-process.env.FE_CHEESE_PUB_BUCKET = 'cheese.frozenexports.net';
+process.env.FE_CHEESE_YAHOO_USER = '';
+process.env.FE_CHEESE_YAHOO_PASS = '';
+process.env.FE_CHEESE_PUB_PREFIX = '';
+process.env.FE_CHEESE_PUB_BUCKET = '';
 
 const run = (async () => {
   console.time('ctml data updated');
