@@ -106,9 +106,12 @@ class Puppeteer {
       }
       return values.length === 1? values[0] : values;
     } catch(actionError) {
-      console.log('error triggered during: ', lastActionSeen);
+      // console.logconsole.log('error triggered during: ', lastActionSeen);
       if (page) await page.screenshot({ path: 'errored.png' });
-      throw new VError(actionError, 'error while executing actions');
+      throw new VError(
+        actionError,
+        `error while executing actions: ${lastActionSeen}`,
+      );
     }
   }
 };
