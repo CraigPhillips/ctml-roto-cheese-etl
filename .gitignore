@@ -1,5 +1,3 @@
-# Ignores jEdit temporary files
-*~
-*.marks
-*#*#
-.DS_Store
+node_modules
+
+errored.png
