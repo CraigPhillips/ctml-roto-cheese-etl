@@ -3,14 +3,25 @@
   "version": "1.0.0",
   "description": "CTML Baseball weekly rotisserie scoring",
   "dependencies": {
-    "aws-sdk": "^2.213.1",
-    "privatize": "github:CraigPhillips/privatize#develop",
-    "puppeteer": "^1.1.1",
-    "verror": "^1.10.0"
+    "archiver": "^3.0.0",
+    "aws-sdk": "^2.409.0",
+    "be-there.js": "^1.0.0",
+    "chrome-aws-lambda": "^1.12.0",
+    "log-update": "^2.3.0",
+    "md5": "^2.2.1",
+    "private-parts": "^0.4.1",
+    "puppeteer": "^1.15.0",
+    "shelljs": "^0.8.3",
+    "winston": "^3.2.1"
   },
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {
-    "test": "node index.js"
+    "coverage": "nyc npm test",
+    "coverage-report": "nyc --reporter=lcov --extension \".mjs\" npm test",
+    "deploy": "node -r dotenv/config --experimental-modules --no-warnings deploy/index.mjs",
+    "etl": "node -r dotenv/config --experimental-modules --no-warnings src/index.mjs",
+    "lint": "eslint \"**/*.mjs\" --ignore-path .gitignore",
+    "test": "mocha --require @babel/register --require @babel/polyfill ./**/*.test.mjs"
   },
   "author": "Craig Phillips <craig.phillips@frozenexports.net>",
   "repository": {
@@ -21,5 +32,24 @@
   "bugs": {
     "url": "https://github.com/CraigPhillips/ctml-roto-cheese/issues"
   },
-  "homepage": "https://github.com/CraigPhillips/ctml-roto-cheese#readme"
+  "homepage": "https://github.com/CraigPhillips/ctml-roto-cheese#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/register": "^7.4.4",
+    "@istanbuljs/nyc-config-babel": "^2.1.1",
+    "babel-plugin-istanbul": "^5.1.4",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "dotenv": "^6.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "karma-mocha": "^1.3.0",
+    "mjs-mocha": "^3.0.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "sinon": "^7.3.2"
+  }
 }

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][2], and this project adheres to
 [Semantic Versioning][1].
 
+## Unreleased
+### Removed
+- all old functionality
+
 ## [1.0.0] - 2018-09-25
 ### Added
 - this CHANGELOG

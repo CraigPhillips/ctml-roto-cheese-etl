@@ -1,0 +1,7 @@
+---
+exclude:
+  - '**/*.test.mjs'
+  - '**/test/**'
+extends: '@istanbuljs/nyc-config-babel'
+extension:
+  - .mjs
