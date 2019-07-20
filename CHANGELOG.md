@@ -4,9 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][2], and this project adheres to
 [Semantic Versioning][1].
 
-## Unreleased
+## [2.0.0] - 2019-07-19
 ### Removed
 - all old functionality
+
+### Added
+- new Lambda-based ETL
+- scripting for running ETL locally, tests and deployments
+- supporting AWS infrastructure to host and trigger ETL
+
+## Unreleased
 
 ## [1.0.0] - 2018-09-25
 ### Added
