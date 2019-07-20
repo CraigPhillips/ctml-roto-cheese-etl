@@ -1,0 +1,13 @@
+{
+  "plugins": [
+      "istanbul"
+  ],
+  "presets": [
+      [
+          "@babel/preset-env",
+          {
+              "modules": "auto"
+          }
+      ]
+  ]
+}
