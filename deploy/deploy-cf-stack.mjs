@@ -72,6 +72,7 @@ export default async function deployCFStack(
       DependenciesS3Bucket: depProps.Bucket,
       DependenciesS3Key: depProps.Key,
       ErrorScreenshotS3Path: config.errorScreenshotStorage.location,
+      FailingETLNotificationEmail: config.deployment.notificationsEmail,
       LeagueUrl: config.leagueUrl,
       PublishS3Bucket: config.dataPublishing.s3Bucket,
       PublishS3Path: config.dataPublishing.s3Path,
