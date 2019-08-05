@@ -1,3 +1,4 @@
+import CloudWatch from 'aws-sdk/clients/cloudwatch';
 import chromium from 'chrome-aws-lambda';
 import privacy from 'private-parts';
 import S3 from 'aws-sdk/clients/s3';
@@ -8,11 +9,13 @@ import ErrorHandler from './error-handler';
 import ETL from './etl';
 import LeagueBrowser from './league-browser';
 import Log from './log';
+import Metrics from './metrics';
 import ResultsPublisher from './results-publisher';
 
 export const dependencies = {
   etlFactory: async (webBrowserLauncher, log) => {
     const etlConfig = new Config();
+    const metrics = new Metrics(new CloudWatch());
     const s3 = new S3();
 
     const leagueBrowser = new LeagueBrowser(
@@ -26,6 +29,7 @@ export const dependencies = {
         headless: chromium.headless,
       }),
       log,
+      metrics,
       new ErrorHandler(etlConfig, log, s3),
     );
     const resultsPublisher = new ResultsPublisher(
