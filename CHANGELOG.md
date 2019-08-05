@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][2], and this project adheres to
 [Semantic Versioning][1].
 
+## [Unreleased]
+
+### Added
+- alarm to alert on ETL failing for over an hour
+- metric for tracking DOM type of matchup pages
+
 ## [2.1.0] - 2019-07-27
 ### Updated
 - Dependencies:

@@ -13,6 +13,8 @@ Parameters:
     Type: String
   ErrorScreenshotS3Path:
     Type: String
+  FailingETLNotificationEmail:
+    Type: String
   LeagueUrl:
     Type: String
   PublishS3Bucket:
@@ -39,6 +41,26 @@ Resources:
       # max retention period of 14 days
       MessageRetentionPeriod: 1209600
 
+  DeadLetterQueueReceivingMessages:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      ActionsEnabled: true
+      AlarmActions: [!Ref FailingETLRuns]
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      Dimensions:
+        - Name: QueueName
+          Value: !GetAtt DeadLetterQueue.QueueName
+      EvaluationPeriods: 5
+      InsufficientDataActions: [!Ref FailingETLRuns]
+      MetricName: NumberOfMessagesSent
+      Namespace: AWS/SQS
+      OKActions: [!Ref FailingETLRuns]
+      Period: 900
+      Statistic: Maximum
+      Threshold: 1
+      TreatMissingData: breaching
+      Unit: Count
+
   Dependencies:
     Type: AWS::Lambda::LayerVersion
     Properties:
@@ -50,34 +72,6 @@ Resources:
         !Sub
           - CTML Roto Cheese ETL dependencies - ${HASH}
           - HASH: !Ref DependenciesHash
-
-  Permissions:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal: { Service: lambda.amazonaws.com }
-            Action: sts:AssumeRole
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-      Policies:
-        - PolicyName: EtlExcecutionPermissions
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: s3:PutObject
-                Resource: !Sub
-                  - '${StorageBucketArn}/*'
-                  - StorageBucketArn: !GetAtt Storage.Arn
-              - Effect: Allow
-                Action: s3:*
-                Resource: '*'
-              - Effect: Allow
-                Action: sqs:SendMessage
-                Resource: !GetAtt DeadLetterQueue.Arn
 
   ETL:
     Type: AWS::Lambda::Function
@@ -104,6 +98,44 @@ Resources:
       Role: !GetAtt Permissions.Arn
       Runtime: nodejs8.10
       Timeout: 90
+
+  FailingETLRuns:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription:
+        - Protocol: email
+          Endpoint: !Ref FailingETLNotificationEmail
+
+  Permissions:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: { Service: lambda.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: EtlExcecutionPermissions
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: '*'
+              - Effect: Allow
+                Action: s3:PutObject
+                Resource: !Sub
+                  - '${StorageBucketArn}/*'
+                  - StorageBucketArn: !GetAtt Storage.Arn
+              - Effect: Allow
+                Action: s3:*
+                Resource: '*'
+              - Effect: Allow
+                Action: sqs:SendMessage
+                Resource: !GetAtt DeadLetterQueue.Arn
 
   ScheduledTrigger:
     Type: AWS::Events::Rule

@@ -41,6 +41,7 @@ describe('Config', () => {
     deployment: {
       cfStackName: 'DEPLOY_CF_STACK_NAME',
       cfTemplate: 'DEPLOY_CF_TEMPLATE',
+      notificationsEmail: 'NOTIFICATIONS_EMAIL',
       s3Bucket: 'DEPLOY_S3_BUCKET',
       s3DependenciesPath: 'DEPLOY_DEPENDENCIES_S3_PATH',
       s3SrcPath: 'DEPLOY_SRC_S3_PATH',

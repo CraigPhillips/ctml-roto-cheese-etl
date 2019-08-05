@@ -13,6 +13,7 @@ export default class Config {
       deployment: {
         cfStackName: process.env.DEPLOY_CF_STACK_NAME,
         cfTemplate: process.env.DEPLOY_CF_TEMPLATE,
+        notificationsEmail: process.env.NOTIFICATIONS_EMAIL,
         s3Bucket: process.env.DEPLOY_S3_BUCKET,
         s3DependenciesPath: process.env.DEPLOY_DEPENDENCIES_S3_PATH,
         s3SrcPath: process.env.DEPLOY_SRC_S3_PATH,
