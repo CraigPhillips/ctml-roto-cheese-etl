@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog][2], and this project adheres to
 - alarm to alert on ETL failing for over an hour
 - metric for tracking DOM type of matchup pages
 
+### Updated
+- test run definition to no longer use deprecated polyfill library
+- test run definition to use more tightly-scoped path
+
 ## [2.1.0] - 2019-07-27
 ### Updated
 - Dependencies:
@@ -26,8 +30,6 @@ The format is based on [Keep a Changelog][2], and this project adheres to
 - new Lambda-based ETL
 - scripting for running ETL locally, tests and deployments
 - supporting AWS infrastructure to host and trigger ETL
-
-## Unreleased
 
 ## [1.0.0] - 2018-09-25
 ### Added
