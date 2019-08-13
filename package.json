@@ -3,9 +3,8 @@
   "version": "2.1.0",
   "description": "CTML Baseball weekly rotisserie scoring",
   "dependencies": {
-    "archiver": "^3.0.3",
-    "aws-sdk": "^2.501.0",
-    "be-there.js": "^1.0.0",
+    "archiver": "^3.1.1",
+    "aws-sdk": "^2.508.0",
     "chrome-aws-lambda": "^1.19.0",
     "log-update": "^3.2.0",
     "md5": "^2.2.1",
@@ -43,13 +42,13 @@
     "chai-as-promised": "^7.1.1",
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",
-    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "karma-mocha": "^1.3.0",
     "mjs-mocha": "^3.0.0",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "regenerator-runtime": "^0.13.3",
-    "sinon": "^7.3.2"
+    "sinon": "^7.4.1"
   }
 }
