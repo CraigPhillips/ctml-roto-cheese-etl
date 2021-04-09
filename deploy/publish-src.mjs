@@ -3,7 +3,7 @@ import stream from 'stream';
 import util from 'util';
 
 import archiver from 'archiver';
-import beThere from 'be-there.js';
+import beThere from 'be-there';
 import md5 from 'md5';
 import * as babel from '@babel/core';
 
@@ -57,7 +57,7 @@ export default async function publishSrc(config, s3Client, log) {
   log.info('transpiling source');
   await Promise.all(Object.keys(src).map(async (srcFile) => {
     const { code } = await util.promisify(babel.default.transform)(
-      src[srcFile].toString(),
+      src[srcFile].toString().split('.mjs').join('.js'),
       {
         presets: [
           [

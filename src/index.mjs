@@ -1,14 +1,13 @@
-import CloudWatch from 'aws-sdk/clients/cloudwatch';
-import S3 from 'aws-sdk/clients/s3';
+import AWS from 'aws-sdk';
 import puppeteer from 'puppeteer';
 
-import Config from './config';
-import ErrorHandler from './error-handler';
-import ETL from './etl';
-import LeagueBrowser from './league-browser';
-import Log from './log';
-import Metrics from './metrics';
-import ResultsPublisher from './results-publisher';
+import Config from './config.mjs';
+import ErrorHandler from './error-handler.mjs';
+import ETL from './etl.mjs';
+import LeagueBrowser from './league-browser.mjs';
+import Log from './log.mjs';
+import Metrics from './metrics.mjs';
+import ResultsPublisher from './results-publisher.mjs';
 
 (async function runEtl() {
   let etl;
@@ -16,10 +15,10 @@ import ResultsPublisher from './results-publisher';
   try {
     log = new Log({ prettyPrintJSON: true });
 
-    const cloudWatch = new CloudWatch();
+    const cloudWatch = new AWS.CloudWatch();
     const etlConfig = new Config();
     const metrics = new Metrics(cloudWatch);
-    const s3 = new S3();
+    const s3 = new AWS.S3();
 
     const leagueBrowser = new LeagueBrowser(
       etlConfig.leagueUrl,

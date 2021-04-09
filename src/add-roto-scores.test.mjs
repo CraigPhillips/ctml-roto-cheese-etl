@@ -1,8 +1,8 @@
 import chai from 'chai';
 
-import addRotoScores from './add-roto-scores';
-import cats from './scoring-categories';
-import NoOpLog from '../test/no-op-log';
+import addRotoScores from './add-roto-scores.mjs';
+import cats from './scoring-categories.mjs';
+import NoOpLog from '../test/no-op-log.mjs';
 
 chai.should();
 
