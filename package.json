@@ -1,6 +1,6 @@
 {
   "name": "ctml-roto-cheese",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "CTML Baseball weekly rotisserie scoring",
   "dependencies": {
     "archiver": "^3.0.3",
@@ -17,11 +17,11 @@
   "main": "index.mjs",
   "scripts": {
     "coverage": "nyc npm test",
-    "coverage-report": "nyc --reporter=lcov --extension \".mjs\" npm test",
+    "coverage-report": "nyc --reporter=lcov npm test",
     "deploy": "node -r dotenv/config --experimental-modules --no-warnings deploy/index.mjs",
     "etl": "node -r dotenv/config --experimental-modules --no-warnings src/index.mjs",
     "lint": "eslint \"**/*.mjs\" --ignore-path .gitignore",
-    "test": "mocha --require @babel/register --require @babel/polyfill ./**/*.test.mjs"
+    "test": "mocha --require @babel/register --require core-js/stable --require regenerator-runtime/runtime src/**/*.test.mjs"
   },
   "author": "Craig Phillips <craig.phillips@frozenexports.net>",
   "repository": {
@@ -35,7 +35,6 @@
   "homepage": "https://github.com/CraigPhillips/ctml-roto-cheese#readme",
   "devDependencies": {
     "@babel/core": "^7.5.5",
-    "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
     "@istanbuljs/nyc-config-babel": "^2.1.1",
@@ -50,6 +49,7 @@
     "mjs-mocha": "^3.0.0",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
+    "regenerator-runtime": "^0.13.3",
     "sinon": "^7.3.2"
   }
 }

@@ -1,3 +1,4 @@
+import CloudWatch from 'aws-sdk/clients/cloudwatch';
 import S3 from 'aws-sdk/clients/s3';
 import puppeteer from 'puppeteer';
 
@@ -6,6 +7,7 @@ import ErrorHandler from './error-handler';
 import ETL from './etl';
 import LeagueBrowser from './league-browser';
 import Log from './log';
+import Metrics from './metrics';
 import ResultsPublisher from './results-publisher';
 
 (async function runEtl() {
@@ -13,7 +15,10 @@ import ResultsPublisher from './results-publisher';
   let log;
   try {
     log = new Log({ prettyPrintJSON: true });
+
+    const cloudWatch = new CloudWatch();
     const etlConfig = new Config();
+    const metrics = new Metrics(cloudWatch);
     const s3 = new S3();
 
     const leagueBrowser = new LeagueBrowser(
@@ -22,6 +27,7 @@ import ResultsPublisher from './results-publisher';
       etlConfig.runAs.password,
       await puppeteer.launch({ args: ['--no-sandbox'] }),
       log,
+      metrics,
       new ErrorHandler(etlConfig, log, s3),
     );
     const resultsPublisher = new ResultsPublisher(

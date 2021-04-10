@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][2], and this project adheres to
 [Semantic Versioning][1].
 
+## [Unreleased]
+
+## [3.0.0] - 2021-04-09
+
+### Added
+- alarm to alert on ETL failing for over an hour
+- metric for tracking DOM type of matchup pages
+- logic to avoid running during baseball off hours
+
+### Updated
+- test run definition to no longer use deprecated polyfill library
+- test run definition to use more tightly-scoped path
+- upgraded to Node 14 (except test coverage)
+- updated all dependencies to latest
+
 ## [2.1.0] - 2019-07-27
 ### Updated
 - Dependencies:
@@ -20,8 +35,6 @@ The format is based on [Keep a Changelog][2], and this project adheres to
 - new Lambda-based ETL
 - scripting for running ETL locally, tests and deployments
 - supporting AWS infrastructure to host and trigger ETL
-
-## Unreleased
 
 ## [1.0.0] - 2018-09-25
 ### Added

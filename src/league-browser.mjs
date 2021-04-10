@@ -24,6 +24,7 @@ export default class LeagueBrowser {
     password,
     browser,
     log,
+    metrics,
     errorHandler,
     pageTimeout = defaultPageTimeoutMillis,
   ) {
@@ -35,6 +36,7 @@ export default class LeagueBrowser {
       leagueUrl,
       log,
       loggedIn: false,
+      metrics,
       pageTimeout,
       password,
       user,
@@ -148,7 +150,7 @@ export default class LeagueBrowser {
   }
 
   async getMatchupInfo(matchupUrl, teamCount) {
-    const { log } = _(this);
+    const { log, metrics } = _(this);
     const matchupInfo = {};
     let matchupPage;
     try {
@@ -166,6 +168,7 @@ export default class LeagueBrowser {
           return 'redzone';
         })(),
       ]);
+      const domTypeRecording = metrics.recordMatchupDomType(matchupDomType);
       log.debug('matchup DOM type found', { matchupDomType, matchupUrl });
       const headerCells = matchupDomType === 'matchup-wall-header'
         ? await matchupPage.$$('#matchup-wall-header th')
@@ -227,6 +230,7 @@ export default class LeagueBrowser {
       }
       /* eslint-enable no-await-in-loop */
 
+      await domTypeRecording;
       if (Object.keys(matchupInfo).length < 2) {
         log.error('missing matchup data', { matchupUrl, matchupInfo });
         throw new Error('failed to parse scores for both teams');

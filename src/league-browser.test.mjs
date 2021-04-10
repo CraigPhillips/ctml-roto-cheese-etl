@@ -6,6 +6,7 @@ import cats from './scoring-categories';
 import ErrorHandler from './error-handler';
 import LeagueBrowser, { defaultPageTimeoutMillis } from './league-browser';
 import NoOpLog from '../test/no-op-log';
+import Metrics from './metrics';
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -44,6 +45,7 @@ describe('LeagueBrowser', () => {
   let errorHandler;
   let leagueBrowser;
   let log;
+  let metrics;
   let stubs;
   let teamLink;
 
@@ -51,6 +53,7 @@ describe('LeagueBrowser', () => {
     browser = { close: f, newPage: async () => page };
     errorHandler = new ErrorHandler({}, {}, {});
     log = new NoOpLog();
+    metrics = new Metrics({});
     teamLink = { getAttribute: () => teamUrl, textContent: teamName };
 
     stubs = {
@@ -61,6 +64,9 @@ describe('LeagueBrowser', () => {
       goto: sinon.stub(page, 'goto').returns(Promise.resolve()),
       handleError: sinon
         .stub(errorHandler, 'handle')
+        .returns(Promise.resolve()),
+      recordMatchupDomType: sinon
+        .stub(metrics, 'recordMatchupDomType')
         .returns(Promise.resolve()),
       select: sinon.stub(page, '$$'),
       setTimeout: sinon.stub(page, 'setDefaultTimeout'),
@@ -76,6 +82,7 @@ describe('LeagueBrowser', () => {
       password,
       browser,
       log,
+      metrics,
       errorHandler,
     );
   });
@@ -132,6 +139,7 @@ describe('LeagueBrowser', () => {
         password,
         browser,
         log,
+        metrics,
         errorHandler,
       );
 
@@ -257,6 +265,8 @@ describe('LeagueBrowser', () => {
       sinon.assert.calledWith(stubs.setTimeout, defaultPageTimeoutMillis);
       sinon.assert.calledWith(stubs.goto, matchupPathFull);
       sinon.assert.called(stubs.close);
+      sinon.assert
+        .calledWith(stubs.recordMatchupDomType, 'matchup-wall-header');
       // one key for each scoring category plus, rank, tieCount and total
       const expectedKeysCount = Object.keys(cats).length + 3;
       Object.keys(matchupInfo[teamId1]).length.should.equal(expectedKeysCount);
@@ -304,6 +314,7 @@ describe('LeagueBrowser', () => {
       sinon.assert.calledWith(stubs.setTimeout, defaultPageTimeoutMillis);
       sinon.assert.calledWith(stubs.goto, matchupPathFull);
       sinon.assert.called(stubs.close);
+      sinon.assert.calledWith(stubs.recordMatchupDomType, 'redzone');
       // one key for each scoring category plus, rank, tieCount and total
       const expectedKeysCount = Object.keys(cats).length + 3;
       Object.keys(matchupInfo[teamId1]).length.should.equal(expectedKeysCount);
