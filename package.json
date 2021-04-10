@@ -1,6 +1,6 @@
 {
   "name": "ctml-roto-cheese",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "CTML Baseball weekly rotisserie scoring",
   "dependencies": {
     "archiver": "^3.0.3",
