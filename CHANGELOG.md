@@ -6,13 +6,18 @@ The format is based on [Keep a Changelog][2], and this project adheres to
 
 ## [Unreleased]
 
+## [3.0.0] - 2021-04-09
+
 ### Added
 - alarm to alert on ETL failing for over an hour
 - metric for tracking DOM type of matchup pages
+- logic to avoid running during baseball off hours
 
 ### Updated
 - test run definition to no longer use deprecated polyfill library
 - test run definition to use more tightly-scoped path
+- upgraded to Node 14 (except test coverage)
+- updated all dependencies to latest
 
 ## [2.1.0] - 2019-07-27
 ### Updated
