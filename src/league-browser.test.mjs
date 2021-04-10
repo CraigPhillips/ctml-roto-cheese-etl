@@ -2,11 +2,11 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 
-import cats from './scoring-categories';
-import ErrorHandler from './error-handler';
-import LeagueBrowser, { defaultPageTimeoutMillis } from './league-browser';
-import NoOpLog from '../test/no-op-log';
-import Metrics from './metrics';
+import cats from './scoring-categories.mjs';
+import ErrorHandler from './error-handler.mjs';
+import LeagueBrowser, { defaultPageTimeoutMillis } from './league-browser.mjs';
+import NoOpLog from '../test/no-op-log.mjs';
+import Metrics from './metrics.mjs';
 
 chai.should();
 chai.use(chaiAsPromised);

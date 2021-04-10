@@ -1,4 +1,7 @@
+import beThere from 'be-there';
 import privacy from 'private-parts';
+
+const Namespace = 'CtmlRotoCheese';
 
 let _;
 export default class Metrics {
@@ -8,6 +11,7 @@ export default class Metrics {
     Object.assign(_(this), {
       cloudWatch,
     });
+    beThere(_(this));
   }
 
   async recordMatchupDomType(matchupDomType) {
@@ -18,7 +22,18 @@ export default class Metrics {
         Unit: 'Count',
         Value: 1,
       }],
-      Namespace: 'CtmlRotoCheese',
+      Namespace,
+    }).promise();
+  }
+
+  async recordSuccessCount(runFinished = true) {
+    return _(this).cloudWatch.putMetricData({
+      MetricData: [{
+        MetricName: 'SuccessfulEtlRun',
+        Unit: 'Count',
+        Value: runFinished ? 1 : 0,
+      }],
+      Namespace,
     }).promise();
   }
 }

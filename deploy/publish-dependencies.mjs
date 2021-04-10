@@ -3,7 +3,7 @@ import stream from 'stream';
 import util from 'util';
 
 import archiver from 'archiver';
-import beThere from 'be-there.js';
+import beThere from 'be-there';
 import logUpdate from 'log-update';
 import md5 from 'md5';
 
