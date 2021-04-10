@@ -1,7 +1,7 @@
 // import beThere from 'be-there.js';
 import privacy from 'private-parts';
 
-import addRotoScores from './add-roto-scores';
+import addRotoScores from './add-roto-scores.mjs';
 
 let _;
 export default class ETL {

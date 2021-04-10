@@ -1,7 +1,7 @@
 import fs from 'fs';
 import util from 'util';
 
-import beThere from 'be-there.js';
+import beThere from 'be-there';
 
 const cfStatusesSuccess = {
   CREATE_COMPLETE: true,

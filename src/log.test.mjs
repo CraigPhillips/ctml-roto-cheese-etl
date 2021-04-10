@@ -1,7 +1,7 @@
 import chai from 'chai';
 import sinon from 'sinon';
 
-import Log, { service } from './log';
+import Log, { service } from './log.mjs';
 
 const should = chai.should();
 
