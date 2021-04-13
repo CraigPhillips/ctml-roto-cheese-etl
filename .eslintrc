@@ -13,7 +13,7 @@ parserOptions:
 rules:
   import/no-extraneous-dependencies:
     - error
-    - devDependencies: ["**/*.test.mjs", "deploy/**"]
+    - devDependencies: ["**/*.test.js", "deploy/**"]
   max-len: [error, { code: 80 }]
   # allows short object declarations to be single-line even with many props.
   object-curly-newline: [error, { ObjectPattern: { multiline: true }}]

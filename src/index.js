@@ -1,13 +1,13 @@
 import AWS from 'aws-sdk';
 import puppeteer from 'puppeteer';
 
-import Config from './config.mjs';
-import ErrorHandler from './error-handler.mjs';
-import ETL from './etl.mjs';
-import LeagueBrowser from './league-browser.mjs';
-import Log from './log.mjs';
-import Metrics from './metrics.mjs';
-import ResultsPublisher from './results-publisher.mjs';
+import Config from './config.js';
+import ErrorHandler from './error-handler.js';
+import ETL from './etl.js';
+import LeagueBrowser from './league-browser.js';
+import Log from './log.js';
+import Metrics from './metrics.js';
+import ResultsPublisher from './results-publisher.js';
 
 (async function runEtl() {
   let etl;

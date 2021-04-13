@@ -15,14 +15,14 @@
     "shelljs": "^0.8.4",
     "winston": "^3.3.3"
   },
-  "main": "index.mjs",
+  "main": "index.js",
   "scripts": {
-    "coverage": "nyc npm test",
-    "coverage-report": "nyc --reporter=lcov npm test",
-    "deploy": "node -r dotenv/config deploy/index.mjs",
-    "etl": "node -r dotenv/config src/index.mjs",
-    "lint": "eslint \"**/*.mjs\" --ignore-path .gitignore",
-    "test": "mocha --require @babel/register --require core-js/stable --require regenerator-runtime/runtime src/**/*.test.mjs"
+    "coverage": "c8 npm test",
+    "coverage-report": "c8 --reporter=lcov npm test",
+    "deploy": "node -r dotenv/config deploy/index.js",
+    "etl": "node -r dotenv/config src/index.js",
+    "lint": "eslint \"**/*.js\" --ignore-path .gitignore",
+    "test": "mocha --require @babel/register --slow 500 --require core-js/stable --require regenerator-runtime/runtime src/**/*.test.js"
   },
   "author": "Craig Phillips <craig.phillips@frozenexports.net>",
   "repository": {
@@ -38,8 +38,8 @@
     "@babel/core": "^7.13.14",
     "@babel/preset-env": "^7.13.12",
     "@babel/register": "^7.13.14",
-    "@istanbuljs/nyc-config-babel": "^3.0.0",
     "babel-plugin-istanbul": "^6.0.0",
+    "c8": "^7.7.1",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "core-js": "^3.10.1",
@@ -50,8 +50,8 @@
     "karma-mocha": "^2.0.1",
     "mjs-mocha": "^3.0.0",
     "mocha": "^8.3.2",
-    "nyc": "^15.1.0",
     "regenerator-runtime": "^0.13.7",
     "sinon": "^10.0.0"
-  }
+  },
+  "type": "module"
 }

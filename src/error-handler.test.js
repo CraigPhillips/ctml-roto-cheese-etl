@@ -2,8 +2,8 @@ import chai from 'chai';
 import sinon from 'sinon';
 import AWS from 'aws-sdk';
 
-import ErrorHandler from './error-handler.mjs';
-import NoOpLog from '../test/no-op-log.mjs';
+import ErrorHandler from './error-handler.js';
+import NoOpLog from '../test/no-op-log.js';
 
 chai.should();
 

@@ -1,6 +1,6 @@
 import privacy from 'private-parts';
 
-import cats from './scoring-categories.mjs';
+import cats from './scoring-categories.js';
 
 export const defaultPageTimeoutMillis = 120000;
 
