@@ -98,9 +98,9 @@ describe('LambdaHandler', () => {
       Object.getPrototypeOf(buildMetrics).should.equal(Metrics.prototype);
 
       const before = new Date();
-      await new Promise((resolve) => setTimeout(resolve, 1));
+      await new Promise((resolve) => setTimeout(resolve, 5));
       const fromClock = defaultClock.getCurrentDate();
-      await new Promise((resolve) => setTimeout(resolve, 1));
+      await new Promise((resolve) => setTimeout(resolve, 5));
       const after = new Date();
 
       before.should.be.below(fromClock);
@@ -110,6 +110,24 @@ describe('LambdaHandler', () => {
 
   describe('handle', () => {
     it('should run ETL', async () => {
+      await handle();
+
+      log.errors.length.should.equal(0);
+      log.debugs.length.should.equal(4);
+      log.debugs[0].should.match(/^current time.*/);
+      log.debugs[1].should.match(/^initializing.*/);
+      log.debugs[2].should.match(/^starting.*/);
+      log.debugs[3].should.match(/.*complete$/);
+      sinon.assert.calledTwice(stubs.putMetricData);
+      sinon.assert.called(stubs.run);
+      sinon.assert.called(stubs.dispose);
+    });
+
+    it('should run ETL earlier on weekends', async () => {
+      dependencies.clock = {
+        getCurrentDate: () => new Date('Sat, 10 Apr 2021 20:00:00 GMT'),
+      };
+
       await handle();
 
       log.errors.length.should.equal(0);

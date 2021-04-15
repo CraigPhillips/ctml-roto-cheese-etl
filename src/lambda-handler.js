@@ -12,10 +12,17 @@ import Metrics from './metrics.js';
 import ResultsPublisher from './results-publisher.js';
 
 
-// want to allow ETL run anytime between 5 PM and 2 AM Pacific time which
-// translates to midnight to 9 AM UTC
+// want to allow ETL run anytime between 5 PM and 1 AM Pacific time which
+// translates to midnight to 8 AM UTC
 const startEtlHours = 0;
-const endEtlHours = 10;
+const endEtlHours = 8;
+
+// additionally, allow ETLs to run earlier in the day on weekends since there
+// are regular weekend games
+const startEtlHoursWeekend = 18;
+
+const saturday = 6;
+const sunday = 0;
 
 export const dependencies = {
   clock: { getCurrentDate: () => new Date() },
@@ -56,14 +63,19 @@ function duringScheduledRunTime(log) {
   log.debug('current time listing', { now });
   const nowHours = now.getUTCHours();
 
-  if (!(startEtlHours <= nowHours && nowHours < endEtlHours)) {
-    log.debug('skipping ETL outside of target hours', {
-      time: now.toISOString(),
-    });
-    return false;
+  if (startEtlHours <= nowHours && nowHours < endEtlHours) {
+    return true;
   }
 
-  return true;
+  const day = now.getUTCDay();
+  if ((day == saturday || day == sunday) && startEtlHoursWeekend <= nowHours) {
+    return true;
+  }
+
+  log.debug('skipping ETL outside of target hours', {
+    time: now.toISOString(),
+  });
+  return false;
 }
 
 let _;
