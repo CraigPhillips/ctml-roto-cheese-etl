@@ -54,7 +54,10 @@ export default class LeagueBrowser {
       page = await _(this).browser.newPage();
       page.setDefaultTimeout(_(this).pageTimeout);
 
-      log.debug('browsing to league homepage', { leagueUrl });
+      log.debug('browsing to league homepage', {
+        browserVersion: await page.browser().version(),
+        leagueUrl,
+      });
       await page.goto(leagueUrl);
 
       if (!_(this).loggedIn) {
