@@ -1,6 +1,6 @@
 import chai from 'chai';
 
-import Config from './config.mjs';
+import Config from './config.js';
 
 const should = chai.should();
 

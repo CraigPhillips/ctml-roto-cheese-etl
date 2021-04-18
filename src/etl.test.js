@@ -2,8 +2,8 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 
-import ETL from './etl.mjs';
-import NoOpLog from '../test/no-op-log.mjs';
+import ETL from './etl.js';
+import NoOpLog from '../test/no-op-log.js';
 
 chai.should();
 chai.use(chaiAsPromised);

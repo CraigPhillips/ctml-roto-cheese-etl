@@ -1,10 +1,10 @@
 import AWS from 'aws-sdk';
 
-import Config from '../src/config.mjs';
-import deployCFStack from './deploy-cf-stack.mjs';
-import Log from '../src/log.mjs';
-import publishSrc from './publish-src.mjs';
-import publishDependencies from './publish-dependencies.mjs';
+import Config from '../src/config.js';
+import deployCFStack from './deploy-cf-stack.js';
+import Log from '../src/log.js';
+import publishSrc from './publish-src.js';
+import publishDependencies from './publish-dependencies.js';
 
 (async function deploy() {
   let log;

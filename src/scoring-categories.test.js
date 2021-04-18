@@ -1,6 +1,6 @@
 import chai from 'chai';
 
-import categories from './scoring-categories.mjs';
+import categories from './scoring-categories.js';
 
 chai.should();
 

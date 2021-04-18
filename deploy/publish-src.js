@@ -25,7 +25,7 @@ function streamSrcToS3(s3Client, Bucket, Key, src, log) {
 
     archive.pipe(zipStream);
     Object.entries(src).forEach(([file, contents]) => {
-      archive.append(contents, { name: file.replace('.mjs', '.js') });
+      archive.append(contents, { name: file.replace('.js', '.js') });
     });
     archive.finalize();
     log.info('compressing and publishing src package to S3', { Bucket, Key });
@@ -57,7 +57,7 @@ export default async function publishSrc(config, s3Client, log) {
   log.info('transpiling source');
   await Promise.all(Object.keys(src).map(async (srcFile) => {
     const { code } = await util.promisify(babel.default.transform)(
-      src[srcFile].toString().split('.mjs').join('.js'),
+      src[srcFile].toString().split('.js').join('.js'),
       {
         presets: [
           [
