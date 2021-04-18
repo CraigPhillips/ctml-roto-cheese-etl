@@ -2,16 +2,18 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 
-import cats from './scoring-categories';
-import ErrorHandler from './error-handler';
-import LeagueBrowser, { defaultPageTimeoutMillis } from './league-browser';
-import NoOpLog from '../test/no-op-log';
-import Metrics from './metrics';
+import cats from './scoring-categories.js';
+import ErrorHandler from './error-handler.js';
+import LeagueBrowser, { defaultPageTimeoutMillis } from './league-browser.js';
+import NoOpLog from '../test/no-op-log.js';
+import Metrics from './metrics.js';
 
 chai.should();
 chai.use(chaiAsPromised);
 
 describe('LeagueBrowser', () => {
+  let browser;
+
   const currentWeek = 13;
   const f = () => {};
   const keyboard = { type: f };
@@ -22,6 +24,7 @@ describe('LeagueBrowser', () => {
   const matchupPath = '/fake-matchup-path';
   const matchupPathFull = `${leagueUrl}/${matchupPath}`;
   const page = {
+    browser: () => browser,
     $$: f,
     click: f,
     close: f,
@@ -41,7 +44,6 @@ describe('LeagueBrowser', () => {
   const teamLogoUrl = 'fake-team-logo-url';
   const user = 'fake-user';
 
-  let browser;
   let errorHandler;
   let leagueBrowser;
   let log;
@@ -50,7 +52,11 @@ describe('LeagueBrowser', () => {
   let teamLink;
 
   beforeEach(() => {
-    browser = { close: f, newPage: async () => page };
+    browser = {
+      close: f,
+      newPage: async () => page,
+      version: async () => 'fake.version',
+    },
     errorHandler = new ErrorHandler({}, {}, {});
     log = new NoOpLog();
     metrics = new Metrics({});

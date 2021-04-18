@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog][2], and this project adheres to
 
 ## [Unreleased]
 
+## [4.1.0] - 2021-04-17
+Version number jump to work around an older, ugly version number that was
+release erroneously.
+
+### Updated
+- extended run times on weekens to account for more daytime games
+- changed all file extensions and switched code coverage engine
+
 ## [3.0.0] - 2021-04-09
 
 ### Added

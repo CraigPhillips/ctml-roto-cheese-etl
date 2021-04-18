@@ -1,9 +1,9 @@
 import chai from 'chai';
 import sinon from 'sinon';
-import S3 from 'aws-sdk/clients/s3';
+import AWS from 'aws-sdk';
 
-import ErrorHandler from './error-handler';
-import NoOpLog from '../test/no-op-log';
+import ErrorHandler from './error-handler.js';
+import NoOpLog from '../test/no-op-log.js';
 
 chai.should();
 
@@ -96,7 +96,7 @@ describe('ErrorHandler', () => {
 
   describe('handle with S3 screenshot storage', () => {
     let putStub;
-    const s3 = new S3();
+    const s3 = new AWS.S3();
     let s3Config;
     beforeEach(() => {
       putStub = sinon

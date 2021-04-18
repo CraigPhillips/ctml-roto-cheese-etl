@@ -1,4 +1,4 @@
-import cats from './scoring-categories';
+import cats from './scoring-categories.js';
 
 export default function addRotoScores(rawScores, currentWeek, log) {
   log.debug('precalculating roto scores', { currentWeek, rawScores });

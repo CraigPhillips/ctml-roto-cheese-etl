@@ -1,8 +1,8 @@
 import chai from 'chai';
 import sinon from 'sinon';
 
-import NoOpLog from '../test/no-op-log';
-import ResultsPublisher from './results-publisher';
+import NoOpLog from '../test/no-op-log.js';
+import ResultsPublisher from './results-publisher.js';
 
 chai.should();
 

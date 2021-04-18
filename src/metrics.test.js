@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 
-import Metrics from './metrics';
+import Metrics from './metrics.js';
 
 chai.should();
 chai.use(chaiAsPromised);

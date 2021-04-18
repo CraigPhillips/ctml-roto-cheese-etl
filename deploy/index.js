@@ -1,22 +1,21 @@
-import CloudFormation from 'aws-sdk/clients/cloudformation';
-import S3 from 'aws-sdk/clients/s3';
+import AWS from 'aws-sdk';
 
-import Config from '../src/config';
-import deployCFStack from './deploy-cf-stack';
-import Log from '../src/log';
-import publishSrc from './publish-src';
-import publishDependencies from './publish-dependencies';
+import Config from '../src/config.js';
+import deployCFStack from './deploy-cf-stack.js';
+import Log from '../src/log.js';
+import publishSrc from './publish-src.js';
+import publishDependencies from './publish-dependencies.js';
 
 (async function deploy() {
   let log;
   try {
     log = new Log({ formatForCLIs: true });
     const config = new Config();
-    const s3Client = new S3();
+    const s3Client = new AWS.S3();
     const depProps = await publishDependencies(config, s3Client, log);
     const srcProps = await publishSrc(config, s3Client, log);
 
-    const cfClient = new CloudFormation();
+    const cfClient = new AWS.CloudFormation();
     await deployCFStack(config, cfClient, depProps, srcProps, log);
   } catch (deployError) {
     (log || console).error('deployment failed', deployError);
