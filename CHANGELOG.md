@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog][2], and this project adheres to
 
 ## [Unreleased]
 
+### Updated
+- extended run times on weekens to account for more daytime games
+- changed all file extensions and switched code coverage engine
+
 ## [3.0.0] - 2021-04-09
 
 ### Added
