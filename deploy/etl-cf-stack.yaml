@@ -88,10 +88,10 @@ Resources:
       Handler: lambda-handler.handle
       Layers:
         - !Ref Dependencies
-      MemorySize: 10240
+      MemorySize: 1536
       Role: !GetAtt Permissions.Arn
       Runtime: nodejs14.x
-      Timeout: 30
+      Timeout: 120
 
   FailingETLRuns:
     Type: AWS::SNS::Topic
