@@ -1,3 +1,5 @@
+import url from 'url';
+
 import privacy from 'private-parts';
 
 import cats from './scoring-categories.js';
@@ -106,9 +108,14 @@ export default class LeagueBrowser {
       */
       for (let i = 0; i < teamLinks.length; i += 1) {
         const link = teamLinks[i];
-        const url = await getAttribute(page, link, 'href');
-        const logo = (await page.$$(`a[href='${url}'] img.Avatar-med`))[0];
-        const teamId = /[0-9]+$/.exec(url)[0];
+        const teamUrl = await getAttribute(page, link, 'href');
+        let logo = (await page.$$(`a[href='${teamUrl}'] img.Avatar-med`))[0];
+        if (!logo) {
+          const relativePath = url.parse(teamUrl).pathname;
+          logo = (await page.$$(`a[href='${relativePath}'] img.Avatar-sm`))[0];
+        }
+
+        const teamId = /[0-9]+$/.exec(teamUrl)[0];
         teams[teamId] = {
           logo: await getAttribute(page, logo, 'src'),
           name: await getText(page, link),
